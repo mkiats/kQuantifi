@@ -14,10 +14,10 @@ export default function RootLayout({ children }) {
 	return (
 		<html lang='en'>
 			<body className={inter.className}>
-				<header className='w-screen h-24 bg-gray-200 flex justify-center items-center gap-4'>
+				<header className='w-screen h-24 bg-primary flex justify-center items-center gap-4'>
 					<Navbar />
 				</header>
-				<section className='w-screen h-[calc(100vh-6rem)] bg-white'>
+				<section className='w-screen h-[calc(100vh-6rem)] bg-secondary overflow-y-auto'>
 					{children}
 				</section>
 				<footer></footer>
