@@ -1,3 +1,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Width */
+::-webkit-scrollbar {
+	width: 8px;
+	overflow: overlay;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: transparent; /* make scrollbar track transparent */
+    overflow: overlay;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: rgba(
+		0,
+		0,
+		0,
+		0.3
+	); /* transparent black color for scrollbar handle */
+	border-radius: 8px; /* rounded edges */
+    overflow: overlay;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: rgba(0, 0, 0, 0.5); /* darker color on hover */
+}
