@@ -17,22 +17,18 @@ import {
 import { Input } from '@/components/ui/input';
 
 const formSchema = z.object({
-	username: z.string().min(2, {
-		message: 'Username must be at least 2 characters.',
+	tickerName: z.string().min(2, {
+		message: 'Ticker Name must exist in NASDAQ',
 	}),
 });
 
 const TickerForm = () => {
-	const form =
-		useForm <
-		z.infer <
-		typeof formSchema >>
-			({
-				resolver: zodResolver(formSchema),
-				defaultValues: {
-					username: '',
-				},
-			});
+	const form = useForm<z.infer<typeof formSchema>>({
+		resolver: zodResolver(formSchema),
+		defaultValues: {
+			tickerName: '',
+		},
+	});
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
 		// Do something with the form values.
@@ -45,12 +41,12 @@ const TickerForm = () => {
 			<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
 				<FormField
 					control={form.control}
-					name='username'
+					name='tickerName'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Username</FormLabel>
+							<FormLabel>Ticker Name</FormLabel>
 							<FormControl>
-								<Input placeholder='shadcn' {...field} />
+								<Input placeholder='SPX' {...field} />
 							</FormControl>
 							<FormDescription>
 								This is your public display name.
