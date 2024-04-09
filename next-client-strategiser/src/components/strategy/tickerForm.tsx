@@ -18,15 +18,22 @@ import { Input } from '@/components/ui/input';
 import {
 	Popover,
 	PopoverTrigger,
-	PopoverAnchor,
 	PopoverContent,
 } from '@/components/ui/popover';
-import { Calendar, CalendarProps } from '@/components/ui/calendar';
+import { Calendar } from '@/components/ui/calendar';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
-import { DatePickerDemo } from '../ui/datepicker';
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/ui/select';
 
+const timeframeEnum = ['weekly', 'monthly'] as const;
+const benchmarkEnum = ['SPX', 'RegularCompounding'] as const;
 const formSchema = z.object({
 	tickerName: z.string().min(2),
 	dcaAmount: z.number().int().positive().multipleOf(100).finite().safe(),
@@ -38,7 +45,7 @@ const formSchema = z.object({
 		.gte(1)
 		.lte(10)
 		.optional(),
-	timeframe: z.enum(['weekly', 'monthly'], {
+	timeframe: z.enum(timeframeEnum, {
 		required_error: 'timeframe not specified',
 	}),
 	startDate: z.coerce.date({
@@ -50,7 +57,7 @@ const formSchema = z.object({
 		invalid_type_error: 'invalid date specified',
 	}),
 	benchmark: z
-		.enum(['SPX', 'RegularCompounding'], {
+		.enum(benchmarkEnum, {
 			invalid_type_error: 'invalid benchmark specified',
 		})
 		.optional(),
@@ -140,9 +147,26 @@ const TickerForm = () => {
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Timeframe</FormLabel>
-							<FormControl>
-								<Input placeholder='weekly' {...field} />
-							</FormControl>
+							<Select
+								onValueChange={field.onChange}
+								defaultValue={field.value}
+							>
+								<FormControl>
+									<SelectTrigger className='w-[280px]'>
+										<SelectValue placeholder='Default timeframe: weekly' />
+									</SelectTrigger>
+								</FormControl>
+								<SelectContent>
+									{timeframeEnum.map((timeframeElem) => (
+										<SelectItem
+											key={timeframeElem}
+											value={timeframeElem}
+										>
+											{timeframeElem}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
 							<FormDescription></FormDescription>
 							<FormMessage />
 						</FormItem>
@@ -154,9 +178,9 @@ const TickerForm = () => {
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Start date</FormLabel>
-							<FormControl>
-								<Popover>
-									<PopoverTrigger asChild>
+							<Popover>
+								<PopoverTrigger asChild>
+									<FormControl>
 										<Button
 											variant={'outline'}
 											className={cn(
@@ -172,17 +196,17 @@ const TickerForm = () => {
 												<span>Pick a date</span>
 											)}
 										</Button>
-									</PopoverTrigger>
-									<PopoverContent className='w-auto p-0'>
-										<Calendar
-											mode='single'
-											selected={field.value}
-											onSelect={field.onChange}
-											initialFocus
-										/>
-									</PopoverContent>
-								</Popover>
-							</FormControl>
+									</FormControl>
+								</PopoverTrigger>
+								<PopoverContent className='w-auto p-0'>
+									<Calendar
+										mode='single'
+										selected={field.value}
+										onSelect={field.onChange}
+										initialFocus
+									/>
+								</PopoverContent>
+							</Popover>
 							<FormDescription></FormDescription>
 							<FormMessage />
 						</FormItem>
@@ -194,9 +218,9 @@ const TickerForm = () => {
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>End date</FormLabel>
-							<FormControl>
-								<Popover>
-									<PopoverTrigger asChild>
+							<Popover>
+								<PopoverTrigger asChild>
+									<FormControl>
 										<Button
 											variant={'outline'}
 											className={cn(
@@ -214,17 +238,17 @@ const TickerForm = () => {
 												<span>Pick a date</span>
 											)}
 										</Button>
-									</PopoverTrigger>
-									<PopoverContent className='w-auto p-0'>
-										<Calendar
-											mode='single'
-											selected={field.value}
-											onSelect={field.onChange}
-											initialFocus
-										/>
-									</PopoverContent>
-								</Popover>
-							</FormControl>
+									</FormControl>
+								</PopoverTrigger>
+								<PopoverContent className='w-auto p-0'>
+									<Calendar
+										mode='single'
+										selected={field.value}
+										onSelect={field.onChange}
+										initialFocus
+									/>
+								</PopoverContent>
+							</Popover>
 							<FormDescription></FormDescription>
 							<FormMessage />
 						</FormItem>
@@ -236,9 +260,26 @@ const TickerForm = () => {
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Benchmark</FormLabel>
-							<FormControl>
-								<Input {...field} />
-							</FormControl>
+							<Select
+								onValueChange={field.onChange}
+								defaultValue={field.value}
+							>
+								<FormControl>
+									<SelectTrigger className='w-[280px]'>
+										<SelectValue placeholder='Default benchmark: SPX' />
+									</SelectTrigger>
+								</FormControl>
+								<SelectContent>
+									{benchmarkEnum.map((benchmarkElem) => (
+										<SelectItem
+											key={benchmarkElem}
+											value={benchmarkElem}
+										>
+											{benchmarkElem}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
 							<FormDescription></FormDescription>
 							<FormMessage />
 						</FormItem>
