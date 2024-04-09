@@ -7,7 +7,7 @@ const StrategyPage = () => {
 	return (
 		<div className='flex flex-col justify-center items-center gap-8'>
 			<section className=''>
-				{/* <TickerForm /> */}
+				<TickerForm />
 			</section>
 			<section className=''>
 				<ChartOptions />

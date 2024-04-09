@@ -30,7 +30,7 @@ import { DatePickerDemo } from '../ui/datepicker';
 const formSchema = z.object({
 	tickerName: z.string().min(2),
 	dcaAmount: z.number().int().positive().multipleOf(100).finite().safe(),
-	leverageFactor: z
+	leverageFactor: z.coerce
 		.number({ invalid_type_error: 'invalid leverageFactor specified' })
 		.int()
 		.positive()
@@ -54,7 +54,7 @@ const formSchema = z.object({
 			invalid_type_error: 'invalid benchmark specified',
 		})
 		.optional(),
-	benchmarkGrowthRate: z
+	benchmarkGrowthRate: z.coerce
 		.number({ invalid_type_error: 'invalid growthRate specified' })
 		.int()
 		.positive()
@@ -66,6 +66,7 @@ const formSchema = z.object({
 
 const TickerForm = () => {
 	const form = useForm<z.infer<typeof formSchema>>({
+		mode: 'onSubmit',
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			tickerName: 'SPY',
@@ -98,7 +99,7 @@ const TickerForm = () => {
 						<FormItem>
 							<FormLabel>Ticker Name</FormLabel>
 							<FormControl>
-								<Input placeholder='SPX' {...field} />
+								<Input {...field} />
 							</FormControl>
 							<FormDescription></FormDescription>
 							<FormMessage />
@@ -112,7 +113,7 @@ const TickerForm = () => {
 						<FormItem>
 							<FormLabel>Amount to DCA</FormLabel>
 							<FormControl>
-								<Input placeholder='100' {...field} />
+								<Input type='number' {...field} />
 							</FormControl>
 							<FormDescription></FormDescription>
 							<FormMessage />
@@ -126,7 +127,7 @@ const TickerForm = () => {
 						<FormItem>
 							<FormLabel>Leverage factor</FormLabel>
 							<FormControl>
-								<Input {...field} />
+								<Input type='number' {...field} />
 							</FormControl>
 							<FormDescription></FormDescription>
 							<FormMessage />
@@ -154,35 +155,33 @@ const TickerForm = () => {
 						<FormItem>
 							<FormLabel>Start date</FormLabel>
 							<FormControl>
-							<Popover>
-								<PopoverTrigger asChild>
-									<Button
-										variant={'outline'}
-										className={cn(
-											'w-[280px] justify-start text-left font-normal',
-											!field.value && 'text-muted-foreground',
-										)}
-									>
-										<CalendarIcon className='mr-2 h-4 w-4' />
-										{field.value ? (
-											<>
-											{format(field.value, 'PPP')}
-											</>
-											
-										) : (
-											<span>Pick a date</span>
-										)}
-									</Button>
-								</PopoverTrigger>
-								<PopoverContent className='w-auto p-0'>
-									<Calendar
-										mode='single'
-										selected={field.value}
-										onSelect={field.onChange}
-										initialFocus
-									/>
-								</PopoverContent>
-							</Popover>
+								<Popover>
+									<PopoverTrigger asChild>
+										<Button
+											variant={'outline'}
+											className={cn(
+												'w-[280px] justify-start text-left font-normal flex',
+												!field.value &&
+													'text-muted-foreground',
+											)}
+										>
+											<CalendarIcon className='mr-2 h-4 w-4' />
+											{field.value ? (
+												format(field.value, 'PPP')
+											) : (
+												<span>Pick a date</span>
+											)}
+										</Button>
+									</PopoverTrigger>
+									<PopoverContent className='w-auto p-0'>
+										<Calendar
+											mode='single'
+											selected={field.value}
+											onSelect={field.onChange}
+											initialFocus
+										/>
+									</PopoverContent>
+								</Popover>
 							</FormControl>
 							<FormDescription></FormDescription>
 							<FormMessage />
@@ -196,35 +195,35 @@ const TickerForm = () => {
 						<FormItem>
 							<FormLabel>End date</FormLabel>
 							<FormControl>
-							<Popover>
-								<PopoverTrigger asChild>
-									<Button
-										variant={'outline'}
-										className={cn(
-											'w-[280px] justify-start text-left font-normal',
-											!field.value && 'text-muted-foreground',
-										)}
-									>
-										<CalendarIcon className='mr-2 h-4 w-4' />
-										{field.value ? (
-											<>
-											{format(field.value, 'PPP')}
-											</>
-											
-										) : (
-											<span>Pick a date</span>
-										)}
-									</Button>
-								</PopoverTrigger>
-								<PopoverContent className='w-auto p-0'>
-									<Calendar
-										mode='single'
-										selected={field.value}
-										onSelect={field.onChange}
-										initialFocus
-									/>
-								</PopoverContent>
-							</Popover>
+								<Popover>
+									<PopoverTrigger asChild>
+										<Button
+											variant={'outline'}
+											className={cn(
+												'w-[280px] justify-start text-left font-normal flex',
+												!field.value &&
+													'text-muted-foreground',
+											)}
+										>
+											<CalendarIcon className='mr-2 h-4 w-4' />
+											{field.value ? (
+												<>
+													{format(field.value, 'PPP')}
+												</>
+											) : (
+												<span>Pick a date</span>
+											)}
+										</Button>
+									</PopoverTrigger>
+									<PopoverContent className='w-auto p-0'>
+										<Calendar
+											mode='single'
+											selected={field.value}
+											onSelect={field.onChange}
+											initialFocus
+										/>
+									</PopoverContent>
+								</Popover>
 							</FormControl>
 							<FormDescription></FormDescription>
 							<FormMessage />
@@ -238,7 +237,7 @@ const TickerForm = () => {
 						<FormItem>
 							<FormLabel>Benchmark</FormLabel>
 							<FormControl>
-								<Input placeholder='SPX' {...field} />
+								<Input {...field} />
 							</FormControl>
 							<FormDescription></FormDescription>
 							<FormMessage />
@@ -252,7 +251,7 @@ const TickerForm = () => {
 						<FormItem>
 							<FormLabel>Benchmark growth rate</FormLabel>
 							<FormControl>
-								<Input placeholder='7%' {...field} />
+								<Input type='number' {...field} />
 							</FormControl>
 							<FormDescription></FormDescription>
 							<FormMessage />
