@@ -17,9 +17,20 @@ import {
 import { Input } from '@/components/ui/input';
 
 const formSchema = z.object({
-	tickerName: z.string().min(2, {
-		message: 'Ticker Name must exist in NASDAQ',
+	tickerName: z.string().min(2),
+	dcaAmount: z.number().int().positive().multipleOf(100).finite().safe(),
+	timeframe: z.enum(['weekly', 'monthly'], {required_error: 'timeframe not specified'}),
+	startDate: z.coerce.date({
+		required_error: 'startDate not specified',
+		invalid_type_error: 'invalid date specified',
 	}),
+	endDate: z.coerce.date({
+		required_error: 'endDate not specified',
+		invalid_type_error: 'invalid date specified',
+	}),
+	leverageFactor: z.number({invalid_type_error: 'invalid leverageFactor specified'}).int().positive().safe().gte(1).lte(10).optional(),
+	benchmark: z.enum(['SPX', 'RegularCompounding'], {invalid_type_error: 'invalid benchmark specified'}).optional(),
+	benchmarkGrowthRate: z.number({invalid_type_error: 'invalid growthRate specified'}).int().positive().safe().gte(1).lte(50).optional(),
 });
 
 const TickerForm = () => {
@@ -49,7 +60,7 @@ const TickerForm = () => {
 								<Input placeholder='SPX' {...field} />
 							</FormControl>
 							<FormDescription>
-								This is your public display name.
+								Ticker name must be listed in US.
 							</FormDescription>
 							<FormMessage />
 						</FormItem>
