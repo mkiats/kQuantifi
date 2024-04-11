@@ -32,7 +32,12 @@ const ChartDiagram = () => {
 		};
 	}, []);
 
-	return <div className='w-[calc(50vw)] h-[calc(50vh)]' ref={chartRef}></div>;
+	return (
+		<div
+			className='w-[calc(50vw)] h-[calc(50vh)] p-16'
+			ref={chartRef}
+		></div>
+	);
 };
 
 export default ChartDiagram;
