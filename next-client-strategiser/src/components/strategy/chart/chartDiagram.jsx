@@ -12,12 +12,16 @@ const ChartDiagram = () => {
 				textColor: 'white',
 				background: { color: 'transparent' },
 			},
-			width: 600,
-			height: 300,
 		};
 		const chart = createChart(chartRef.current, chartOptions);
-		const lineSeries = chart.addLineSeries({ color: 'white' });
-		lineSeries.setData(newMockStockData);
+		const areaSeries = chart.addAreaSeries({
+			topColor: 'rgba(38, 198, 218, 0.56)',
+			bottomColor: 'rgba(38, 198, 218, 0.04)',
+			lineColor: 'rgba(38, 198, 218, 1)',
+			lineWidth: 2,
+			crossHairMarkerVisible: false,
+		});
+		areaSeries.setData(newMockStockData);
 
 		chart.timeScale().fitContent();
 
@@ -28,11 +32,7 @@ const ChartDiagram = () => {
 		};
 	}, []);
 
-	return (
-		<div className='h-96' ref={chartRef}>
-			
-		</div>
-	);
+	return <div className='w-[calc(50vw)] h-[calc(50vh)]' ref={chartRef}></div>;
 };
 
 export default ChartDiagram;
