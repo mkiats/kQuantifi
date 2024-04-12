@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
 					<header className='w-screen h-24 bg-transparent flex justify-center items-center gap-4'>
 						<Navbar />
 					</header>
-					<section className='w-screen h-[calc(100vh-6rem) overflow-y-auto'>
+					<section className='w-screen h-[calc(100vh-6rem)] overflow-y-auto'>
 						{children}
 					</section>
 					<footer></footer>
