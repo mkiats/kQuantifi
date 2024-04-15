@@ -1,0 +1,12 @@
+# Prettier configuration
+overrides:
+  - files:
+      - "*.java"
+    options:
+      tabWidth: 4
+      useTabs: true
+      singleQuote: true
+      trailingComma: none
+plugins:
+  - prettier-plugin-java
+#    npx prettier --write "**/*.java"

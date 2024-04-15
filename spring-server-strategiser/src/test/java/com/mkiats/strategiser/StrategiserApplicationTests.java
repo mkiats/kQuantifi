@@ -7,7 +7,5 @@ import org.springframework.boot.test.context.SpringBootTest;
 class StrategiserApplicationTests {
 
 	@Test
-	void contextLoads() {
-	}
-
+	void contextLoads() {}
 }
