@@ -1,4 +1,4 @@
-package com.mkiats.model;
+package com.mkiats.model.entity;
 
 public class Watchlist {
 
