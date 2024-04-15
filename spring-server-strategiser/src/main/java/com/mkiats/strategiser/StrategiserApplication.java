@@ -9,5 +9,4 @@ public class StrategiserApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(StrategiserApplication.class, args);
 	}
-
 }
