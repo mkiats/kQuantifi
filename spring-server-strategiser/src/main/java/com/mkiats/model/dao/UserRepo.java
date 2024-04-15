@@ -1,4 +1,4 @@
-package com.mkiats.model.repository;
+package com.mkiats.model.dao;
 
 import com.mkiats.model.entity.User;
 import java.util.Optional;

@@ -1,7 +1,7 @@
 package com.mkiats.controller.service;
 
 import com.mkiats.model.entity.User;
-import com.mkiats.model.repository.UserRepo;
+import com.mkiats.model.dao.UserRepo;
 import jakarta.transaction.Transactional;
 import javax.management.RuntimeErrorException;
 import lombok.RequiredArgsConstructor;
