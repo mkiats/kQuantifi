@@ -1,4 +1,4 @@
-package com.mkiats.model.entity;
+package com.mkiats.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
@@ -18,7 +18,7 @@ import org.hibernate.annotations.UuidGenerator;
 public class User {
 
 	@Id
-	@UuidGenerator
+	@GeneratedValue(strategy = GenerationType.UUID)
 	@Column(name = "id", unique = true, updatable = false)
 	private String id;
 
