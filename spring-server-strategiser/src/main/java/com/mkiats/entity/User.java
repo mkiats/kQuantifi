@@ -1,4 +1,4 @@
-package com.mkiats.model.entity;
+package com.mkiats.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
@@ -22,6 +22,7 @@ public class User {
 	@Column(name = "id", unique = true, updatable = false)
 	private String id;
 
+	@Column(name = "username")
 	private String username;
 	private String email;
 	private String password;

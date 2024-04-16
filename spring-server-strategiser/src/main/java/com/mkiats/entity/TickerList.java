@@ -1,4 +1,4 @@
-package com.mkiats.model.entity;
+package com.mkiats.entity;
 
 public class TickerList {
 

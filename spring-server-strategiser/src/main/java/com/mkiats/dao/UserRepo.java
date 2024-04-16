@@ -1,6 +1,6 @@
-package com.mkiats.model.dao;
+package com.mkiats.dao;
 
-import com.mkiats.model.entity.User;
+import com.mkiats.entity.User;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
