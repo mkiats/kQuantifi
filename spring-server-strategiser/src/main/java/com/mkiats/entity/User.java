@@ -18,10 +18,11 @@ import org.hibernate.annotations.UuidGenerator;
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.UUID)
+	@UuidGenerator
 	@Column(name = "id", unique = true, updatable = false)
 	private String id;
 
+	@Column(name = "username")
 	private String username;
 	private String email;
 	private String password;
