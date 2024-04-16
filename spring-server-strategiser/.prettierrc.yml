@@ -5,7 +5,7 @@ overrides:
     options:
       tabWidth: 4
       useTabs: true
-      singleQuote: true
+      singleQuote: false
       trailingComma: none
 plugins:
   - prettier-plugin-java
