@@ -14,7 +14,7 @@ import org.hibernate.annotations.UuidGenerator;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-@Table(name = "contacts")
+@Table(name = "users")
 public class User {
 
 	@Id
@@ -24,7 +24,13 @@ public class User {
 
 	@Column(name = "username")
 	private String username;
+
+	@Column(name = "email")
 	private String email;
+
+	@Column(name = "password")
 	private String password;
+
+	@Column(name = "photo_url")
 	private String photoUrl;
 }

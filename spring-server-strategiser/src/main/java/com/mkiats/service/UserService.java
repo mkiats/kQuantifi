@@ -3,14 +3,13 @@ package com.mkiats.service;
 import com.mkiats.dao.UserRepo;
 import com.mkiats.entity.User;
 import jakarta.transaction.Transactional;
+import java.util.List;
 import javax.management.RuntimeErrorException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @Transactional(rollbackOn = Exception.class)
