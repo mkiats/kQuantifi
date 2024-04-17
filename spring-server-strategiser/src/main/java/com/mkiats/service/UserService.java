@@ -1,6 +1,6 @@
 package com.mkiats.service;
 
-import com.mkiats.dao.UserRepo;
+import com.mkiats.dao.UserRepository;
 import com.mkiats.entity.User;
 import jakarta.transaction.Transactional;
 import java.util.List;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
 
-	private final UserRepo userRepo;
+	private final UserRepository userRepo;
 
 	public Page<User> findAllUsersByPage(int page, int size) {
 		return userRepo.findAll(
