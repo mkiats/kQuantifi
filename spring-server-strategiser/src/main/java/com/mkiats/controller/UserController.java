@@ -18,6 +18,12 @@ public class UserController {
 		return userService.findAllUsers();
 	}
 
+	//	public Page<User> findAllUsersByPage(int page, int size) {
+	//		return userRepo.findAll(
+	//				PageRequest.of(page, size, Sort.by("username"))
+	//		);
+	//	}
+
 	@GetMapping("/users/{user_id}")
 	public User getUser(@PathVariable String user_id) {
 		System.out.println(user_id);
