@@ -10,10 +10,13 @@
 - NotificationService
     - Email 
     - Telegram bot
-- Different users
+- Different profile
     - Guest
-    - Logged-in user
+    - User
     - Admin
+- logging in via socials to save watchlist (For user profile)
+    - Link to google, discord
+    - Find out how to do OTP and OAuth
 
 ### Frontend
 - Sync values back to lightweight-charts
@@ -23,6 +26,4 @@
 
 ### Possible considerations
 - convert OHLCvalues into an object class to decrease space used
-- OAuth to allow logging in to save watchlist
-    - Link to google, discord
 
