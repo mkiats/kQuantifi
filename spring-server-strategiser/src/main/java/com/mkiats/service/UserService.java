@@ -18,17 +18,17 @@ public class UserService {
 
 	private final UserRepository userRepo;
 
-	public Page<User> findAllUsersByPage(int page, int size) {
+	public Page<User> getAllUsersByPage(int page, int size) {
 		return userRepo.findAll(
 			PageRequest.of(page, size, Sort.by("username"))
 		);
 	}
 
-	public List<User> findAllUsers() {
+	public List<User> getAllUsers() {
 		return userRepo.findAll();
 	}
 
-	public User findUser(String id) {
+	public User getUser(String id) {
 		return userRepo
 			.findById(id)
 			.orElseThrow(

@@ -7,7 +7,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "ticker_priceInfo")
+@Table(name = "ticker_price_info")
 @Entity
 public class TickerPriceInfo {
 
