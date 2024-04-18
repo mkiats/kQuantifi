@@ -1,7 +1,7 @@
 package com.mkiats.controller;
 
 import com.mkiats.entity.User;
-import com.mkiats.service.UserService;
+import com.mkiats.service.entityServices.UserService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

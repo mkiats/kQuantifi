@@ -1,4 +1,4 @@
-package com.mkiats.service;
+package com.mkiats.service.entityServices;
 
 import com.mkiats.dao.TickerRepository;
 import com.mkiats.entity.Ticker;
