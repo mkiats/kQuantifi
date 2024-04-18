@@ -3,8 +3,8 @@
 ### Backend
 - RetrievalService to retrieve OHLC data
 - StrategyService (Implement as an interface for reusability)
-    - Factory pattern to reduce code duplication
-    - Algo calculation + performance metric calculation
+    - Registry pattern to manage instances of injected dependencies
+    - Algo calculation + performance metric calculation (Is there a need to further abstract the classes)
     - Take into account leverage
     - DCA, ValueAvg, EMA crossovers
 - NotificationService
