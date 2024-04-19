@@ -1,6 +1,6 @@
 package com.mkiats;
 
-import com.mkiats.service.RetrievalService;
+import com.mkiats.services.RetrievalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
