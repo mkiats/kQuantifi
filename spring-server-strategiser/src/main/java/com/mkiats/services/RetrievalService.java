@@ -1,5 +1,6 @@
 package com.mkiats.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
     import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +41,8 @@ public class RetrievalService {
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(finalisedApiUrl, String.class);
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
             String responseBody = responseEntity.getBody();
+            ObjectMapper objectMapper = new ObjectMapper();
+            
             System.out.println(responseBody);
             return responseBody;
         } else {

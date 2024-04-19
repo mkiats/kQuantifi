@@ -19,6 +19,5 @@ public class Application implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		String tickerData = retrievalService.fetchTickerData("TIME_SERIES_MONTHLY_ADJUSTED", "SPY");
-		System.out.println("TickerData: " + tickerData);
 	}
 }
