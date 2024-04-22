@@ -14,24 +14,25 @@ import org.springframework.stereotype.Service;
 @Service
 @Transactional(rollbackOn = Exception.class)
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepo;
+	private final UserRepository userRepo;
 
-    public Page<User> getAllUsersByPage(int page, int size) {
-        return userRepo.findAll(
-                PageRequest.of(page, size, Sort.by("username"))
-        );
-    }
-    public User getUser(String id) {
-        return userRepo
-                .findById(id)
-                .orElseThrow(
-                        () -> new RuntimeErrorException(new Error("User not found"))
-                );
-    }
-    public List<User> getAllUsers() {
-        return userRepo.findAll();
-    }
+	public Page<User> getAllUsersByPage(int page, int size) {
+		return userRepo.findAll(
+			PageRequest.of(page, size, Sort.by("username"))
+		);
+	}
 
+	public User getUser(String id) {
+		return userRepo
+			.findById(id)
+			.orElseThrow(
+				() -> new RuntimeErrorException(new Error("User not found"))
+			);
+	}
+
+	public List<User> getAllUsers() {
+		return userRepo.findAll();
+	}
 }

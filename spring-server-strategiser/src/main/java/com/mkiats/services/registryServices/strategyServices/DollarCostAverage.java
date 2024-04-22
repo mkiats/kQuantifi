@@ -3,9 +3,10 @@ package com.mkiats.services.registryServices.strategyServices;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DollarCostAverage implements StrategyService{
-    // Calculate initial value and final value of the strategy
-    /*
+public class DollarCostAverage implements StrategyService {
+
+	// Calculate initial value and final value of the strategy
+	/*
     Pseudo Code:
 
     Initialise currentStockQuantity & currentStockValue
@@ -18,8 +19,8 @@ public class DollarCostAverage implements StrategyService{
 
     End: Calculate averageEntryPrice
      */
-    @Override
-    public float executeStrategy() {
-        return 0;
-    }
+	@Override
+	public float executeStrategy() {
+		return 0;
+	}
 }

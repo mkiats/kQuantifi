@@ -9,10 +9,15 @@ import org.springframework.stereotype.Service;
 @Service
 @Transactional(rollbackOn = Exception.class)
 @RequiredArgsConstructor
-public class TickerServiceImpl implements TickerService{
-    private final TickerRepository tickerRepo;
+public class TickerServiceImpl implements TickerService {
 
-    public Ticker getTickerBySymbol(String theTickerSymbol){
-        return tickerRepo.findByTickerSymbol(theTickerSymbol).orElseThrow(() ->  new RuntimeException("Ticker symbol cannot be found"));
-    }
+	private final TickerRepository tickerRepo;
+
+	public Ticker getTickerBySymbol(String theTickerSymbol) {
+		return tickerRepo
+			.findByTickerSymbol(theTickerSymbol)
+			.orElseThrow(
+				() -> new RuntimeException("Ticker symbol cannot be found")
+			);
+	}
 }
