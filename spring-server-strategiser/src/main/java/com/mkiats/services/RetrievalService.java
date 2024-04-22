@@ -1,8 +1,8 @@
 package com.mkiats.services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
-    import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -21,8 +21,8 @@ public class RetrievalService {
     // Dependency injected
     private final RestTemplate restTemplate;
 
-    public String fetchTickerData(String theTimeframe, String theSymbol) {
 
+    private String getString(String theTimeframe, String theSymbol) {
         String requestTimeframe;
         String requestTickerSymbol;
 
@@ -34,17 +34,14 @@ public class RetrievalService {
         }
         requestTickerSymbol = Objects.requireNonNullElse(theSymbol, "SPY");
 
+        return String.format("%sfunction=%s&symbol=%s&apikey=%s",baseApiUrl,requestTimeframe, requestTickerSymbol,apiKey);
+    }
+    public String fetchTickerData(String theTimeframe, String theSymbol) {
 
-        String finalisedApiUrl = String.format("%sfunction=%s&symbol=%s&apikey=%s",baseApiUrl,requestTimeframe, requestTickerSymbol,apiKey);
-
-
+        String finalisedApiUrl = getString(theTimeframe, theSymbol);
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(finalisedApiUrl, String.class);
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
-            String responseBody = responseEntity.getBody();
-            ObjectMapper objectMapper = new ObjectMapper();
-            
-            System.out.println(responseBody);
-            return responseBody;
+            return responseEntity.getBody();
         } else {
             return "Error: " + responseEntity.getStatusCode();
         }
