@@ -1,9 +1,12 @@
 package com.mkiats.services.registryServices.strategyServices;
 
+import com.mkiats.dataTransferObjects.TimeSeriesStockData;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DollarCostAverage implements StrategyService {
+
+	private TimeSeriesStockData timeSeriesStockData;
 
 	// Calculate initial value and final value of the strategy
 	/*
@@ -21,6 +24,12 @@ public class DollarCostAverage implements StrategyService {
      */
 	@Override
 	public float executeStrategy() {
+
+
 		return 0;
+	}
+
+	public DollarCostAverage(TimeSeriesStockData theStockData) {
+		this.timeSeriesStockData = theStockData;
 	}
 }

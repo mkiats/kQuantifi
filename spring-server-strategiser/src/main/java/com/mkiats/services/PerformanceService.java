@@ -36,7 +36,7 @@ public class PerformanceService {
 			                     "6. volume": "1140576228",
 			                     "7. dividend amount": "0.0000"
 			         },
-			          "2024-05-28": {
+			          "2024-03-28": {
 			              "1. open": "508.9800",
 			              "2. high": "524.6100",
 			              "3. low": "504.9100",
@@ -57,10 +57,12 @@ public class PerformanceService {
 			     }
 			    }
 			""";
-		//        COMMENT OUT COZ API REQUEST GOT LIMIT
-		//        String tickerData = retrievalService.fetchTickerData("TIME_SERIES_MONTHLY_ADJUSTED", "SPY");
+//        COMMENT OUT COZ API REQUEST GOT LIMIT
+//		String tickerData = retrievalService.fetchTickerData("TIME_SERIES_MONTHLY_ADJUSTED", "SPY");
 		TimeSeriesStockData timeSeriesStockData =
 			retrievalService.convertStringToTimeSeriesStockData(json);
 		System.out.println(timeSeriesStockData.getPriceList().keySet());
+		System.out.println(timeSeriesStockData.getMetaData().getInformation());
+		System.out.println(timeSeriesStockData.getPriceList());
 	}
 }
