@@ -1,9 +1,8 @@
 package com.mkiats.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mkiats.dataTransferObjects.TimeSeriesStockData;
-import com.mkiats.services.registryServices.AlgorithmServiceRegistry;
+import com.mkiats.services.registryServices.MetricServiceRegistry;
 import com.mkiats.services.registryServices.StrategyServiceRegistry;
 import com.mkiats.temp.TempClass;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class PerformanceService {
 
 	private final StrategyServiceRegistry strategyServiceRegistry;
-	private final AlgorithmServiceRegistry algorithmServiceRegistry;
+	private final MetricServiceRegistry metricServiceRegistry;
 	private final RetrievalService retrievalService;
 
 	public void doExecute() throws JsonProcessingException {
