@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class DollarCostAverage implements StrategyService {
 
-	private TimeSeriesStockData timeSeriesStockData;
+//	private TimeSeriesStockData timeSeriesStockData;
 
 	// Calculate initial value and final value of the strategy
 	/*
@@ -29,7 +29,7 @@ public class DollarCostAverage implements StrategyService {
 		return 0;
 	}
 
-	public DollarCostAverage(TimeSeriesStockData theStockData) {
-		this.timeSeriesStockData = theStockData;
-	}
+//	public DollarCostAverage(TimeSeriesStockData theStockData) {
+//		this.timeSeriesStockData = theStockData;
+//	}
 }
