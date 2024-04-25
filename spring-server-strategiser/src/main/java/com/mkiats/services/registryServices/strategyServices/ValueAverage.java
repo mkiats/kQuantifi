@@ -4,7 +4,7 @@ import com.mkiats.dataTransferObjects.TimeSeriesStockData;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ValueAverage implements StrategyService {
+public class ValueAverage implements StrategyService<ValueAverageParameter> {
 
 	// Input: {List<TimeSeriesStockPrice>, ValueAverageRate}
 	/*
@@ -16,7 +16,7 @@ public class ValueAverage implements StrategyService {
         - Calculate the difference between investmentBalance and benchmarkBalance
         - Excess balance goes to cashBalance, Deficit balance takes money from cashBalance
      */
-	public double executeStrategy(TimeSeriesStockData timeSeriesStockData) {
+	public double executeStrategy(ValueAverageParameter parameter) {
 		return 0;
 	}
 

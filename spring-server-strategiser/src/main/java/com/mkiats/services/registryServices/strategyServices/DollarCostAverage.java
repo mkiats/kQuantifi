@@ -9,7 +9,7 @@ import java.util.SequencedSet;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DollarCostAverage implements StrategyService {
+public class DollarCostAverage implements StrategyService<DollarCostAverageParameter> {
 
 	// Calculate initial value and final value of the strategy
 	/*
@@ -26,17 +26,17 @@ public class DollarCostAverage implements StrategyService {
     End: Calculate averageEntryPrice
      */
 	@Override
-	public double executeStrategy(TimeSeriesStockData timeSeriesStockData) {
+	public double executeStrategy(DollarCostAverageParameter parameter) {
 		double currentAmountInDca = 0;
 		double currentStockQuantity = 0;
 		int dcaAmount = 100;
 
-		SequencedSet<String> keyList = timeSeriesStockData
+		SequencedSet<String> keyList = parameter.getTimeSeriesStockData()
 			.getPriceList()
 			.sequencedKeySet()
 			.reversed();
 		for (String dateKey : keyList) {
-			TimeSeriesStockPrice timeSeriesStockPrice = timeSeriesStockData
+			TimeSeriesStockPrice timeSeriesStockPrice = parameter.getTimeSeriesStockData()
 				.getPriceList()
 				.get(dateKey);
 			double closingPrice = Double.parseDouble(

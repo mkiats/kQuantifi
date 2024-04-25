@@ -2,7 +2,7 @@ package com.mkiats.services.registryServices.strategyServices;
 
 import com.mkiats.dataTransferObjects.TimeSeriesStockData;
 
-public interface StrategyService {
+public interface StrategyService<T> {
 	// Calculate initial value and final value of the strategy
 	/*
 Pseudo Code:
@@ -17,7 +17,7 @@ Iteration:
 
 End: Calculate averageEntryPrice
 */
-	double executeStrategy(TimeSeriesStockData timeSeriesStockData);
+	double executeStrategy(T parameters);
 
 	void doExecute();
 }
