@@ -1,15 +1,24 @@
 package com.mkiats.services.registryServices.strategyServices;
 
-import com.mkiats.dataTransferObjects.TimeSeriesStockData;
 import com.mkiats.dataTransferObjects.TimeSeriesStockPrice;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.SequencedSet;
+
+import com.mkiats.services.registryServices.strategyServices.strategyServicesParameter.DollarCostAverageParameter;
+import com.mkiats.services.registryServices.strategyServices.strategyServicesParameter.StrategyServiceParameter;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DollarCostAverage implements StrategyService<DollarCostAverageParameter> {
+@RequiredArgsConstructor
+@Getter
+@Setter
+public class DollarCostAverage implements StrategyService {
 
 	// Calculate initial value and final value of the strategy
 	/*
@@ -25,18 +34,21 @@ public class DollarCostAverage implements StrategyService<DollarCostAverageParam
 
     End: Calculate averageEntryPrice
      */
+
+	private DollarCostAverageParameter dollarCostAverageParameter = new DollarCostAverageParameter();
+
 	@Override
-	public double executeStrategy(DollarCostAverageParameter parameter) {
+	public double executeStrategy() {
 		double currentAmountInDca = 0;
 		double currentStockQuantity = 0;
 		int dcaAmount = 100;
 
-		SequencedSet<String> keyList = parameter.getTimeSeriesStockData()
+		SequencedSet<String> keyList = this.dollarCostAverageParameter.getTimeSeriesStockData()
 			.getPriceList()
 			.sequencedKeySet()
 			.reversed();
 		for (String dateKey : keyList) {
-			TimeSeriesStockPrice timeSeriesStockPrice = parameter.getTimeSeriesStockData()
+			TimeSeriesStockPrice timeSeriesStockPrice = this.dollarCostAverageParameter.getTimeSeriesStockData()
 				.getPriceList()
 				.get(dateKey);
 			double closingPrice = Double.parseDouble(
@@ -51,8 +63,4 @@ public class DollarCostAverage implements StrategyService<DollarCostAverageParam
 		return currentAmountInDca / currentStockQuantity;
 	}
 
-	@Override
-	public void doExecute() {
-		System.out.println("Trial");
-	}
 }

@@ -1,23 +1,11 @@
 package com.mkiats.services.registryServices.strategyServices;
 
 import com.mkiats.dataTransferObjects.TimeSeriesStockData;
+import com.mkiats.services.registryServices.strategyServices.strategyServicesParameter.DollarCostAverageParameter;
+import com.mkiats.services.registryServices.strategyServices.strategyServicesParameter.StrategyServiceParameter;
 
-public interface StrategyService<T> {
-	// Calculate initial value and final value of the strategy
-	/*
-Pseudo Code:
+public interface StrategyService {
 
-Initialise currentStockQuantity & currentStockValue
+	double executeStrategy();
 
-Iteration:
-- calculate addedStockQuantity by finding (DCA amount / current stock price)
-- Update currentStockQuantity
-- Add DCA amount to currentStockValue
-- Update currentStockValue
-
-End: Calculate averageEntryPrice
-*/
-	double executeStrategy(T parameters);
-
-	void doExecute();
 }

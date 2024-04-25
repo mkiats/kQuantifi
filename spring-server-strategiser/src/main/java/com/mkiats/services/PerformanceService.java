@@ -4,10 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mkiats.dataTransferObjects.TimeSeriesStockData;
 import com.mkiats.services.registryServices.MetricServiceRegistry;
 import com.mkiats.services.registryServices.StrategyServiceRegistry;
-import com.mkiats.services.registryServices.strategyServices.DollarCostAverageParameter;
+import com.mkiats.services.registryServices.strategyServices.DollarCostAverage;
 import com.mkiats.services.registryServices.strategyServices.StrategyService;
+import com.mkiats.services.registryServices.strategyServices.strategyServicesParameter.DollarCostAverageParameter;
 import com.mkiats.temp.TempClass;
-import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,15 +27,22 @@ public class PerformanceService {
 		//		String tickerData = retrievalService.fetchTickerData("TIME_SERIES_MONTHLY_ADJUSTED", "SPY");
 		TimeSeriesStockData timeSeriesStockData =
 			retrievalService.convertStringToTimeSeriesStockData(jsonStr);
-		DollarCostAverageParameter theParameter = new DollarCostAverageParameter();
-		theParameter.setTimeSeriesStockData(timeSeriesStockData);
 
-		StrategyService<?> currentService = strategyServiceRegistry.getService(
-			"DollarCostAverage"
-		);
-		double averageEntryPrice = currentService.executeStrategy(
-			theParameter
-		);
-		System.out.println(String.valueOf(averageEntryPrice));
+		DollarCostAverage theService = (DollarCostAverage) strategyServiceRegistry.getService("DollarCostAverage");
+		DollarCostAverageParameter theParameter = theService.getDollarCostAverageParameter();
+		theParameter.setTimeSeriesStockData(timeSeriesStockData);
+		double avgEntryPrice = theService.executeStrategy();
+		System.out.println("AvgEntryPrice is " + avgEntryPrice);
+
+		try {
+			Class<?> className = Class.forName("com.mkiats.services.registryServices.strategyServices.DollarCostAverage");
+			Object castedService = className.cast(theService);
+			System.out.println(castedService.getClass());
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+
 	}
 }

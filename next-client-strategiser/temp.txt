@@ -1,8 +1,0 @@
-0516 Loke/FullStackAssessmentPlatform (vs0)
-0022 Owen/TouristFatalityApplication (vs1)
-0594 OngChingAnn/MiddlewareDevelopment (vs1)
-0252 ElderlyCognitiveImprovementApplication 
-0616 LiFang/WebsiteBuilder (vs0)
-0513 Loke/ObjectDetection (vs3)
-0258 GenerativeAI (vs3)
-
