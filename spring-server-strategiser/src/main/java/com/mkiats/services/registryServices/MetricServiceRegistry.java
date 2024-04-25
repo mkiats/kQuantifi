@@ -10,19 +10,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class MetricServiceRegistry {
 
-	private final Map<String, MetricService> metricServices =
-		new HashMap<>();
+	private final Map<String, MetricService> metricServices = new HashMap<>();
 
 	@Autowired
-	public MetricServiceRegistry(
-		List<MetricService> metricServicesList
-	) {
+	public MetricServiceRegistry(List<MetricService> metricServicesList) {
 		metricServicesList.forEach(
 			service ->
-					metricServices.put(
-					service.getClass().getSimpleName(),
-					service
-				)
+				metricServices.put(service.getClass().getSimpleName(), service)
 		);
 	}
 
