@@ -15,6 +15,7 @@ public class AlgorithmStrategyContext {
 	private TimeSeriesStockData timeSeriesStockData;
 	private String valueAvg_benchmark;
 	private double valueAvg_benchmarkRate;
+	private double valueAvg_initialBalance;
 
 	public void mapFormDataToAttr() {
 		// Pass in FormData object (From frontend) to map to the attributes
