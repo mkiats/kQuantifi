@@ -1,8 +1,6 @@
-package com.mkiats.services.registryServices.strategyServices;
+package com.mkiats.services.serviceStrategyFactory.algorithmServices;
 
-import com.mkiats.services.registryServices.strategyServices.strategyServicesParameter.DollarCostAverageParameter;
-import com.mkiats.services.registryServices.strategyServices.strategyServicesParameter.StrategyServiceParameter;
-import com.mkiats.services.registryServices.strategyServices.strategyServicesParameter.ValueAverageParameter;
+import com.mkiats.services.serviceStrategyFactory.AlgorithmStrategyContext;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -12,7 +10,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Getter
 @Setter
-public class ValueAverage implements StrategyService {
+public class ValueAverage implements AlgorithmStrategy {
 
 	// Input: {List<TimeSeriesStockPrice>, ValueAverageRate}
 	/*
@@ -24,13 +22,14 @@ public class ValueAverage implements StrategyService {
         - Calculate the difference between investmentBalance and benchmarkBalance
         - Excess balance goes to cashBalance, Deficit balance takes money from cashBalance
      */
-
-	private ValueAverageParameter valueAverageParameter;
-
-
 	@Override
-	public double executeStrategy() {
+	public double executeStrategy(AlgorithmStrategyContext context) {
+		System.out.println(
+			"ValueAverage.executeStrategy() called, using " +
+			context.getValueAvg_benchmark() +
+			" and " +
+			context.getValueAvg_benchmarkRate()
+		);
 		return 0;
 	}
-
 }

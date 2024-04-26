@@ -1,9 +1,9 @@
-package com.mkiats.services.registryServices.metricServices;
+package com.mkiats.services.serviceStrategyFactory.metricServices;
 
 import org.springframework.stereotype.Service;
 
 @Service
-public class MaxDrawdown implements MetricService {
+public class MaxDrawdown implements MetricStrategy {
 
 	// Inputs: {List<timeSeriesStockPrice>}
 	@Override

@@ -1,9 +1,9 @@
-package com.mkiats.services.registryServices.metricServices;
+package com.mkiats.services.serviceStrategyFactory.metricServices;
 
 import org.springframework.stereotype.Service;
 
 @Service
-public class CompoundAnnualGrowthRate implements MetricService {
+public class CompoundAnnualGrowthRate implements MetricStrategy {
 
 	// Inputs: {# of periods, initialValue, finalValue}
 	@Override
