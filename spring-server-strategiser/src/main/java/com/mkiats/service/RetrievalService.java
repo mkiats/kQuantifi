@@ -1,4 +1,4 @@
-package com.mkiats.services;
+package com.mkiats.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

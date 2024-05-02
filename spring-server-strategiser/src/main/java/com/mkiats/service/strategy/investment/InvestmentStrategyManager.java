@@ -1,6 +1,6 @@
-package com.mkiats.services.serviceStrategyFactory;
+package com.mkiats.service.strategy.investment;
 
-import com.mkiats.services.serviceStrategyFactory.algorithmServices.AlgorithmStrategy;
+import com.mkiats.service.strategy.investment.interfaces.InvestmentStrategy;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,27 +10,27 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class AlgorithmStrategyFactory {
+public class InvestmentStrategyManager {
 
-	private final Map<String, AlgorithmStrategy> strategyServices =
+	private final Map<String, InvestmentStrategy> strategyServices =
 		new HashMap<>();
 
 	@Autowired
-	public AlgorithmStrategyFactory(
-		List<AlgorithmStrategy> strategyServiceList
+	public InvestmentStrategyManager(
+		List<InvestmentStrategy> strategyServiceList
 	) {
 		strategyServiceList.forEach(service -> {
 			strategyServices.put(service.getClass().getSimpleName(), service);
 		});
 	}
 
-	public AlgorithmStrategy getService(String serviceName) {
+	public InvestmentStrategy getService(String serviceName) {
 		return strategyServices.get(serviceName);
 	}
 
 	public void registerService(
 		String serviceName,
-		AlgorithmStrategy algoService
+		InvestmentStrategy algoService
 	) {
 		strategyServices.put(serviceName, algoService);
 	}

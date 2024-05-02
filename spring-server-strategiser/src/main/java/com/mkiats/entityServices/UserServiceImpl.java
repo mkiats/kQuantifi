@@ -1,4 +1,4 @@
-package com.mkiats.services.entityServices;
+package com.mkiats.entityServices;
 
 import com.mkiats.dataAccessObjects.UserRepository;
 import com.mkiats.entities.User;
