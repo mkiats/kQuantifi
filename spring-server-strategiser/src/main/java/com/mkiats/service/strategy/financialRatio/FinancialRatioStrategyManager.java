@@ -1,6 +1,6 @@
 package com.mkiats.service.strategy.financialRatio;
 
-import com.mkiats.service.strategy.financialRatio.interfaces.MetricStrategy;
+import com.mkiats.service.strategy.financialRatio.interfaces.FinancialRatioStrategy;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,19 +10,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class FinancialRatioStrategyManager {
 
-	private final Map<String, MetricStrategy> metricServices = new HashMap<>();
+	private final Map<String, FinancialRatioStrategy> financialRatioStrategyServices = new HashMap<>();
 
 	@Autowired
 	public FinancialRatioStrategyManager(
-		List<MetricStrategy> metricServicesListStrategy
+		List<FinancialRatioStrategy> strategyServiceList
 	) {
-		metricServicesListStrategy.forEach(
+		strategyServiceList.forEach(
 			service ->
-				metricServices.put(service.getClass().getSimpleName(), service)
+				financialRatioStrategyServices.put(service.getClass().getSimpleName(), service)
 		);
 	}
 
-	public MetricStrategy getMetricService(String serviceName) {
-		return metricServices.get(serviceName);
+	public FinancialRatioStrategy getService(String serviceName) {
+		return financialRatioStrategyServices.get(serviceName);
 	}
 }

@@ -18,5 +18,19 @@ public class ValueAverageParameter implements InvestmentParameter {
 	private double targetRate;
 
 	@Override
-	public void deserialise(HashMap<String, Object> theHashmap) {}
+	public void deserialise(HashMap<String, Object> theHashmap) {
+		if (theHashmap.containsKey("timeSeriesStockData")) {
+			this.timeSeriesStockData = (TimeSeriesStockData) theHashmap.get(
+					"timeSeriesStockData"
+			);
+		}if (theHashmap.containsKey("periodicAmount")) {
+			this.periodicAmount = (double) (int) theHashmap.get(
+					"periodicAmount"
+			);
+		}if (theHashmap.containsKey("targetRate")) {
+			this.targetRate = (double) (int) theHashmap.get(
+					"targetRate"
+			);
+		}
+	}
 }

@@ -1,12 +1,11 @@
 package com.mkiats.service.strategy.investment.interfaces;
 
-import com.mkiats.service.strategy.investment.InvestmentStrategyContext;
-import com.mkiats.service.strategy.investment.InvestmentStrategyOutput;
+import com.mkiats.service.strategy.investment.InvestmentOutput;
 import java.util.HashMap;
 import java.util.List;
 
 public interface InvestmentStrategy {
-	List<InvestmentStrategyOutput> executeStrategy(
+	InvestmentOutput executeStrategy(
 		HashMap<String, Object> theParameters
 	);
 }

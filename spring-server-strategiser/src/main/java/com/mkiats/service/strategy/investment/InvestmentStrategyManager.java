@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class InvestmentStrategyManager {
 
-	private final Map<String, InvestmentStrategy> strategyServices =
+	private final Map<String, InvestmentStrategy> investmentStrategyServices =
 		new HashMap<>();
 
 	@Autowired
@@ -20,18 +20,18 @@ public class InvestmentStrategyManager {
 		List<InvestmentStrategy> strategyServiceList
 	) {
 		strategyServiceList.forEach(service -> {
-			strategyServices.put(service.getClass().getSimpleName(), service);
+			investmentStrategyServices.put(service.getClass().getSimpleName(), service);
 		});
 	}
 
 	public InvestmentStrategy getService(String serviceName) {
-		return strategyServices.get(serviceName);
+		return investmentStrategyServices.get(serviceName);
 	}
 
 	public void registerService(
 		String serviceName,
 		InvestmentStrategy algoService
 	) {
-		strategyServices.put(serviceName, algoService);
+		investmentStrategyServices.put(serviceName, algoService);
 	}
 }
