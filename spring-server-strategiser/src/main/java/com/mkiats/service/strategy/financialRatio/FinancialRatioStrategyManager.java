@@ -10,15 +10,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class FinancialRatioStrategyManager {
 
-	private final Map<String, FinancialRatioStrategy> financialRatioStrategyServices = new HashMap<>();
+	private final Map<
+		String,
+		FinancialRatioStrategy
+	> financialRatioStrategyServices = new HashMap<>();
 
-	@Autowired
+	@Autowired // Construction injection
 	public FinancialRatioStrategyManager(
 		List<FinancialRatioStrategy> strategyServiceList
 	) {
 		strategyServiceList.forEach(
 			service ->
-				financialRatioStrategyServices.put(service.getClass().getSimpleName(), service)
+				financialRatioStrategyServices.put(
+					service.getClass().getSimpleName(),
+					service
+				)
 		);
 	}
 

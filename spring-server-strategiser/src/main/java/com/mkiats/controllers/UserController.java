@@ -1,7 +1,7 @@
 package com.mkiats.controllers;
 
+import com.mkiats.dataAccessObjects.UserServiceDao;
 import com.mkiats.entities.User;
-import com.mkiats.entityServices.UserService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/")
 public class UserController {
 
-	private final UserService userService;
+	private final UserServiceDao userService;
 
 	@GetMapping("/users")
 	public List<User> getAllUsers() {

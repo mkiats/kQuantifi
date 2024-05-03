@@ -62,7 +62,10 @@ public class ValueAverageStrategy implements InvestmentStrategy {
 				currentQty = periodicAmount / previousClose;
 				currentBal = periodicAmount;
 				targetBal = periodicAmount;
-				res.addTimestamp(dateKey).addValue(currentBal).addQuantity(currentQty);
+				res
+					.addTimestamp(dateKey)
+					.addValue(currentBal)
+					.addQuantity(currentQty);
 			} else {
 				double currentClose = Double.parseDouble(
 					timeSeriesStockPrice.getAdjustedClose()
@@ -76,10 +79,15 @@ public class ValueAverageStrategy implements InvestmentStrategy {
 					double qtyToBeAdded = balToBeAdded / currentClose;
 					currentQty = currentQty + qtyToBeAdded;
 					currentBal = targetBal;
-					res.addTimestamp(dateKey).addValue(currentBal).addQuantity(currentQty);
-
+					res
+						.addTimestamp(dateKey)
+						.addValue(currentBal)
+						.addQuantity(currentQty);
 				} else {
-					res.addTimestamp(dateKey).addValue(currentBal).addQuantity(currentQty);
+					res
+						.addTimestamp(dateKey)
+						.addValue(currentBal)
+						.addQuantity(currentQty);
 				}
 			}
 		}

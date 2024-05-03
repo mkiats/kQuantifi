@@ -5,7 +5,5 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface InvestmentStrategy {
-	InvestmentOutput executeStrategy(
-		HashMap<String, Object> theParameters
-	);
+	InvestmentOutput executeStrategy(HashMap<String, Object> theParameters);
 }

@@ -1,7 +1,7 @@
-package com.mkiats.entityServices;
+package com.mkiats.dataAccessObjects;
 
 import com.mkiats.entities.Ticker;
 
-public interface TickerService {
+public interface TickerServiceDao {
 	public Ticker getTickerBySymbol(String theTickerSymbol);
 }

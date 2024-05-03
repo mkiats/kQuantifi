@@ -27,24 +27,25 @@ public class DollarCostAverageStrategy implements InvestmentStrategy {
 		new DollarCostAverageParameter();
 
 	private InvestmentOutput theOutput = new InvestmentOutput();
+
 	@Override
 	public InvestmentOutput executeStrategy(
 		HashMap<String, Object> hashmapParameters
 	) {
 		this.theParameter.deserialise(hashmapParameters);
-		TimeSeriesStockData context =
+		TimeSeriesStockData stockData =
 			this.theParameter.getTimeSeriesStockData();
 		double dcaAmount = this.theParameter.getPeriodicAmount();
 		this.theOutput = new InvestmentOutput();
 
 		double currentAmountInDca = 0;
 		double currentStockQuantity = 0;
-		SequencedSet<String> keyList = context
+		SequencedSet<String> keyList = stockData
 			.getPriceList()
 			.sequencedKeySet()
 			.reversed();
 		for (String dateKey : keyList) {
-			TimeSeriesStockPrice timeSeriesStockPrice = context
+			TimeSeriesStockPrice timeSeriesStockPrice = stockData
 				.getPriceList()
 				.get(dateKey);
 			double closingPrice = Double.parseDouble(
@@ -53,9 +54,13 @@ public class DollarCostAverageStrategy implements InvestmentStrategy {
 			double dcaQuantity = BigDecimal.valueOf(dcaAmount / closingPrice)
 				.round(new MathContext(4, RoundingMode.HALF_EVEN))
 				.doubleValue();
-			currentStockQuantity = currentStockQuantity + dcaQuantity;
+			currentAmountInDca = currentStockQuantity * closingPrice;
 			currentAmountInDca = currentAmountInDca + dcaAmount;
-			this.theOutput.addTimestamp(dateKey).addValue(currentAmountInDca).addQuantity(currentStockQuantity);
+			currentStockQuantity = currentStockQuantity + dcaQuantity;
+			this.theOutput.addTimestamp(dateKey)
+				.addValue(currentAmountInDca)
+				.addQuantity(currentStockQuantity)
+				.addInvestedAmount(dcaAmount);
 		}
 		return this.theOutput;
 	}

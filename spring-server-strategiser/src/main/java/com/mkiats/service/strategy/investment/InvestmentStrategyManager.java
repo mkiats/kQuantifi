@@ -9,18 +9,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
 public class InvestmentStrategyManager {
 
 	private final Map<String, InvestmentStrategy> investmentStrategyServices =
 		new HashMap<>();
 
-	@Autowired
+	@Autowired // Construction injection
 	public InvestmentStrategyManager(
 		List<InvestmentStrategy> strategyServiceList
 	) {
 		strategyServiceList.forEach(service -> {
-			investmentStrategyServices.put(service.getClass().getSimpleName(), service);
+			investmentStrategyServices.put(
+				service.getClass().getSimpleName(),
+				service
+			);
 		});
 	}
 

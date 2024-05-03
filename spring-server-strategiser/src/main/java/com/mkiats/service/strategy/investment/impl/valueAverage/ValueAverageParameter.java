@@ -21,16 +21,16 @@ public class ValueAverageParameter implements InvestmentParameter {
 	public void deserialise(HashMap<String, Object> theHashmap) {
 		if (theHashmap.containsKey("timeSeriesStockData")) {
 			this.timeSeriesStockData = (TimeSeriesStockData) theHashmap.get(
-					"timeSeriesStockData"
+				"timeSeriesStockData"
 			);
-		}if (theHashmap.containsKey("periodicAmount")) {
+		}
+		if (theHashmap.containsKey("periodicAmount")) {
 			this.periodicAmount = (double) (int) theHashmap.get(
-					"periodicAmount"
+				"periodicAmount"
 			);
-		}if (theHashmap.containsKey("targetRate")) {
-			this.targetRate = (double) (int) theHashmap.get(
-					"targetRate"
-			);
+		}
+		if (theHashmap.containsKey("targetRate")) {
+			this.targetRate = (double) (int) theHashmap.get("targetRate");
 		}
 	}
 }

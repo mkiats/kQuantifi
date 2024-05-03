@@ -10,10 +10,20 @@ public class CompoundAnnualGrowthRate implements FinancialRatioStrategy {
 	// Inputs: {# of periods, initialValue, finalValue}
 	@Override
 	public double computeRatio(InvestmentOutput investmentOutput) {
-		double initialValue = investmentOutput.getStockValue().getFirst();
+		double principal = investmentOutput.getInvestedAmount();
 		double finalValue = investmentOutput.getStockValue().getLast();
-		double numOfPeriods = investmentOutput.getStockValue().size();
+		double numOfCompoundingPeriods = investmentOutput
+			.getStockValue()
+			.size();
+		// Hardcorded to assume 1 period is 1 month
+		// TODO: Retrieve time period from InvestmentOutput
+		double timePeriod = numOfCompoundingPeriods / 12;
 
-        return (Math.pow((finalValue/initialValue), (1/numOfPeriods)) - 1) * 100;
+		return (
+			(Math.pow((finalValue / principal), (1 / numOfCompoundingPeriods)) -
+				1) *
+			100 *
+			timePeriod
+		);
 	}
 }

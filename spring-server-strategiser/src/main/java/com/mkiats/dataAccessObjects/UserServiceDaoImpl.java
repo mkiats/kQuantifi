@@ -1,7 +1,7 @@
-package com.mkiats.entityServices;
+package com.mkiats.dataAccessObjects;
 
-import com.mkiats.dataAccessObjects.UserRepository;
 import com.mkiats.entities.User;
+import com.mkiats.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import javax.management.RuntimeErrorException;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Transactional(rollbackOn = Exception.class)
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserServiceDaoImpl implements UserServiceDao {
 
 	private final UserRepository userRepo;
 

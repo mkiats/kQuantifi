@@ -1,4 +1,3 @@
 package com.mkiats.service.strategy.financialRatio;
 
-public class FinancialRatioOutput {
-}
+public class FinancialRatioOutput {}

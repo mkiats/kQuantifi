@@ -1,4 +1,4 @@
-package com.mkiats.dataAccessObjects;
+package com.mkiats.repository;
 
 import com.mkiats.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
