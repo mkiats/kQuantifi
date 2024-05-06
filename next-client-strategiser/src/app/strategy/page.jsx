@@ -2,6 +2,7 @@ import ChartDiagram from '@/components/strategy/chart/chartDiagram';
 import ChartOptions from '@/components/strategy/chart/chartOptions';
 import MetricDashboard from '@/components/strategy/metricDashboard';
 import TickerForm from '@/components/strategy/tickerForm';
+import { newMockStockData } from '@/api/mockData';
 
 const StrategyPage = () => {
 	return (
@@ -12,8 +13,8 @@ const StrategyPage = () => {
 			<section className=''>
 				<ChartOptions />
 			</section>
-			<section className=''>
-				<ChartDiagram />
+			<section className='justify-center items-center w-3/4 '>
+				<ChartDiagram className='' />
 			</section>
 			<section className=''>
 				<MetricDashboard />

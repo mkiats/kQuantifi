@@ -1,43 +1,60 @@
 'use client';
 import { useEffect, useRef } from 'react';
-import { createChart } from 'lightweight-charts';
+import { ColorType, createChart } from 'lightweight-charts';
 import { newMockStockData } from '@/api/mockData';
 
 const ChartDiagram = () => {
-	const chartRef = useRef(null);
+	const testData = {
+		newMockStockData,
+		colors: {
+			backgroundColor: 'white',
+			lineColor: '#2962FF',
+			textColor: 'black',
+			areaTopColor: '#2962FF',
+			areaBottomColor: 'rgba(41, 98, 255, 0.28)',
+		},
+	};
+
+	const chartContainerRef = useRef();
 
 	useEffect(() => {
-		const chartOptions = {
-			layout: {
-				textColor: 'white',
-				background: { color: 'transparent' },
-			},
+		const data = testData.newMockStockData;
+		const handleResize = () => {
+			chart.applyOptions({
+				width: chartContainerRef.current.clientWidth,
+			});
 		};
-		const chart = createChart(chartRef.current, chartOptions);
-		const areaSeries = chart.addAreaSeries({
-			topColor: 'rgba(38, 198, 218, 0.56)',
-			bottomColor: 'rgba(38, 198, 218, 0.04)',
-			lineColor: 'rgba(38, 198, 218, 1)',
-			lineWidth: 2,
-			crossHairMarkerVisible: false,
-		});
-		areaSeries.setData(newMockStockData);
 
+		const chart = createChart(chartContainerRef.current, {
+			layout: {
+				background: {
+					type: ColorType.Solid,
+					color: testData.colors.backgroundColor,
+				},
+				textColor: testData.colors.textColor,
+			},
+			width: chartContainerRef.current.clientWidth,
+			height: 500,
+		});
 		chart.timeScale().fitContent();
 
+		const newSeries = chart.addAreaSeries({
+			lineColor: testData.colors.lineColor,
+			topColor: testData.colors.areaTopColor,
+			bottomColor: testData.colors.areaBottomColor,
+		});
+		newSeries.setData(data);
+
+		window.addEventListener('resize', handleResize);
+
 		return () => {
-			if (chart) {
-				chart.remove();
-			}
+			window.removeEventListener('resize', handleResize);
+
+			chart.remove();
 		};
 	}, []);
 
-	return (
-		<div
-			className='w-[calc(50vw)] h-[calc(50vh)] p-16'
-			ref={chartRef}
-		></div>
-	);
+	return <div ref={chartContainerRef} />;
 };
 
 export default ChartDiagram;
