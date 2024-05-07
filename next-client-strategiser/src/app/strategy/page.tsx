@@ -6,20 +6,21 @@ import MetricDashboard from '@/components/strategy/metricDashboard';
 import TickerForm from '@/components/strategy/tickerForm';
 import { getTicker } from '@/api/ticker';
 import { TickerFormOutput } from '@/types/tickerFormOutput';
-import { newMockStockData } from '@/api/mockData';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
+import { log } from 'console';
 
 const StrategyPage = () => {
 	const [formData, setFormData] = useState<TickerFormOutput | null>(null);
 	const [tickerName, setTickerName] = useState<string | null>(null);
 	const [timeframe, setTimeframe] = useState<string | null>(null);
 	const handleSubmit = (data: TickerFormOutput): void => {
+		console.log(data);
 		setFormData(data);
 		setTickerName(data.tickerName);
 		setTimeframe(data.timeframe);
 	};
-	const { data, isLoading } = useQuery({
+	const { data, isLoading, isFetched } = useQuery({
 		queryKey: ['ticker', tickerName, timeframe],
 		queryFn: () => getTicker(formData),
 		enabled: !!tickerName && !!timeframe && !!formData,
@@ -38,6 +39,9 @@ const StrategyPage = () => {
 			<section className=''>
 				<MetricDashboard />
 			</section>
+			{isFetched && (
+				<div>Response is received: {JSON.stringify(data)}</div>
+			)}
 		</div>
 	);
 };

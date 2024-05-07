@@ -1,7 +1,7 @@
 import { TickerFormOutput } from '@/types/tickerFormOutput';
 
 export const getTicker = async (tickerFormOutput: TickerFormOutput): Promise<String> => {
-    const response = await fetch("http://localhost:8080/", {
+    const response = await fetch("http://localhost:8080/tickers", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
