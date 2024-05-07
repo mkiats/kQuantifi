@@ -30,6 +30,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
+import { useQuery } from '@tanstack/react-query';
 
 const timeframeEnum = ['weekly', 'monthly'] as const;
 const benchmarkEnum = ['SPX', 'RegularCompounding'] as const;
@@ -70,7 +71,7 @@ const formSchema = z.object({
 		.optional(),
 });
 
-const TickerForm = () => {
+const TickerForm = ({ handleSubmit }) => {
 	const form = useForm<z.infer<typeof formSchema>>({
 		mode: 'onSubmit',
 		resolver: zodResolver(formSchema),
@@ -87,9 +88,7 @@ const TickerForm = () => {
 	});
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
-		// Do something with the form values.
-		// ✅ This will be type-safe and validated.
-		console.log(values);
+		handleSubmit(values);
 	}
 
 	return (
