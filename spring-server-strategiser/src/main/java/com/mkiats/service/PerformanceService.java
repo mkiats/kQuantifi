@@ -9,9 +9,9 @@ import com.mkiats.service.strategy.investment.InvestmentStrategyManager;
 import com.mkiats.service.strategy.investment.interfaces.InvestmentStrategy;
 import com.mkiats.temp.TempClass;
 import java.util.HashMap;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.mkiats.utils.dateConversion;
 
 @Service
 @RequiredArgsConstructor
@@ -58,5 +58,7 @@ public class PerformanceService {
 			.getService("MaxDrawdown")
 			.computeRatio(testOutput);
 		System.out.println(maxDrawdown);
+
+		dateConversion.convertTimeToUnix("Tue Jan 01 2999 08:00:00");
 	}
 }
