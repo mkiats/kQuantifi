@@ -1,3 +1,4 @@
-THIS IS A STRATEGY BACKTESTER
+# FRONTEND FOR kQuantifi
 
-INTENDING TO BACKTEST DCA STRATEGY FOR LETF
+- run 'npm i' to install packages
+- run 'npm run dev' to start nextJs server

@@ -1,14 +1,13 @@
 'use client';
 
-import ChartDiagram from '@/components/strategy/chart/chartDiagram';
-import ChartOptions from '@/components/strategy/chart/chartOptions';
-import MetricDashboard from '@/components/strategy/metricDashboard';
-import TickerForm from '@/components/strategy/tickerForm';
+import ChartDiagram from '@/components/backtest/chart/chartDiagram';
+import ChartOptions from '@/components/backtest/chart/chartOptions';
+import MetricDashboard from '@/components/backtest/metricDashboard';
+import TickerForm from '@/components/backtest/tickerForm';
 import { getTicker } from '@/api/ticker';
 import { TickerFormOutput } from '@/types/tickerFormOutput';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { log } from 'console';
 
 const StrategyPage = () => {
 	const [formData, setFormData] = useState<TickerFormOutput | null>(null);
