@@ -1,10 +1,8 @@
-export interface BacktestFormData {
+export interface BacktestTicker {
     tickerName: string,
     dcaAmount: number,
     leverageFactor: number,
     timeframe: string,
     startDate: string,
     endDate: string,
-    benchmark: string,
-    benchmarkGrowthRate: number,
 }

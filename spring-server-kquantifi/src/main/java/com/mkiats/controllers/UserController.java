@@ -30,7 +30,7 @@ public class UserController {
 		return theUser;
 	}
 
-	@PostMapping("/tickers")
+	@PostMapping("/backtests")
 	public String getTicker(){
 		System.out.println("Request Received...");
 		TempClass json = new TempClass();
