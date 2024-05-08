@@ -4,7 +4,7 @@ const navigationLinks = [
 	{ url: '/', title: 'home' },
 	{ url: '/', title: 'about' },
 	{ url: '/', title: 'projects' },
-	{ url: '/strategy', title: 'strategy' },
+	{ url: '/backtest', title: 'Backtest' },
 ];
 
 const Navbar = () => {

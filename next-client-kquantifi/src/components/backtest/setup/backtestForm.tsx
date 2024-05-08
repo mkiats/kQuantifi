@@ -30,10 +30,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
-import { useQuery } from '@tanstack/react-query';
 
 const timeframeEnum = ['weekly', 'monthly'] as const;
-const benchmarkEnum = ['SPX', 'RegularCompounding'] as const;
 const formSchema = z.object({
 	tickerName: z.string().min(2),
 	dcaAmount: z.number().int().positive().multipleOf(100).finite().safe(),
@@ -55,23 +53,10 @@ const formSchema = z.object({
 	endDate: z.coerce.date({
 		required_error: 'endDate not specified',
 		invalid_type_error: 'invalid date specified',
-	}),
-	benchmark: z
-		.enum(benchmarkEnum, {
-			invalid_type_error: 'invalid benchmark specified',
-		})
-		.optional(),
-	benchmarkGrowthRate: z.coerce
-		.number({ invalid_type_error: 'invalid growthRate specified' })
-		.int()
-		.positive()
-		.safe()
-		.gte(1)
-		.lte(50)
-		.optional(),
+	})
 });
 
-const TickerForm = ({ handleSubmit }) => {
+const BacktestForm = ({ handleSubmit }) => {
 	const form = useForm<z.infer<typeof formSchema>>({
 		mode: 'onSubmit',
 		resolver: zodResolver(formSchema),
@@ -82,8 +67,6 @@ const TickerForm = ({ handleSubmit }) => {
 			timeframe: 'weekly',
 			startDate: new Date('2000-01-01'),
 			endDate: new Date('2999-01-01'),
-			benchmark: 'SPX',
-			benchmarkGrowthRate: 10,
 		},
 	});
 
@@ -252,51 +235,6 @@ const TickerForm = ({ handleSubmit }) => {
 						</FormItem>
 					)}
 				/>
-				<FormField
-					control={form.control}
-					name='benchmark'
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Benchmark</FormLabel>
-							<Select
-								onValueChange={field.onChange}
-								defaultValue={field.value}
-							>
-								<FormControl>
-									<SelectTrigger className='w-[280px]'>
-										<SelectValue placeholder='Default benchmark: SPX' />
-									</SelectTrigger>
-								</FormControl>
-								<SelectContent>
-									{benchmarkEnum.map((benchmarkElem) => (
-										<SelectItem
-											key={benchmarkElem}
-											value={benchmarkElem}
-										>
-											{benchmarkElem}
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-							<FormDescription></FormDescription>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					control={form.control}
-					name='benchmarkGrowthRate'
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Benchmark growth rate</FormLabel>
-							<FormControl>
-								<Input type='number' {...field} />
-							</FormControl>
-							<FormDescription></FormDescription>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
 				<Button className='self-center' type='submit'>
 					Submit
 				</Button>
@@ -305,4 +243,4 @@ const TickerForm = ({ handleSubmit }) => {
 	);
 };
 
-export default TickerForm;
+export default BacktestForm;
