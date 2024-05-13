@@ -67,7 +67,7 @@ public class RetrievalService {
         try {
             return objectMapper.readValue(jsonString, TimeSeriesStockData.class);
         } catch (JsonProcessingException e) {
-            throw new CustomDataProcessingException("Json Processing exception", e);
+            throw new CustomDataProcessingException("Json Processing exception");
         }
     }
 }

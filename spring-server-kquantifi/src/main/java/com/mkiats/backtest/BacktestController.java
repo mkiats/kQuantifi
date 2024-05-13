@@ -23,10 +23,11 @@ public class BacktestController {
 	public ResponseEntity<BacktestResponse> getBacktestResult(
 		@RequestBody BacktestRequest backtestRequest
 	) {
-			BacktestResponse theResponse = backtestService.doExecute(
-				backtestRequest
-			);
-			return ResponseEntity.ok(theResponse);
-
+		System.out.println("\n\nRequest received...");
+		BacktestResponse theResponse = backtestService.doExecute(
+			backtestRequest
+		);
+		System.out.println("Response created...\n\n");
+		return ResponseEntity.ok(theResponse);
 	}
 }

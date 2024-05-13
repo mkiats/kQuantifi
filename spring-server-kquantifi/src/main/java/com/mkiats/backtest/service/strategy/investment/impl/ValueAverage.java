@@ -1,10 +1,12 @@
-package com.mkiats.backtest.service.strategy.investment.impl.valueAverage;
+package com.mkiats.backtest.service.strategy.investment.impl;
 
+import com.mkiats.backtest.dto.BacktestRequest;
 import com.mkiats.backtest.service.strategy.investment.interfaces.InvestmentStrategy;
 import com.mkiats.commons.dataTransferObjects.TimeSeriesStockData;
 import com.mkiats.commons.dataTransferObjects.TimeSeriesStockPrice;
 import com.mkiats.backtest.service.strategy.investment.InvestmentOutput;
 
+import java.sql.Time;
 import java.util.HashMap;
 import java.util.SequencedSet;
 import lombok.Getter;
@@ -16,41 +18,29 @@ import org.springframework.stereotype.Service;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ValueAverageStrategy implements InvestmentStrategy {
+public class ValueAverage implements InvestmentStrategy {
 
-	private ValueAverageParameter theParameter = new ValueAverageParameter();
-
-	// func execute():
-	// Input: {AlgorithmStrategyContext}
-	// Output: {MetricContext}
+	private InvestmentOutput theOutput = new InvestmentOutput();
 
 	@Override
 	public InvestmentOutput executeStrategy(
-		HashMap<String, Object> hashmapParameter
+		BacktestRequest backtestParameter, TimeSeriesStockData timeSeriesStockData
 	) {
-		this.theParameter.deserialise(hashmapParameter);
-		TimeSeriesStockData context =
-			this.theParameter.getTimeSeriesStockData();
-		System.out.println(
-			"ValueAverage.executeStrategy() executed monthly with " +
-			this.theParameter.getPeriodicAmount()
-		);
-		InvestmentOutput res = new InvestmentOutput();
+		System.out.println("Computing ValueAverage...");
 		double cashNeeded = 0;
 		double currentBal = 0;
 		double currentQty = 0;
 		double targetBal = 0;
-		double targetRate = ((this.theParameter.getTargetRate() / 100) + 1);
 		double previousClose = 0;
-		double periodicAmount = 100;
+		double periodicAmount = backtestParameter.getPeriodicAmount();
 
-		SequencedSet<String> keyList = context
+		SequencedSet<String> keyList = timeSeriesStockData
 			.getPriceList()
 			.sequencedKeySet()
 			.reversed();
 
 		for (String dateKey : keyList) {
-			TimeSeriesStockPrice timeSeriesStockPrice = context
+			TimeSeriesStockPrice timeSeriesStockPrice = timeSeriesStockData
 				.getPriceList()
 				.get(dateKey);
 			if (previousClose == 0) {
@@ -60,7 +50,7 @@ public class ValueAverageStrategy implements InvestmentStrategy {
 				currentQty = periodicAmount / previousClose;
 				currentBal = periodicAmount;
 				targetBal = periodicAmount;
-				res
+				this.theOutput
 					.addTimestamp(dateKey)
 					.addValue(currentBal)
 					.addQuantity(currentQty);
@@ -77,18 +67,18 @@ public class ValueAverageStrategy implements InvestmentStrategy {
 					double qtyToBeAdded = balToBeAdded / currentClose;
 					currentQty = currentQty + qtyToBeAdded;
 					currentBal = targetBal;
-					res
+					this.theOutput
 						.addTimestamp(dateKey)
 						.addValue(currentBal)
 						.addQuantity(currentQty);
 				} else {
-					res
+					this.theOutput
 						.addTimestamp(dateKey)
 						.addValue(currentBal)
 						.addQuantity(currentQty);
 				}
 			}
 		}
-		return res;
+		return this.theOutput;
 	}
 }

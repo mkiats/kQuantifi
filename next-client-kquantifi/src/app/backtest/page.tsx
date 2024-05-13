@@ -22,20 +22,22 @@ const Backtest = () => {
 		console.log(backtestFormOutput);
 		const newTicker: BacktestTicker = {
 			tickerName: backtestFormOutput.tickerName,
-			dcaAmount: backtestFormOutput.dcaAmount,
+			periodicAmount: backtestFormOutput.periodicAmount,
 			leverageFactor: backtestFormOutput.leverageFactor,
-			timeframe: backtestFormOutput.timeframe,
+			frequency: backtestFormOutput.frequency,
 			startDate: backtestFormOutput.startDate,
 			endDate: backtestFormOutput.endDate,
+			desiredStrategy: backtestFormOutput.desiredStrategy,
 		};
 		setBacktestTicker(newTicker);
 		const newBenchmarkTicker: BacktestTicker = {
 			tickerName: backtestFormOutput.benchmark,
-			dcaAmount: backtestFormOutput.dcaAmount,
+			periodicAmount: backtestFormOutput.periodicAmount,
 			leverageFactor: backtestFormOutput.leverageFactor,
-			timeframe: backtestFormOutput.timeframe,
+			frequency: backtestFormOutput.frequency,
 			startDate: backtestFormOutput.startDate,
 			endDate: backtestFormOutput.endDate,
+			desiredStrategy: backtestFormOutput.desiredStrategy,
 		};
 		setBenchmarkTicker(newBenchmarkTicker);
 	};
@@ -49,7 +51,7 @@ const Backtest = () => {
 		queryKey: [
 			'tickers',
 			backtestTicker?.tickerName,
-			backtestTicker?.timeframe,
+			backtestTicker?.frequency,
 			backtestTicker?.startDate,
 			backtestTicker?.endDate,
 			backtestTicker?.leverageFactor,
@@ -67,7 +69,7 @@ const Backtest = () => {
 		queryKey: [
 			'tickers',
 			benchmarkTicker?.tickerName,
-			benchmarkTicker?.timeframe,
+			benchmarkTicker?.frequency,
 			benchmarkTicker?.startDate,
 			benchmarkTicker?.endDate,
 			benchmarkTicker?.leverageFactor,

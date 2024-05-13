@@ -1,8 +1,9 @@
 export interface BacktestTicker {
     tickerName: string,
-    dcaAmount: number,
+    periodicAmount: number,
     leverageFactor: number,
-    timeframe: string,
+    frequency: string,
     startDate: string,
     endDate: string,
+    desiredStrategy: string,
 }

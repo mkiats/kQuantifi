@@ -1,28 +1,29 @@
 package com.mkiats.backtest.service.strategy.financialRatio.impl;
 
+import com.mkiats.backtest.service.strategy.financialRatio.output.FinancialRatioOutput;
 import com.mkiats.backtest.service.strategy.financialRatio.interfaces.FinancialRatioStrategy;
 import com.mkiats.backtest.service.strategy.investment.InvestmentOutput;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class Sharpe implements FinancialRatioStrategy {
-
-	private final CompoundAnnualGrowthRate compoundAnnualGrowthRate;
-	private final StandardDeviation standardDeviation;
-	private double riskFreeRate = 5.00;
-
-	// Constructor injection
-	public Sharpe(CompoundAnnualGrowthRate theRate, StandardDeviation theSd) {
-		this.compoundAnnualGrowthRate = theRate;
-		this.standardDeviation = theSd;
-	}
+	private final double riskFreeRate = 5.00;
+	private final List<String> ratioDependencies = List.of("CompoundAnnualGrowthRate", "StandardDeviation");
 
 	@Override
-	public double computeRatio(InvestmentOutput investmentOutput) {
-		double expectedRate =
-			this.compoundAnnualGrowthRate.computeRatio(investmentOutput);
-		double standardDeviation =
-			this.standardDeviation.computeRatio(investmentOutput);
-		return (expectedRate - riskFreeRate) / standardDeviation;
+	public FinancialRatioOutput computeRatio(InvestmentOutput investmentOutput, FinancialRatioOutput financialRatioOutput) {
+		System.out.println("Computing Sharpe...");
+
+		double expectedRate = financialRatioOutput.getCagr();
+		double standardDeviation = financialRatioOutput.getStandardDeviation();
+		double sharpe = (expectedRate - this.riskFreeRate) / standardDeviation;
+		financialRatioOutput.setSharpeRatio(sharpe);
+		return financialRatioOutput;
+	}
+	@Override
+	public List<String> getRatioDependencies() {
+		return this.ratioDependencies;
 	}
 }

@@ -10,10 +10,10 @@ import lombok.Setter;
 public class BacktestRequest {
 
 	private String tickerName;
+	private double periodicAmount;
+	private double leverageFactor;
 	private String frequency;
 	private String startDate;
 	private String endDate;
-	private double periodicAmount;
-	private double leverageFactor;
-	private double desiredStrategy;
+	private String desiredStrategy;
 }

@@ -1,10 +1,10 @@
 export interface BacktestFormData {
     tickerName: string,
-    dcaAmount: number,
+    periodicAmount: number,
     leverageFactor: number,
-    timeframe: string,
+    frequency: string,
     startDate: string,
     endDate: string,
+    desiredStrategy: string,
     benchmark: string,
-    benchmarkGrowthRate: number,
 }

@@ -31,11 +31,12 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 
-const timeframeEnum = ['weekly', 'monthly'] as const;
+const frequencyEnum = ['weekly', 'monthly'] as const;
 const benchmarkEnum = ['SPY', 'Compound'] as const;
+const desiredStrategyEnum = ['DollarCostAverage', 'ValueAverage'] as const;
 const formSchema = z.object({
 	tickerName: z.string().min(2),
-	dcaAmount: z.number().int().positive().multipleOf(100).finite().safe(),
+	periodicAmount: z.number().int().positive().multipleOf(100).finite().safe(),
 	leverageFactor: z.coerce
 		.number({ invalid_type_error: 'invalid leverageFactor specified' })
 		.int()
@@ -44,8 +45,8 @@ const formSchema = z.object({
 		.gte(1)
 		.lte(10)
 		.optional(),
-	timeframe: z.enum(timeframeEnum, {
-		required_error: 'timeframe not specified',
+	frequency: z.enum(frequencyEnum, {
+		required_error: 'frequency not specified',
 	}),
 	startDate: z.coerce.date({
 		required_error: 'startDate not specified',
@@ -55,18 +56,13 @@ const formSchema = z.object({
 		required_error: 'endDate not specified',
 		invalid_type_error: 'invalid date specified',
 	}),
+	desiredStrategy: z.enum(desiredStrategyEnum, {
+		invalid_type_error: 'invalid benchmark specified',
+	}),
 	benchmark: z
 		.enum(benchmarkEnum, {
 			invalid_type_error: 'invalid benchmark specified',
 		})
-		.optional(),
-	benchmarkGrowthRate: z.coerce
-		.number({ invalid_type_error: 'invalid growthRate specified' })
-		.int()
-		.positive()
-		.safe()
-		.gte(1)
-		.lte(50)
 		.optional(),
 });
 
@@ -76,13 +72,13 @@ const BacktestForm = ({ handleSubmit }) => {
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			tickerName: 'SPY',
-			dcaAmount: 100,
+			periodicAmount: 100,
 			leverageFactor: 1,
-			timeframe: 'weekly',
+			frequency: 'weekly',
 			startDate: new Date('2000-01-01'),
 			endDate: new Date('2999-01-01'),
+			desiredStrategy: 'DollarCostAverage',
 			benchmark: 'SPY',
-			benchmarkGrowthRate: 10,
 		},
 	});
 
@@ -112,7 +108,7 @@ const BacktestForm = ({ handleSubmit }) => {
 				/>
 				<FormField
 					control={form.control}
-					name='dcaAmount'
+					name='periodicAmount'
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Amount to DCA</FormLabel>
@@ -140,7 +136,7 @@ const BacktestForm = ({ handleSubmit }) => {
 				/>
 				<FormField
 					control={form.control}
-					name='timeframe'
+					name='frequency'
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Timeframe</FormLabel>
@@ -150,16 +146,16 @@ const BacktestForm = ({ handleSubmit }) => {
 							>
 								<FormControl>
 									<SelectTrigger className='w-[280px]'>
-										<SelectValue placeholder='Default timeframe: weekly' />
+										<SelectValue placeholder='Default frequency: weekly' />
 									</SelectTrigger>
 								</FormControl>
 								<SelectContent>
-									{timeframeEnum.map((timeframeElem) => (
+									{frequencyEnum.map((frequencyElem) => (
 										<SelectItem
-											key={timeframeElem}
-											value={timeframeElem}
+											key={frequencyElem}
+											value={frequencyElem}
 										>
-											{timeframeElem}
+											{frequencyElem}
 										</SelectItem>
 									))}
 								</SelectContent>
@@ -253,6 +249,39 @@ const BacktestForm = ({ handleSubmit }) => {
 				/>
 				<FormField
 					control={form.control}
+					name='desiredStrategy'
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Desired Strategy</FormLabel>
+							<Select
+								onValueChange={field.onChange}
+								defaultValue={field.value}
+							>
+								<FormControl>
+									<SelectTrigger className='w-[280px]'>
+										<SelectValue placeholder='Default benchmark: DollarCostAverage' />
+									</SelectTrigger>
+								</FormControl>
+								<SelectContent>
+									{desiredStrategyEnum.map(
+										(desiredStrategyEnum) => (
+											<SelectItem
+												key={desiredStrategyEnum}
+												value={desiredStrategyEnum}
+											>
+												{desiredStrategyEnum}
+											</SelectItem>
+										),
+									)}
+								</SelectContent>
+							</Select>
+							<FormDescription></FormDescription>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
 					name='benchmark'
 					render={({ field }) => (
 						<FormItem>
@@ -277,20 +306,6 @@ const BacktestForm = ({ handleSubmit }) => {
 									))}
 								</SelectContent>
 							</Select>
-							<FormDescription></FormDescription>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					control={form.control}
-					name='benchmarkGrowthRate'
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Benchmark growth rate</FormLabel>
-							<FormControl>
-								<Input type='number' {...field} />
-							</FormControl>
 							<FormDescription></FormDescription>
 							<FormMessage />
 						</FormItem>

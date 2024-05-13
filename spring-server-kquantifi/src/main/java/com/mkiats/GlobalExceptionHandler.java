@@ -2,6 +2,7 @@ package com.mkiats;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.mkiats.backtest.exceptions.RatioDependencyCycleException;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(JsonMappingException.class)
     public ResponseEntity<?> jsonMappingExceptionHandler (JsonMappingException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error processing json input...");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error mapping json input...");
+    }
+
+    @ExceptionHandler(RatioDependencyCycleException.class)
+    public ResponseEntity<?> ratioDependencyCycleExceptionHandler (JsonMappingException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cycle detected in FinancialRatioStrategyList");
     }
 }

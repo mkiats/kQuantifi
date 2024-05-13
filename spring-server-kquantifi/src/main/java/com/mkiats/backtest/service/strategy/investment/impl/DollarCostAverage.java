@@ -1,5 +1,6 @@
-package com.mkiats.backtest.service.strategy.investment.impl.dollarCostAverage;
+package com.mkiats.backtest.service.strategy.investment.impl;
 
+import com.mkiats.backtest.dto.BacktestRequest;
 import com.mkiats.commons.dataTransferObjects.TimeSeriesStockData;
 import com.mkiats.commons.dataTransferObjects.TimeSeriesStockPrice;
 import com.mkiats.backtest.service.strategy.investment.InvestmentOutput;
@@ -7,6 +8,7 @@ import com.mkiats.backtest.service.strategy.investment.interfaces.InvestmentStra
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.sql.Time;
 import java.util.HashMap;
 import java.util.SequencedSet;
 import lombok.Getter;
@@ -18,31 +20,26 @@ import org.springframework.stereotype.Service;
 @NoArgsConstructor
 @Getter
 @Setter
-public class DollarCostAverageStrategy implements InvestmentStrategy {
-
-	private DollarCostAverageParameter theParameter =
-		new DollarCostAverageParameter();
+public class DollarCostAverage implements InvestmentStrategy {
 
 	private InvestmentOutput theOutput = new InvestmentOutput();
 
 	@Override
 	public InvestmentOutput executeStrategy(
-		HashMap<String, Object> hashmapParameters
+		BacktestRequest backtestParameters, TimeSeriesStockData timeSeriesStockData
 	) {
-		this.theParameter.deserialise(hashmapParameters);
-		TimeSeriesStockData stockData =
-			this.theParameter.getTimeSeriesStockData();
-		double dcaAmount = this.theParameter.getPeriodicAmount();
+		System.out.println("Computing DollarCostAverage...");
+		double dcaAmount = backtestParameters.getPeriodicAmount();
 		this.theOutput = new InvestmentOutput();
 
 		double currentAmountInDca = 0;
 		double currentStockQuantity = 0;
-		SequencedSet<String> keyList = stockData
+		SequencedSet<String> keyList = timeSeriesStockData
 			.getPriceList()
 			.sequencedKeySet()
 			.reversed();
 		for (String dateKey : keyList) {
-			TimeSeriesStockPrice timeSeriesStockPrice = stockData
+			TimeSeriesStockPrice timeSeriesStockPrice = timeSeriesStockData
 				.getPriceList()
 				.get(dateKey);
 			double closingPrice = Double.parseDouble(
