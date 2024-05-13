@@ -4,9 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mkiats.commons.dataTransferObjects.TimeSeriesStockData;
-import java.util.Objects;
-
 import com.mkiats.commons.exceptions.CustomDataProcessingException;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -62,12 +61,17 @@ public class RetrievalService {
 
 	public TimeSeriesStockData convertStringToTimeSeriesStockData(
 		String jsonString
-	){
+	) {
 		ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.readValue(jsonString, TimeSeriesStockData.class);
-        } catch (JsonProcessingException e) {
-            throw new CustomDataProcessingException("Json Processing exception");
-        }
-    }
+		try {
+			return objectMapper.readValue(
+				jsonString,
+				TimeSeriesStockData.class
+			);
+		} catch (JsonProcessingException e) {
+			throw new CustomDataProcessingException(
+				"Json Processing exception"
+			);
+		}
+	}
 }

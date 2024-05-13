@@ -1,11 +1,10 @@
 package com.mkiats.backtest.service.strategy.investment.impl;
 
 import com.mkiats.backtest.dto.BacktestRequest;
+import com.mkiats.backtest.service.strategy.investment.InvestmentOutput;
 import com.mkiats.backtest.service.strategy.investment.interfaces.InvestmentStrategy;
 import com.mkiats.commons.dataTransferObjects.TimeSeriesStockData;
 import com.mkiats.commons.dataTransferObjects.TimeSeriesStockPrice;
-import com.mkiats.backtest.service.strategy.investment.InvestmentOutput;
-
 import java.sql.Time;
 import java.util.HashMap;
 import java.util.SequencedSet;
@@ -24,7 +23,8 @@ public class ValueAverage implements InvestmentStrategy {
 
 	@Override
 	public InvestmentOutput executeStrategy(
-		BacktestRequest backtestParameter, TimeSeriesStockData timeSeriesStockData
+		BacktestRequest backtestParameter,
+		TimeSeriesStockData timeSeriesStockData
 	) {
 		System.out.println("Computing ValueAverage...");
 		double cashNeeded = 0;
@@ -50,8 +50,7 @@ public class ValueAverage implements InvestmentStrategy {
 				currentQty = periodicAmount / previousClose;
 				currentBal = periodicAmount;
 				targetBal = periodicAmount;
-				this.theOutput
-					.addTimestamp(dateKey)
+				this.theOutput.addTimestamp(dateKey)
 					.addValue(currentBal)
 					.addQuantity(currentQty);
 			} else {
@@ -67,13 +66,11 @@ public class ValueAverage implements InvestmentStrategy {
 					double qtyToBeAdded = balToBeAdded / currentClose;
 					currentQty = currentQty + qtyToBeAdded;
 					currentBal = targetBal;
-					this.theOutput
-						.addTimestamp(dateKey)
+					this.theOutput.addTimestamp(dateKey)
 						.addValue(currentBal)
 						.addQuantity(currentQty);
 				} else {
-					this.theOutput
-						.addTimestamp(dateKey)
+					this.theOutput.addTimestamp(dateKey)
 						.addValue(currentBal)
 						.addQuantity(currentQty);
 				}

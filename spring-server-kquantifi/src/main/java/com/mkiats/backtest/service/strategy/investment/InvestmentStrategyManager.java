@@ -1,11 +1,9 @@
 package com.mkiats.backtest.service.strategy.investment;
 
 import com.mkiats.backtest.service.strategy.investment.interfaces.InvestmentStrategy;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

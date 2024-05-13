@@ -1,20 +1,19 @@
 package com.mkiats.backtest.service;
 
-import com.mkiats.backtest.service.strategy.financialRatio.output.FinancialRatioOutput;
-import com.mkiats.backtest.service.strategy.financialRatio.interfaces.FinancialRatioStrategy;
-import com.mkiats.backtest.service.strategy.investment.InvestmentOutput;
-import com.mkiats.backtest.service.strategy.investment.interfaces.InvestmentStrategy;
-import com.mkiats.commons.dataTransferObjects.TimeSeriesStockData;
 import com.mkiats.backtest.dto.BacktestRequest;
 import com.mkiats.backtest.dto.BacktestResponse;
 import com.mkiats.backtest.service.strategy.financialRatio.FinancialRatioStrategyManager;
+import com.mkiats.backtest.service.strategy.financialRatio.interfaces.FinancialRatioStrategy;
+import com.mkiats.backtest.service.strategy.financialRatio.output.FinancialRatioOutput;
+import com.mkiats.backtest.service.strategy.investment.InvestmentOutput;
 import com.mkiats.backtest.service.strategy.investment.InvestmentStrategyManager;
+import com.mkiats.backtest.service.strategy.investment.interfaces.InvestmentStrategy;
+import com.mkiats.commons.dataTransferObjects.TimeSeriesStockData;
 import com.mkiats.commons.temp.TempClass;
 import com.mkiats.commons.utils.PrettyJson;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -39,18 +38,33 @@ public class BacktestService {
 		 * Save output to BacktestResponse object		*
 		 * */
 
-//		String financialDataString = retrievalService.fetchTickerData(theBacktestRequest.getTickerName(), theBacktestRequest.getFrequency());
+		//		String financialDataString = retrievalService.fetchTickerData(theBacktestRequest.getTickerName(), theBacktestRequest.getFrequency());
 		String financialDataString = new TempClass().getJsonStringShort();
-		TimeSeriesStockData timeSeriesStockData = retrievalService.convertStringToTimeSeriesStockData(financialDataString);
+		TimeSeriesStockData timeSeriesStockData =
+			retrievalService.convertStringToTimeSeriesStockData(
+				financialDataString
+			);
 
-		InvestmentStrategy desiredStrategy = investmentStrategyManager.getService(theBacktestRequest.getDesiredStrategy());
-		InvestmentOutput desiredStrategyResults = desiredStrategy.executeStrategy(theBacktestRequest, timeSeriesStockData);
+		InvestmentStrategy desiredStrategy =
+			investmentStrategyManager.getService(
+				theBacktestRequest.getDesiredStrategy()
+			);
+		InvestmentOutput desiredStrategyResults =
+			desiredStrategy.executeStrategy(
+				theBacktestRequest,
+				timeSeriesStockData
+			);
 
 		FinancialRatioOutput desiredStrategyRatios = new FinancialRatioOutput();
-		List<String> financialRatioList = financialRatioStrategyManager.getAllServices();
+		List<String> financialRatioList =
+			financialRatioStrategyManager.getAllServices();
 		for (String financialRatioString : financialRatioList) {
-			FinancialRatioStrategy financialRatio = financialRatioStrategyManager.getService(financialRatioString);
-			desiredStrategyRatios = financialRatio.computeRatio(desiredStrategyResults, desiredStrategyRatios);
+			FinancialRatioStrategy financialRatio =
+				financialRatioStrategyManager.getService(financialRatioString);
+			desiredStrategyRatios = financialRatio.computeRatio(
+				desiredStrategyResults,
+				desiredStrategyRatios
+			);
 		}
 
 		BacktestResponse backtestResponse = new BacktestResponse();
@@ -63,5 +77,5 @@ public class BacktestService {
 			throw new RuntimeException("Json pretty print failed...");
 		}
 		return backtestResponse;
-    }
+	}
 }

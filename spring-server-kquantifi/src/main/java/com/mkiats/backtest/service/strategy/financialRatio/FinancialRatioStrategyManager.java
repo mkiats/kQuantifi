@@ -2,22 +2,17 @@ package com.mkiats.backtest.service.strategy.financialRatio;
 
 import com.mkiats.backtest.exceptions.RatioDependencyCycleException;
 import com.mkiats.backtest.service.strategy.financialRatio.interfaces.FinancialRatioStrategy;
-
 import java.util.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class FinancialRatioStrategyManager {
 
-	private final Map<
-		String,
-			FinancialRatioStrategy
-	> financialRatioMap = new HashMap<>();
+	private final Map<String, FinancialRatioStrategy> financialRatioMap =
+		new HashMap<>();
 
-	private List<String> sortedFinancialRatioList =
-		new ArrayList<>();
+	private List<String> sortedFinancialRatioList = new ArrayList<>();
 
 	@Autowired // Construction injection
 	public FinancialRatioStrategyManager(
@@ -30,15 +25,19 @@ public class FinancialRatioStrategyManager {
 				);
 		});
 		this.sortedFinancialRatioList = topologicalSort(strategyServiceList);
-
 	}
+
 	public FinancialRatioStrategy getService(String serviceName) {
 		return financialRatioMap.get(serviceName);
 	}
+
 	public List<String> getAllServices() {
 		return sortedFinancialRatioList;
 	}
-	private List<String> topologicalSort(List<FinancialRatioStrategy> strategyServiceList) {
+
+	private List<String> topologicalSort(
+		List<FinancialRatioStrategy> strategyServiceList
+	) {
 		Map<String, Integer> inDegree = new HashMap<>();
 		Map<String, List<String>> graph = new HashMap<>();
 		Queue<String> queue = new LinkedList<>();
@@ -80,7 +79,9 @@ public class FinancialRatioStrategyManager {
 
 		// Check if there was a cycle in the graph
 		if (sortedOrder.size() != strategyServiceList.size()) {
-			throw new RatioDependencyCycleException("Cycle detected in dependency graph, cannot perform topological sort");
+			throw new RatioDependencyCycleException(
+				"Cycle detected in dependency graph, cannot perform topological sort"
+			);
 		}
 
 		return sortedOrder;

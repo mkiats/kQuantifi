@@ -11,10 +11,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class FinancialRatioOutput {
 
-	private double cagr = 0;
+	private CagrOutput cagrOutput = new CagrOutput();
 	private MaxDrawdownOutput maxDrawdown = new MaxDrawdownOutput();
 	private double sharpeRatio = 0;
 	private double sortinoRatio = 0;
 	private double standardDeviation = 0;
-
 }

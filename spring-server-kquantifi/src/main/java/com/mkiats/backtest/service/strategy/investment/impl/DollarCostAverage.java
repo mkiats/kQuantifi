@@ -1,10 +1,10 @@
 package com.mkiats.backtest.service.strategy.investment.impl;
 
 import com.mkiats.backtest.dto.BacktestRequest;
-import com.mkiats.commons.dataTransferObjects.TimeSeriesStockData;
-import com.mkiats.commons.dataTransferObjects.TimeSeriesStockPrice;
 import com.mkiats.backtest.service.strategy.investment.InvestmentOutput;
 import com.mkiats.backtest.service.strategy.investment.interfaces.InvestmentStrategy;
+import com.mkiats.commons.dataTransferObjects.TimeSeriesStockData;
+import com.mkiats.commons.dataTransferObjects.TimeSeriesStockPrice;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -26,7 +26,8 @@ public class DollarCostAverage implements InvestmentStrategy {
 
 	@Override
 	public InvestmentOutput executeStrategy(
-		BacktestRequest backtestParameters, TimeSeriesStockData timeSeriesStockData
+		BacktestRequest backtestParameters,
+		TimeSeriesStockData timeSeriesStockData
 	) {
 		System.out.println("Computing DollarCostAverage...");
 		double dcaAmount = backtestParameters.getPeriodicAmount();

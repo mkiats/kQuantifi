@@ -2,7 +2,6 @@ package com.mkiats.user;
 
 import com.mkiats.commons.dataAccessObjects.UserServiceDao;
 import com.mkiats.commons.entities.User;
-
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
