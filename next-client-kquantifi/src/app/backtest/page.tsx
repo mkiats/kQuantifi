@@ -55,6 +55,7 @@ const Backtest = () => {
 			backtestTicker?.startDate,
 			backtestTicker?.endDate,
 			backtestTicker?.leverageFactor,
+			backtestTicker?.desiredStrategy
 		],
 		queryFn: () => getBacktestResult(backtestTicker),
 		enabled:
@@ -73,6 +74,7 @@ const Backtest = () => {
 			benchmarkTicker?.startDate,
 			benchmarkTicker?.endDate,
 			benchmarkTicker?.leverageFactor,
+			backtestTicker?.desiredStrategy
 		],
 		queryFn: () => getBacktestResult(benchmarkTicker),
 		enabled:

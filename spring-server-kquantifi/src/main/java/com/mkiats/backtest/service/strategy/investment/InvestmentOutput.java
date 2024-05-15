@@ -12,6 +12,7 @@ public class InvestmentOutput {
 	private ArrayList<Double> stockValue = new ArrayList<>();
 	private ArrayList<Double> stockQuantity = new ArrayList<>();
 	private Double investedAmount = 1.0;
+	private Double periodicAmount = 0.0;
 	private String timeframe = "monthly";
 
 	public InvestmentOutput addTimestamp(String curTimestamp) {
@@ -30,6 +31,7 @@ public class InvestmentOutput {
 	}
 
 	public InvestmentOutput addInvestedAmount(Double dcaAmount) {
+		setPeriodicAmount(dcaAmount);
 		setInvestedAmount(this.getInvestedAmount() + dcaAmount);
 		return this;
 	}

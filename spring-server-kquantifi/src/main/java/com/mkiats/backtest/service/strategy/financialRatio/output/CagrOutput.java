@@ -14,15 +14,15 @@ public class CagrOutput {
 
 	private List<String> timestampArr = new ArrayList<>();
 	private List<Double> cagrArr = new ArrayList<>();
-	private String bestCagr;
-	private String worstCagr;
+	private Double bestCagr;
+	private Double worstCagr;
 
 	public CagrOutput addTimestamp(String theTimestamp) {
 		this.timestampArr.add(theTimestamp);
 		return this;
 	}
 
-	public CagrOutput addDrawdownValue(Double theCagrValue) {
+	public CagrOutput addCagrValue(Double theCagrValue) {
 		this.cagrArr.add(theCagrValue);
 		return this;
 	}

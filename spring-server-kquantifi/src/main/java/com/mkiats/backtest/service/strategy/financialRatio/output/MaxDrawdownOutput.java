@@ -13,9 +13,9 @@ public class MaxDrawdownOutput {
 
 	private List<String> timestampArr = new ArrayList<>();
 	private List<Double> drawdownArr = new ArrayList<>();
-	private String startDateOfWorstDrawdown;
-	private String endDateOfWorstDrawdown;
-	private double worstDrawdownValue;
+	private int startDateOfWorstDrawdownIndex;
+	private int endDateOfWorstDrawdownIndex;
+	private Double worstDrawdownValue;
 
 	public MaxDrawdownOutput addTimestamp(String theTimestamp) {
 		this.timestampArr.add(theTimestamp);

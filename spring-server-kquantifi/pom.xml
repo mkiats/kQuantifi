@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.mkiats</groupId>
-	<artifactId>quantifi</artifactId>
+	<artifactId>kquantifi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>quantifi</name>
-	<description>Backend for Quantifi</description>
+	<description>Backend for kQuantifi</description>
 	<properties>
 		<java.version>21</java.version>
 	</properties>

@@ -20,25 +20,24 @@ public class CompoundAnnualGrowthRate implements FinancialRatioStrategy {
 	) {
 		System.out.println("Computing CAGR...");
 
-		double principal = investmentOutput.getInvestedAmount();
-		double finalValue = investmentOutput.getStockValue().getLast();
-		double numOfCompoundingPeriods = investmentOutput
-			.getStockValue()
-			.size();
-		// Hardcorded to assume 1 period is 1 month
-		// TODO: CAGR to output CagrOutput, computation need take into account frequency, startDate and endDate
-		double timePeriod = numOfCompoundingPeriods / 12;
+		ArrayList<String> stockTimestamp = investmentOutput.getStockTimestamp();
+		ArrayList<Double> stockValue = investmentOutput.getStockValue();
+		ArrayList<Double> stockQuantity = investmentOutput.getStockQuantity();
+		int totalCompoundingPeriods = stockTimestamp.size();
+		double bestCagr = Double.MIN_VALUE;
+		double worstCagr = Double.MAX_VALUE;
 
-		double cagr =
-			((Math.pow(
-						(finalValue / principal),
-						(1 / numOfCompoundingPeriods)
-					) -
-					1) *
-				100 *
-				timePeriod);
-
-		financialRatioOutput.getCagrOutput().addDrawdownValue(cagr);
+		for (int i=1; i<=totalCompoundingPeriods; i++) {
+			double year = i/52.1775;
+			double futureValue = stockValue.get(i-1) * stockQuantity.get(i-1);
+			double cumulativePeriodicValue = i*investmentOutput.getPeriodicAmount();
+			double cagr = ((Math.pow(futureValue / cumulativePeriodicValue , (1 / year)) - 1) * 100);
+			bestCagr = Math.max(bestCagr, cagr);
+			worstCagr = Math.max(worstCagr, cagr);
+			financialRatioOutput.getCagrOutput().addCagrValue(cagr).addTimestamp(stockTimestamp.get(i-1));
+		}
+		financialRatioOutput.getCagrOutput().setBestCagr(bestCagr);
+		financialRatioOutput.getCagrOutput().setWorstCagr(worstCagr);
 		return financialRatioOutput;
 	}
 
