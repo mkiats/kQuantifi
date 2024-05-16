@@ -9,9 +9,9 @@ import lombok.Setter;
 public class InvestmentOutput {
 
 	private ArrayList<String> stockTimestamp = new ArrayList<>();
-	private ArrayList<Double> stockValue = new ArrayList<>();
-	private ArrayList<Double> stockQuantity = new ArrayList<>();
-	private Double investedAmount = 1.0;
+	private ArrayList<Double> stockAdjustedValue = new ArrayList<>();
+	private ArrayList<Double> stockAdjustedQuantity = new ArrayList<>();
+	private Double investedAmount = 0.0;
 	private Double periodicAmount = 0.0;
 	private String timeframe = "monthly";
 
@@ -21,12 +21,12 @@ public class InvestmentOutput {
 	}
 
 	public InvestmentOutput addValue(Double curStockValue) {
-		this.stockValue.add(curStockValue);
+		this.stockAdjustedValue.add(curStockValue);
 		return this;
 	}
 
 	public InvestmentOutput addQuantity(Double curStockQuantity) {
-		this.stockQuantity.add(curStockQuantity);
+		this.stockAdjustedQuantity.add(curStockQuantity);
 		return this;
 	}
 

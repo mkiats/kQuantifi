@@ -39,7 +39,7 @@ public class BacktestService {
 		 * */
 
 		//		String financialDataString = retrievalService.fetchTickerData(theBacktestRequest.getTickerName(), theBacktestRequest.getFrequency());
-		String financialDataString = new TempClass().getJsonString();
+		String financialDataString = new TempClass().getJsonStringShort();
 		TimeSeriesStockData timeSeriesStockData =
 			retrievalService.convertStringToTimeSeriesStockData(
 				financialDataString

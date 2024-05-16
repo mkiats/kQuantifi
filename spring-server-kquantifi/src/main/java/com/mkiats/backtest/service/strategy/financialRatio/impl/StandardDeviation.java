@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class StandardDeviation implements FinancialRatioStrategy {
 
-	private final List<String> ratioDependencies = new ArrayList<>();
+	private final List<String> ratioDependencies = List.of(
+		"CompoundAnnualGrowthRate"
+	);
 
 	@Override
 	public FinancialRatioOutput computeRatio(
@@ -20,10 +22,12 @@ public class StandardDeviation implements FinancialRatioStrategy {
 	) {
 		System.out.println("Computing Standard deviation...");
 
-		ArrayList<Double> priceList = investmentOutput.getStockValue();
+		List<Double> cagrList = financialRatioOutput
+			.getCagrOutput()
+			.getCagrArr();
 		DescriptiveStatistics stats = new DescriptiveStatistics();
-		for (Double d : priceList) {
-			stats.addValue(d);
+		for (Double cagrValue : cagrList) {
+			stats.addValue(cagrValue);
 		}
 		double stdDev = stats.getStandardDeviation();
 		financialRatioOutput.setStandardDeviation(stdDev);

@@ -57,6 +57,7 @@ public class DollarCostAverage implements InvestmentStrategy {
 				.addQuantity(currentStockQuantity)
 				.addInvestedAmount(dcaAmount);
 		}
+		this.theOutput.setTimeframe(backtestParameters.getFrequency());
 		return this.theOutput;
 	}
 }

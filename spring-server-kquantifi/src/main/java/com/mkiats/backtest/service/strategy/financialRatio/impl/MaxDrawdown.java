@@ -20,7 +20,7 @@ public class MaxDrawdown implements FinancialRatioStrategy {
 	) {
 		System.out.println("Computing MaxDrawdown...");
 
-		List<Double> stockValue = investmentOutput.getStockValue();
+		List<Double> stockValue = investmentOutput.getStockAdjustedValue();
 		List<String> stockTimestamp = investmentOutput.getStockTimestamp();
 		int totalCompoundingPeriods = stockTimestamp.size();
 		double maxLoss = -1;
@@ -30,14 +30,18 @@ public class MaxDrawdown implements FinancialRatioStrategy {
 		int worstDrawdownEndDateIndex = -1;
 		boolean drawdownStarted = false;
 
-		for (int i=0; i<totalCompoundingPeriods; i++) {
+		for (int i = 0; i < totalCompoundingPeriods; i++) {
 			double curPrice = stockValue.get(i);
 			String curTimestamp = stockTimestamp.get(i);
+
 			if (curPrice > peak) {
 				// Not in drawdown
 				drawdownStarted = false;
 				peak = curPrice;
-				financialRatioOutput.getMaxDrawdown().addDrawdownValue(0.0).addTimestamp(curTimestamp);
+				financialRatioOutput
+					.getMaxDrawdown()
+					.addDrawdownValue(0.0)
+					.addTimestamp(curTimestamp);
 			} else {
 				// Currently in drawdown
 				if (!drawdownStarted) {
@@ -45,20 +49,25 @@ public class MaxDrawdown implements FinancialRatioStrategy {
 					drawdownStarted = true;
 					tempWorstDrawdownStartDateIndex = i;
 				}
-				if (peak-curPrice < maxLoss) {
+				if (peak - curPrice > maxLoss) {
 					// Confirmed worst drawdown
-					worstDrawdownStartDateIndex = tempWorstDrawdownStartDateIndex;
+					worstDrawdownStartDateIndex =
+						tempWorstDrawdownStartDateIndex;
 					worstDrawdownEndDateIndex = i;
-					maxLoss = peak-curPrice;
+					maxLoss = Math.max(maxLoss, peak - curPrice);
 				}
-				maxLoss = Math.max(maxLoss, peak - curPrice);
-				financialRatioOutput.getMaxDrawdown().addTimestamp(curTimestamp).addDrawdownValue(peak-curPrice);
+				financialRatioOutput
+					.getMaxDrawdown()
+					.addTimestamp(curTimestamp)
+					.addDrawdownValue(peak - curPrice);
 			}
-			financialRatioOutput.getMaxDrawdown().setStartDateOfWorstDrawdownIndex(worstDrawdownStartDateIndex);
-			financialRatioOutput.getMaxDrawdown().setEndDateOfWorstDrawdownIndex(worstDrawdownEndDateIndex);
-			financialRatioOutput.getMaxDrawdown().setWorstDrawdownValue(maxLoss);
 		}
-
+		financialRatioOutput
+			.getMaxDrawdown()
+			.setStartDateOfWorstDrawdownIndex(worstDrawdownStartDateIndex);
+		financialRatioOutput
+			.getMaxDrawdown()
+			.setEndDateOfWorstDrawdownIndex(worstDrawdownEndDateIndex);
 		financialRatioOutput.getMaxDrawdown().setWorstDrawdownValue(maxLoss);
 		return financialRatioOutput;
 	}
