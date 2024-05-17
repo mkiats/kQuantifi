@@ -1,5 +1,4 @@
-import { BacktestFormData } from '@/types/backtest/backtestFormOutput';
-import { BacktestTicker } from '@/types/backtest/backtestTicker';
+import { BacktestTicker } from '@/lib/types/backtest/backtestTicker';
 
 export const getBacktestResult = async (
 	backtestTicker: BacktestTicker,

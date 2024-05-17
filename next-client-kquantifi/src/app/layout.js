@@ -2,8 +2,8 @@ import { Inter } from 'next/font/google';
 import React from 'react';
 import './globals.css';
 import Navbar from '@/components/navbar';
-import { ThemeProvider } from '@/context-provider/theme-provider';
-import { QueryProvider } from '@/context-provider/react-query-provider';
+import { ThemeProvider } from '@/lib/context-provider/theme-provider';
+import { QueryProvider } from '@/lib/context-provider/react-query-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 

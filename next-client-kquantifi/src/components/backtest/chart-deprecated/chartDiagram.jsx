@@ -1,21 +1,20 @@
 'use client';
 import { useEffect, useRef } from 'react';
 import { ColorType, createChart } from 'lightweight-charts';
-import { newMockStockData } from '@/api/mockData';
+import { newMockStockData } from '@/lib/constants/mockData';
+import { hslToRgb, hslToRgbString } from '@/lib/utils';
 
 const ChartDiagram = () => {
 	const testData = {
 		newMockStockData,
 		colors: {
-			backgroundColor: 'white',
-			lineColor: '#2962FF',
-			textColor: 'black',
-			areaTopColor: '#2962FF',
-			areaBottomColor: 'rgba(41, 98, 255, 0.28)',
+			backgroundColor: hslToRgbString(224, 71.4, 4.1),
+			lineColor: hslToRgbString(210, 20, 100),
+			textColor: hslToRgbString(210, 20, 100),
 		},
 	};
 
-	const chartContainerRef = useRef();
+	const chartContainerRef = useRef(null);
 
 	useEffect(() => {
 		const data = testData.newMockStockData;
@@ -38,10 +37,8 @@ const ChartDiagram = () => {
 		});
 		chart.timeScale().fitContent();
 
-		const newSeries = chart.addAreaSeries({
-			lineColor: testData.colors.lineColor,
-			topColor: testData.colors.areaTopColor,
-			bottomColor: testData.colors.areaBottomColor,
+		const newSeries = chart.addLineSeries({
+			color: testData.colors.lineColor,
 		});
 		newSeries.setData(data);
 

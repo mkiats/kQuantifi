@@ -1,5 +1,4 @@
 import { newMockStockData } from '@/lib/constants/mockData';
-import TradingViewGraph from '@/components/ui/tradingview-graph';
 
 const MetricSection = () => {
 	const displayData = newMockStockData;
@@ -10,7 +9,7 @@ const MetricSection = () => {
 				LeftSide
 			</div>
 			<div className='w-2/3 p-8'>
-				<TradingViewGraph displayData={displayData} />
+				<Chart />
 			</div>
 		</div>
 	);

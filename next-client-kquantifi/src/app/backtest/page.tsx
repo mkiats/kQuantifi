@@ -1,13 +1,13 @@
 'use client';
 
-import { getBacktestResult } from '@/api/backtest';
-import { BacktestFormData } from '@/types/backtest/backtestFormOutput';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import SetupSection from '@/components/backtest/setup/setupSection';
 import MetricSection from '@/components/backtest/metric/metricSection';
 import DrawdownSection from '@/components/backtest/drawdown/drawdownSection';
-import { BacktestTicker } from '@/types/backtest/backtestTicker';
+import { BacktestFormData } from '@/lib/types/backtest/backtestFormOutput';
+import { BacktestTicker } from '@/lib/types/backtest/backtestTicker';
+import { getBacktestResult } from '@/lib/api/backtest';
 
 const Backtest = () => {
 	// UseState hooks ------------------------------
@@ -55,9 +55,9 @@ const Backtest = () => {
 			backtestTicker?.startDate,
 			backtestTicker?.endDate,
 			backtestTicker?.leverageFactor,
-			backtestTicker?.desiredStrategy
+			backtestTicker?.desiredStrategy,
 		],
-		queryFn: () => getBacktestResult(backtestTicker),
+		queryFn: () => getBacktestResult(backtestTicker!),
 		enabled:
 			!!backtestTicker && Object.values(backtestTicker).every(Boolean),
 	});
@@ -74,9 +74,9 @@ const Backtest = () => {
 			benchmarkTicker?.startDate,
 			benchmarkTicker?.endDate,
 			benchmarkTicker?.leverageFactor,
-			backtestTicker?.desiredStrategy
+			backtestTicker?.desiredStrategy,
 		],
-		queryFn: () => getBacktestResult(benchmarkTicker),
+		queryFn: () => getBacktestResult(benchmarkTicker!),
 		enabled:
 			!!benchmarkTicker && Object.values(benchmarkTicker).every(Boolean),
 	});
