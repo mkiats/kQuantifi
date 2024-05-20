@@ -8,9 +8,10 @@ import com.mkiats.commons.dataTransferObjects.TimeSeriesStockPrice;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.sql.Time;
-import java.util.HashMap;
+import java.time.LocalDateTime;
 import java.util.SequencedSet;
+
+import com.mkiats.commons.utils.DateUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -40,22 +41,28 @@ public class DollarCostAverage implements InvestmentStrategy {
 			.sequencedKeySet()
 			.reversed();
 		for (String dateKey : keyList) {
-			TimeSeriesStockPrice timeSeriesStockPrice = timeSeriesStockData
-				.getPriceList()
-				.get(dateKey);
-			double closingPrice = Double.parseDouble(
-				timeSeriesStockPrice.getAdjustedClose()
-			);
-			double dcaQuantity = BigDecimal.valueOf(dcaAmount / closingPrice)
-				.round(new MathContext(4, RoundingMode.HALF_EVEN))
-				.doubleValue();
-			currentAmountInDca = currentStockQuantity * closingPrice;
-			currentAmountInDca = currentAmountInDca + dcaAmount;
-			currentStockQuantity = currentStockQuantity + dcaQuantity;
-			this.theOutput.addTimestamp(dateKey)
-				.addValue(currentAmountInDca)
-				.addQuantity(currentStockQuantity)
-				.addInvestedAmount(dcaAmount);
+			System.out.println(backtestParameters.getStartDate());
+			LocalDateTime localDateTimeKey = DateUtils.convertStringToLocalDate(dateKey, "yyyy-MM-dd").atStartOfDay();
+			if (localDateTimeKey.isAfter(DateUtils.convertStringToLocalDateTime(backtestParameters.getStartDate(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")) &&
+				localDateTimeKey.isBefore(DateUtils.convertStringToLocalDateTime(backtestParameters.getEndDate(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"))
+			) {
+				TimeSeriesStockPrice timeSeriesStockPrice = timeSeriesStockData
+						.getPriceList()
+						.get(dateKey);
+				double closingPrice = Double.parseDouble(
+						timeSeriesStockPrice.getAdjustedClose()
+				);
+				double dcaQuantity = BigDecimal.valueOf(dcaAmount / closingPrice)
+						.round(new MathContext(4, RoundingMode.HALF_EVEN))
+						.doubleValue();
+				currentAmountInDca = currentStockQuantity * closingPrice;
+				currentAmountInDca = currentAmountInDca + dcaAmount;
+				currentStockQuantity = currentStockQuantity + dcaQuantity;
+				this.theOutput.addTimestamp(dateKey)
+						.addValue(currentAmountInDca)
+						.addQuantity(currentStockQuantity)
+						.addInvestedAmount(dcaAmount);
+			}
 		}
 		this.theOutput.setTimeframe(backtestParameters.getFrequency());
 		return this.theOutput;

@@ -76,7 +76,7 @@ const BacktestForm = ({ handleSubmit }) => {
 			leverageFactor: 1,
 			frequency: 'weekly',
 			startDate: new Date('2000-01-01'),
-			endDate: new Date('2999-01-01'),
+			endDate: new Date(Date.now()),
 			desiredStrategy: 'DollarCostAverage',
 			benchmark: 'SPY',
 		},
