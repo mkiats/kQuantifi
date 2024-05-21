@@ -1,45 +1,48 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SetupSection from '@/components/backtest/setup/setupSection';
 import MetricSection from '@/components/backtest/metric/metricSection';
 import DrawdownSection from '@/components/backtest/drawdown/drawdownSection';
-import { BacktestFormData } from '@/lib/types/backtest/backtestFormOutput';
-import { BacktestTicker } from '@/lib/types/backtest/backtestTicker';
+import { BacktestFormData } from '@/components/backtest/setup/backtestForm';
+import { BacktestRequest } from '@/lib/types/backtest/backtestRequest';
 import { getBacktestResult } from '@/lib/api/backtest';
+import { mockStockData } from '@/lib/constants/mockData';
+import { TimeValue } from '@/lib/types/backtest/timeValueSeries';
 
 const Backtest = () => {
 	// UseState hooks ------------------------------
-	const [backtestTicker, setBacktestTicker] = useState<BacktestTicker | null>(
-		null,
-	);
+	const [backtestTicker, setBacktestTicker] =
+		useState<BacktestRequest | null>(null);
 	const [benchmarkTicker, setBenchmarkTicker] =
-		useState<BacktestTicker | null>(null);
+		useState<BacktestRequest | null>(null);
 
 	// Submit handlers ------------------------------
-	const submitHandler = (backtestFormOutput: BacktestFormData): void => {
-		console.log(backtestFormOutput);
-		const newTicker: BacktestTicker = {
-			tickerName: backtestFormOutput.tickerName,
-			periodicAmount: backtestFormOutput.periodicAmount,
-			leverageFactor: backtestFormOutput.leverageFactor,
-			frequency: backtestFormOutput.frequency,
-			startDate: backtestFormOutput.startDate,
-			endDate: backtestFormOutput.endDate,
-			desiredStrategy: backtestFormOutput.desiredStrategy,
+	const submitHandler = (backtestFormData: BacktestFormData): void => {
+		console.log(backtestFormData);
+		const newTicker: BacktestRequest = {
+			tickerName: backtestFormData.tickerName,
+			periodicAmount: backtestFormData.periodicAmount,
+			leverageFactor: backtestFormData.leverageFactor,
+			frequency: backtestFormData.frequency,
+			startDate: backtestFormData.startDate.toString(),
+			endDate: backtestFormData.endDate.toString(),
+			desiredStrategy: backtestFormData.desiredStrategy,
 		};
 		setBacktestTicker(newTicker);
-		const newBenchmarkTicker: BacktestTicker = {
-			tickerName: backtestFormOutput.benchmark,
-			periodicAmount: backtestFormOutput.periodicAmount,
-			leverageFactor: backtestFormOutput.leverageFactor,
-			frequency: backtestFormOutput.frequency,
-			startDate: backtestFormOutput.startDate,
-			endDate: backtestFormOutput.endDate,
-			desiredStrategy: backtestFormOutput.desiredStrategy,
-		};
-		setBenchmarkTicker(newBenchmarkTicker);
+		if (backtestFormData.benchmark) {
+			const newBenchmarkTicker: BacktestRequest = {
+				tickerName: backtestFormData.benchmark,
+				periodicAmount: backtestFormData.periodicAmount,
+				leverageFactor: backtestFormData.leverageFactor,
+				frequency: backtestFormData.frequency,
+				startDate: backtestFormData.startDate.toString(),
+				endDate: backtestFormData.endDate.toString(),
+				desiredStrategy: backtestFormData.desiredStrategy,
+			};
+			setBenchmarkTicker(newBenchmarkTicker);
+		}
 	};
 
 	// UseQuery hooks ------------------------------
@@ -81,17 +84,37 @@ const Backtest = () => {
 			!!benchmarkTicker && Object.values(benchmarkTicker).every(Boolean),
 	});
 
+	let metricTimeValue: TimeValue[] = [];
+	useEffect(() => {
+		if (backtestTickerResult) {
+			let size =
+				backtestTickerResult?.investmentOutput.stockTimestamp.length;
+			for (let i = 0; i < size!; i++) {
+				metricTimeValue.push({
+					time: backtestTickerResult.investmentOutput.stockTimestamp[
+						i
+					],
+					value: backtestTickerResult.investmentOutput
+						.stockAdjustedValue[i],
+				});
+			}
+		}
+	}, [backtestTickerResult]);
+
 	// Return ------------------------------
 	return (
 		<div className='flex flex-col justify-center items-center gap-8'>
-			<SetupSection backtestSubmitHandler={submitHandler} />
+			<SetupSection submitHandler={submitHandler} />
 			{backtestTickerIsFetched && (
-				<div>
-					Response is received: {JSON.stringify(backtestTickerResult)}
-				</div>
+				<>
+					<div>
+						Response is received:{' '}
+						{JSON.stringify(backtestTickerResult)}
+					</div>
+					<MetricSection chartData={metricTimeValue} />
+					<DrawdownSection />
+				</>
 			)}
-			<MetricSection />
-			<DrawdownSection />
 		</div>
 	);
 };

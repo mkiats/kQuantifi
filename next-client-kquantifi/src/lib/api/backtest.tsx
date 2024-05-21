@@ -1,8 +1,9 @@
-import { BacktestTicker } from '@/lib/types/backtest/backtestTicker';
+import { BacktestRequest } from "../types/backtest/backtestRequest";
+import { BacktestResponse } from "../types/backtest/backtestResponse";
 
 export const getBacktestResult = async (
-	backtestTicker: BacktestTicker,
-): Promise<String> => {
+	backtestTicker: BacktestRequest,
+): Promise<BacktestResponse> => {
 	const response = await fetch('http://localhost:8080/backtests', {
 		method: 'POST',
 		headers: {
@@ -11,10 +12,8 @@ export const getBacktestResult = async (
 		body: JSON.stringify(backtestTicker),
 	});
 	if (!response.ok) {
-		// Throwing an error in an async function causes the returned Promise to be rejected
 		throw new Error('Network response was not ok');
 	}
-	// When you return something from an async function, that value is wrapped in a Promise
 	return response.json();
 };
 

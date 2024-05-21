@@ -6,22 +6,20 @@ import java.time.format.DateTimeFormatter;
 public class DateUtils {
 
 	public static LocalDateTime convertStringToLocalDateTime(String timestamp, String formatterPattern) {
-//		"Tue Jan 01 2999 08:00:00"
-//		"E MMM dd y HH:mm:ss"
-		System.out.println("Converting timestamp: " + timestamp);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
 				formatterPattern
 		);
-		return LocalDateTime.parse(timestamp, formatter);
+		LocalDateTime localDateTimeObject = LocalDateTime.parse(timestamp, formatter);
+		System.out.println("Converting timestamp: " + timestamp + "\nFormatter pattern used: " + formatterPattern + "\nlocalDateTime created: " + localDateTimeObject);
+		return localDateTimeObject;
 	}
 	public static LocalDate convertStringToLocalDate(String timestamp, String formatterPattern) {
-//		"Tue Jan 01 2999 08:00:00"
-//		"E MMM dd y HH:mm:ss"
-		System.out.println("Converting timestamp: " + timestamp);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
 				formatterPattern
 		);
-		return LocalDate.parse(timestamp, formatter);
+		LocalDate localDateObject = LocalDate.parse(timestamp, formatter);
+		System.out.println("\nConverting timestamp: " + timestamp + "\nFormatter pattern used: " + formatterPattern + "\nLocalDate created: " + localDateObject);
+		return localDateObject;
 	}
 
 	public static double convertStringToUnix(String timestamp, String formatterPattern) {

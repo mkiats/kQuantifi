@@ -41,10 +41,9 @@ public class DollarCostAverage implements InvestmentStrategy {
 			.sequencedKeySet()
 			.reversed();
 		for (String dateKey : keyList) {
-			System.out.println(backtestParameters.getStartDate());
 			LocalDateTime localDateTimeKey = DateUtils.convertStringToLocalDate(dateKey, "yyyy-MM-dd").atStartOfDay();
-			if (localDateTimeKey.isAfter(DateUtils.convertStringToLocalDateTime(backtestParameters.getStartDate(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")) &&
-				localDateTimeKey.isBefore(DateUtils.convertStringToLocalDateTime(backtestParameters.getEndDate(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"))
+			if (localDateTimeKey.isAfter(DateUtils.convertStringToLocalDateTime(backtestParameters.getStartDate(), "EEE MMM dd yyyy HH:mm:ss 'GMT'Z (zzzz)")) &&
+				localDateTimeKey.isBefore(DateUtils.convertStringToLocalDateTime(backtestParameters.getEndDate(), "EEE MMM dd yyyy HH:mm:ss 'GMT'Z (zzzz)"))
 			) {
 				TimeSeriesStockPrice timeSeriesStockPrice = timeSeriesStockData
 						.getPriceList()

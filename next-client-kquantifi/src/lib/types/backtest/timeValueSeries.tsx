@@ -1,8 +1,4 @@
-export interface TimeValueSeries {
-    displayData: TimeValue[]
-}
-
-interface TimeValue {
-    time: number,
+export interface TimeValue {
+    time: string,
     value: number,
 }

@@ -7,7 +7,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BacktestResponse {
+public class
+BacktestResponse {
 
 	private InvestmentOutput investmentOutput;
 	private FinancialRatioOutput financialRatioOutput;

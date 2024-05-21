@@ -1,10 +1,20 @@
 'use client';
 import { useEffect, useRef } from 'react';
-import { ColorType, createChart, LineData } from 'lightweight-charts';
-import { hslToRgbString } from '@/lib/utils';
-import { TimeValueSeries } from '@/lib/types/backtest/timeValueSeries';
+import { AreaData, ColorType, createChart, LineData } from 'lightweight-charts';
+import { hslToRgbString } from '@/lib/utils/utils';
+import {
+	TimeValue,
+} from '@/lib/types/backtest/timeValueSeries';
 
-const TradingViewGraph: React.FC<TimeValueSeries> = ({ displayData }) => {
+interface TradingViewGraphProps {
+	rightOffset: number;
+	displayData: TimeValue[];
+}
+
+const TradingViewGraph: React.FC<TradingViewGraphProps> = ({
+	rightOffset,
+	displayData,
+}) => {
 	const colors: {
 		backgroundColor: string;
 		lineColor: string;
@@ -34,21 +44,58 @@ const TradingViewGraph: React.FC<TimeValueSeries> = ({ displayData }) => {
 			},
 			width: chartContainerRef.current!.clientWidth,
 			height: 500,
+			crosshair: {
+				horzLine: {
+					visible: false,
+					labelVisible: false,
+				},
+				vertLine: {
+					labelVisible: false,
+				},
+			},
+			grid: {
+				vertLines: {
+					visible: false,
+				},
+				horzLines: {
+					visible: false,
+				},
+			},
+			handleScroll: {
+				mouseWheel: false,
+				pressedMouseMove: false,
+				horzTouchDrag: false,
+				vertTouchDrag: false,
+			},
+			handleScale: {
+				mouseWheel: false,
+				pinch: false,
+				axisPressedMouseMove: false,
+			},
+			timeScale: {
+				rightOffset: 5,
+			},
 		});
 		chart.timeScale().fitContent();
 
-		const newSeries = chart.addLineSeries({
-			color: colors.lineColor,
+		const newSeries = chart.addAreaSeries({
+			topColor: '#2962FF',
+			bottomColor: 'rgba(41, 98, 255, 0.28)',
+			lineColor: '#2962FF',
+			lineWidth: 2,
+			crosshairMarkerVisible: false,
 		});
 
-		const lineData: LineData[] = displayData.map((item) => ({
-			time: Math.floor(
-				new Date(item.time).getTime() / 1000,
-			) as LineData['time'], // Convert to Unix timestamp in seconds
-			value: item.value,
-		}));
-
-		newSeries.setData(lineData);
+		const seriesData: AreaData[] =
+			displayData.map(
+				(element: TimeValue): AreaData => {
+					return {
+						time: element.time,
+						value: element.value,
+					};
+				},
+			);
+		newSeries.setData(seriesData);
 
 		window.addEventListener('resize', handleResize);
 

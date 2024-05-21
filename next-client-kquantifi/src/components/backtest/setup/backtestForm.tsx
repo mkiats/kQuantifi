@@ -22,7 +22,7 @@ import {
 import { Calendar } from '@/components/ui/calendar';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/utils';
 import {
 	Select,
 	SelectContent,
@@ -34,6 +34,7 @@ import {
 const frequencyEnum = ['weekly', 'monthly'] as const;
 const benchmarkEnum = ['SPY', 'Compound'] as const;
 const desiredStrategyEnum = ['DollarCostAverage', 'ValueAverage'] as const;
+
 const formSchema = z.object({
 	tickerName: z.string().min(2),
 	periodicAmount: z.number().int().positive().multipleOf(100).finite().safe(),
@@ -43,8 +44,7 @@ const formSchema = z.object({
 		.positive()
 		.safe()
 		.gte(1)
-		.lte(10)
-		.optional(),
+		.lte(10),
 	frequency: z.enum(frequencyEnum, {
 		required_error: 'frequency not specified',
 	}),
@@ -66,7 +66,13 @@ const formSchema = z.object({
 		.optional(),
 });
 
-const BacktestForm = ({ handleSubmit }) => {
+export type BacktestFormData = z.infer<typeof formSchema>;
+
+interface BacktestFormProps {
+	submitHandler: (backtestFormData: BacktestFormData) => void;
+}
+
+const BacktestForm: React.FC<BacktestFormProps> = ({ submitHandler }) => {
 	const form = useForm<z.infer<typeof formSchema>>({
 		mode: 'onSubmit',
 		resolver: zodResolver(formSchema),
@@ -82,8 +88,8 @@ const BacktestForm = ({ handleSubmit }) => {
 		},
 	});
 
-	function onSubmit(values: z.infer<typeof formSchema>) {
-		handleSubmit(values);
+	function onSubmit(values: BacktestFormData) {
+		submitHandler(values);
 	}
 
 	return (

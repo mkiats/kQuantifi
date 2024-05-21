@@ -1,4 +1,4 @@
-export interface BacktestFormData {
+export interface BacktestRequest {
     tickerName: string,
     periodicAmount: number,
     leverageFactor: number,
@@ -6,5 +6,4 @@ export interface BacktestFormData {
     startDate: string,
     endDate: string,
     desiredStrategy: string,
-    benchmark: string,
 }
