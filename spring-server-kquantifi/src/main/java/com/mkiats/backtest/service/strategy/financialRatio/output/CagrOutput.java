@@ -3,6 +3,8 @@ package com.mkiats.backtest.service.strategy.financialRatio.output;
 import com.mkiats.backtest.exceptions.RatioComputationException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.mkiats.commons.dataTransferObjects.TimeValue;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,8 +14,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CagrOutput {
 
-	private List<String> timestampArr = new ArrayList<>();
-	private List<Double> cagrArr = new ArrayList<>();
+	private ArrayList<String> timestampArr = new ArrayList<>();
+	private ArrayList<Double> cagrArr = new ArrayList<>();
+	private ArrayList<TimeValue> chartData = new ArrayList<>();
+	private int chartSize = 0;
 	private Double bestCagr;
 	private Double worstCagr;
 
@@ -33,5 +37,10 @@ public class CagrOutput {
 		} else {
 			throw new RatioComputationException("Unable to calculate CAGR...");
 		}
+	}
+
+	public void addTimeValue(String theTime, Double theValue) {
+		chartData.add(new TimeValue(theTime, theValue));
+		setChartSize(this.chartData.size());
 	}
 }

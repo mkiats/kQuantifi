@@ -5,6 +5,8 @@ import com.mkiats.backtest.service.strategy.financialRatio.output.FinancialRatio
 import com.mkiats.backtest.service.strategy.investment.InvestmentOutput;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.mkiats.commons.dataTransferObjects.TimeValue;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,19 +22,16 @@ public class MaxDrawdown implements FinancialRatioStrategy {
 	) {
 		System.out.println("Computing MaxDrawdown...");
 
-		List<Double> stockValue = investmentOutput.getStockAdjustedValue();
-		List<String> stockTimestamp = investmentOutput.getStockTimestamp();
-		int totalCompoundingPeriods = stockTimestamp.size();
 		double maxLoss = -1;
 		double peak = Double.MIN_VALUE;
-		int tempWorstDrawdownStartDateIndex = -1;
-		int worstDrawdownStartDateIndex = -1;
-		int worstDrawdownEndDateIndex = -1;
+		String tempWorstDrawdownStartDateIndex = "";
+		String worstDrawdownStartDateIndex= "";
+		String worstDrawdownEndDateIndex= "";
 		boolean drawdownStarted = false;
 
-		for (int i = 0; i < totalCompoundingPeriods; i++) {
-			double curPrice = stockValue.get(i);
-			String curTimestamp = stockTimestamp.get(i);
+		for (TimeValue theTimeValue: investmentOutput.getChartData()) {
+			String curTimestamp = theTimeValue.time();
+			double curPrice = theTimeValue.value();
 
 			if (curPrice > peak) {
 				// Not in drawdown
@@ -42,24 +41,26 @@ public class MaxDrawdown implements FinancialRatioStrategy {
 					.getMaxDrawdown()
 					.addDrawdownValue(0.0)
 					.addTimestamp(curTimestamp);
+				financialRatioOutput.getMaxDrawdown().addTimeValue(curTimestamp, 0.0);
 			} else {
 				// Currently in drawdown
 				if (!drawdownStarted) {
 					// Note down start of dropdown
 					drawdownStarted = true;
-					tempWorstDrawdownStartDateIndex = i;
+					tempWorstDrawdownStartDateIndex = curTimestamp;
 				}
 				if (peak - curPrice > maxLoss) {
 					// Confirmed worst drawdown
 					worstDrawdownStartDateIndex =
 						tempWorstDrawdownStartDateIndex;
-					worstDrawdownEndDateIndex = i;
+					worstDrawdownEndDateIndex = curTimestamp;
 					maxLoss = Math.max(maxLoss, peak - curPrice);
 				}
 				financialRatioOutput
 					.getMaxDrawdown()
 					.addTimestamp(curTimestamp)
 					.addDrawdownValue(peak - curPrice);
+				financialRatioOutput.getMaxDrawdown().addTimeValue(curTimestamp, peak-curPrice);
 			}
 		}
 		financialRatioOutput
