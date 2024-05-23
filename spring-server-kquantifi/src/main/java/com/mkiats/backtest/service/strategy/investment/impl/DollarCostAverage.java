@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 @Setter
 public class DollarCostAverage implements InvestmentStrategy {
 
-	private InvestmentOutput theOutput = new InvestmentOutput();
+	private InvestmentOutput theOutput;
 
 	@Override
 	public InvestmentOutput executeStrategy(
@@ -31,6 +31,7 @@ public class DollarCostAverage implements InvestmentStrategy {
 		TimeSeriesStockData timeSeriesStockData
 	) {
 		System.out.println("Computing DollarCostAverage...");
+		this.theOutput = new InvestmentOutput();
 		double periodicAmount = backtestParameters.getPeriodicAmount();
 		this.theOutput.setPeriodicAmount(periodicAmount);
 

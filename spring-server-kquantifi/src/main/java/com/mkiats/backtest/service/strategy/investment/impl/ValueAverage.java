@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 @Setter
 public class ValueAverage implements InvestmentStrategy {
 
-	private InvestmentOutput theOutput = new InvestmentOutput();
+	private InvestmentOutput theOutput;
 
 	@Override
 	public InvestmentOutput executeStrategy(
@@ -27,6 +27,7 @@ public class ValueAverage implements InvestmentStrategy {
 		TimeSeriesStockData timeSeriesStockData
 	) {
 		System.out.println("Computing ValueAverage...");
+		this.theOutput = new InvestmentOutput();
 		double cashNeeded = 0;
 		double currentBal = 0;
 		double currentQty = 0;
