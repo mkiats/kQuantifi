@@ -33,6 +33,7 @@ public class ValueAverage implements InvestmentStrategy {
 		double targetBal = 0;
 		double previousClose = 0;
 		double periodicAmount = backtestParameter.getPeriodicAmount();
+		this.theOutput.setPeriodicAmount(periodicAmount);
 
 		SequencedSet<String> keyList = timeSeriesStockData
 			.getPriceList()
@@ -50,9 +51,8 @@ public class ValueAverage implements InvestmentStrategy {
 				currentQty = periodicAmount / previousClose;
 				currentBal = periodicAmount;
 				targetBal = periodicAmount;
-				this.theOutput.addTimestamp(dateKey)
-					.addValue(currentBal)
-					.addQuantity(currentQty);
+				this.theOutput.addQuantity(currentQty).addTimeValue(dateKey, currentBal);
+
 			} else {
 				double currentClose = Double.parseDouble(
 					timeSeriesStockPrice.getAdjustedClose()
@@ -66,13 +66,9 @@ public class ValueAverage implements InvestmentStrategy {
 					double qtyToBeAdded = balToBeAdded / currentClose;
 					currentQty = currentQty + qtyToBeAdded;
 					currentBal = targetBal;
-					this.theOutput.addTimestamp(dateKey)
-						.addValue(currentBal)
-						.addQuantity(currentQty);
+					this.theOutput.addQuantity(currentQty).addTimeValue(dateKey, currentBal);
 				} else {
-					this.theOutput.addTimestamp(dateKey)
-						.addValue(currentBal)
-						.addQuantity(currentQty);
+					this.theOutput.addQuantity(currentQty).addTimeValue(dateKey, currentBal);
 				}
 			}
 		}

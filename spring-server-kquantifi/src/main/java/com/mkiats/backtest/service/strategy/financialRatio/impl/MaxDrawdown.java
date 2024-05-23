@@ -3,6 +3,9 @@ package com.mkiats.backtest.service.strategy.financialRatio.impl;
 import com.mkiats.backtest.service.strategy.financialRatio.interfaces.FinancialRatioStrategy;
 import com.mkiats.backtest.service.strategy.financialRatio.output.FinancialRatioOutput;
 import com.mkiats.backtest.service.strategy.investment.InvestmentOutput;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,11 +40,7 @@ public class MaxDrawdown implements FinancialRatioStrategy {
 				// Not in drawdown
 				drawdownStarted = false;
 				peak = curPrice;
-				financialRatioOutput
-					.getMaxDrawdown()
-					.addDrawdownValue(0.0)
-					.addTimestamp(curTimestamp);
-				financialRatioOutput.getMaxDrawdown().addTimeValue(curTimestamp, 0.0);
+				financialRatioOutput.getMaxDrawdown().addTimeValue(curTimestamp, 100.0);
 			} else {
 				// Currently in drawdown
 				if (!drawdownStarted) {
@@ -56,11 +55,7 @@ public class MaxDrawdown implements FinancialRatioStrategy {
 					worstDrawdownEndDateIndex = curTimestamp;
 					maxLoss = Math.max(maxLoss, peak - curPrice);
 				}
-				financialRatioOutput
-					.getMaxDrawdown()
-					.addTimestamp(curTimestamp)
-					.addDrawdownValue(peak - curPrice);
-				financialRatioOutput.getMaxDrawdown().addTimeValue(curTimestamp, peak-curPrice);
+				financialRatioOutput.getMaxDrawdown().addTimeValue(curTimestamp, calculateDrawdownValue(curPrice, peak));
 			}
 		}
 		financialRatioOutput
@@ -76,5 +71,11 @@ public class MaxDrawdown implements FinancialRatioStrategy {
 	@Override
 	public List<String> getRatioDependencies() {
 		return this.ratioDependencies;
+	}
+
+	public double calculateDrawdownValue(double curPrice, double peak) {
+		BigDecimal rawDrawdown = new BigDecimal((peak-curPrice)*100/peak);
+		BigDecimal roundedDrawdown = rawDrawdown.setScale(2, RoundingMode.HALF_UP);
+		return roundedDrawdown.doubleValue();
 	}
 }

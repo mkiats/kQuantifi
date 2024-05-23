@@ -5,6 +5,8 @@ import com.mkiats.backtest.service.strategy.financialRatio.output.FinancialRatio
 import com.mkiats.backtest.service.strategy.investment.InvestmentOutput;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.mkiats.commons.dataTransferObjects.TimeValue;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +24,12 @@ public class StandardDeviation implements FinancialRatioStrategy {
 	) {
 		System.out.println("Computing Standard deviation...");
 
-		List<Double> cagrList = financialRatioOutput
-			.getCagrOutput()
-			.getCagrArr();
+		List<TimeValue> cagrList = financialRatioOutput
+			.getCagr()
+			.getChartData();
 		DescriptiveStatistics stats = new DescriptiveStatistics();
-		for (Double cagrValue : cagrList) {
-			stats.addValue(cagrValue);
+		for (TimeValue cagrTimeValue : cagrList) {
+			stats.addValue(cagrTimeValue.value());
 		}
 		double stdDev = stats.getStandardDeviation();
 		financialRatioOutput.setStandardDeviation(stdDev);

@@ -21,24 +21,8 @@ public class InvestmentOutput {
 	private Double periodicAmount = 0.0;
 	private String timeframe = "monthly";
 
-	public InvestmentOutput addTimestamp(String curTimestamp) {
-		this.stockTimestamp.add(curTimestamp);
-		return this;
-	}
-
-	public InvestmentOutput addValue(Double curStockValue) {
-		this.stockAdjustedValue.add(curStockValue);
-		return this;
-	}
-
 	public InvestmentOutput addQuantity(Double curStockQuantity) {
 		this.stockAdjustedQuantity.add(curStockQuantity);
-		return this;
-	}
-
-	public InvestmentOutput addInvestedAmount(Double dcaAmount) {
-		setPeriodicAmount(dcaAmount);
-		setInvestedAmount(this.getInvestedAmount() + dcaAmount);
 		return this;
 	}
 

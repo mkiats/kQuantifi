@@ -4,7 +4,6 @@ import com.mkiats.backtest.service.strategy.financialRatio.interfaces.FinancialR
 import com.mkiats.backtest.service.strategy.financialRatio.output.FinancialRatioOutput;
 import com.mkiats.backtest.service.strategy.investment.InvestmentOutput;
 import java.util.List;
-import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,7 +22,7 @@ public class Sharpe implements FinancialRatioStrategy {
 	) {
 		System.out.println("Computing Sharpe...");
 
-		double expectedRate = financialRatioOutput.getCagrOutput().getCagr();
+		double expectedRate = financialRatioOutput.getCagr().getFinalCagr();
 		double standardDeviation = financialRatioOutput.getStandardDeviation();
 		double sharpe = (expectedRate - this.riskFreeRate) / standardDeviation;
 		financialRatioOutput.setSharpeRatio(sharpe);

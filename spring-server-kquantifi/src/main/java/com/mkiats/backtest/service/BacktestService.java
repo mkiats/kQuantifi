@@ -72,7 +72,8 @@ public class BacktestService {
 		backtestResponse.setInvestmentOutput(desiredStrategyResults);
 
 		try {
-			PrettyJson.prettyPrintJson(backtestResponse);
+//			PrettyJson.prettyPrintJson(backtestResponse);
+			System.out.println("TEST");
 		} catch (Exception e) {
 			throw new RuntimeException("Json pretty print failed...");
 		}

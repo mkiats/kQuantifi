@@ -1,38 +1,39 @@
+import { TimeValue } from "./timeValueSeries";
+
 export interface BacktestResponse {
-    investmentOutput: InvestmentOutput;
-    financialRatioOutput: FinancialRatioOutput;
+	investmentOutput: InvestmentOutput;
+	financialRatioOutput: FinancialRatioOutput;
 }
 
 interface InvestmentOutput {
-    stockTimestamp: string[];
-    stockAdjustedValue: number[];
-    stockAdjustedQuantity: number[];
-    investedAmount: number;
-    periodicAmount: number;
-    timeframe: string;
+	stockAdjustedQuantity: number[];
+	chartData: TimeValue[];
+	chartSize: number;
+	investedAmount: number;
+	periodicAmount: number;
+	timeframe: string;
 }
 
 interface CAGR {
-    timestampArr: string[];
-    cagrArr: number[];
-    bestCagr: number;
-    worstCagr: number;
-    cagr: number;
+	chartData: TimeValue[];
+	chartSize: number;
+	bestCagr: number;
+	worstCagr: number;
+	cagr: number;
 }
 
 interface MaxDrawdown {
-    timestampArr: string[];
-    drawdownArr: number[];
-    startDateOfWorstDrawdownIndex: number;
-    endDateOfWorstDrawdownIndex: number;
-    worstDrawdownValue: number;
+	chartData: TimeValue[];
+	chartSize: number;
+	startDateOfWorstDrawdownIndex: string;
+	endDateOfWorstDrawdownIndex: string;
+	worstDrawdownValue: number;
 }
 
 interface FinancialRatioOutput {
-    cagrOutput: CAGR;
-    maxDrawdown: MaxDrawdown;
-    sharpeRatio: number;
-    sortinoRatio: number;
-    standardDeviation: number;
+	cagr: CAGR;
+	maxDrawdown: MaxDrawdown;
+	sharpeRatio: number;
+	sortinoRatio: number;
+	standardDeviation: number;
 }
-

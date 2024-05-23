@@ -31,8 +31,8 @@ public class DollarCostAverage implements InvestmentStrategy {
 		TimeSeriesStockData timeSeriesStockData
 	) {
 		System.out.println("Computing DollarCostAverage...");
-		double dcaAmount = backtestParameters.getPeriodicAmount();
-		this.theOutput = new InvestmentOutput();
+		double periodicAmount = backtestParameters.getPeriodicAmount();
+		this.theOutput.setPeriodicAmount(periodicAmount);
 
 		double currentAmountInDca = 0;
 		double currentStockQuantity = 0;
@@ -51,16 +51,13 @@ public class DollarCostAverage implements InvestmentStrategy {
 				double closingPrice = Double.parseDouble(
 						timeSeriesStockPrice.getAdjustedClose()
 				);
-				double dcaQuantity = BigDecimal.valueOf(dcaAmount / closingPrice)
+				double dcaQuantity = BigDecimal.valueOf(periodicAmount / closingPrice)
 						.round(new MathContext(4, RoundingMode.HALF_EVEN))
 						.doubleValue();
 				currentAmountInDca = currentStockQuantity * closingPrice;
-				currentAmountInDca = currentAmountInDca + dcaAmount;
+				currentAmountInDca = currentAmountInDca + periodicAmount;
 				currentStockQuantity = currentStockQuantity + dcaQuantity;
-				this.theOutput.addTimestamp(dateKey)
-						.addValue(currentAmountInDca)
-						.addQuantity(currentStockQuantity)
-						.addInvestedAmount(dcaAmount);
+				this.theOutput.addQuantity(currentStockQuantity);
 				this.theOutput.addTimeValue(dateKey, currentAmountInDca);
 			}
 		}

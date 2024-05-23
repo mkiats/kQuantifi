@@ -24,7 +24,7 @@ public class TempClass {
 		                "2. high": "524.3800",
 		                "3. low": "493.8600",
 		                "4. close": "100.0000",
-		                "5. adjusted close": "150.0000",
+		                "5. adjusted close": "1.0000",
 		                "6. volume": "1273170896",
 		                "7. dividend amount": "0.0000"
 		            },
@@ -33,7 +33,7 @@ public class TempClass {
 		                "2. high": "524.6100",
 		                "3. low": "504.9100",
 		                "4. close": "523.0700",
-		                "5. adjusted close": "300.0000",
+		                "5. adjusted close": "10.0000",
 		                "6. volume": "1463191348",
 		                "7. dividend amount": "1.5949"
 		            },
@@ -42,7 +42,7 @@ public class TempClass {
 		                "2. high": "510.1300",
 		                "3. low": "483.8000",
 		                "4. close": "508.0800",
-		                "5. adjusted close": "600.0000",
+		                "5. adjusted close": "500.0000",
 		                "6. volume": "1393617806",
 		                "7. dividend amount": "0.0000"
 		            },
@@ -51,7 +51,7 @@ public class TempClass {
 		                "2. high": "491.6200",
 		                "3. low": "466.4300",
 		                "4. close": "482.8800",
-		                "5. adjusted close": "500.0000",
+		                "5. adjusted close": "1000.0000",
 		                "6. volume": "1698148385",
 		                "7. dividend amount": "0.0000"
 		            }

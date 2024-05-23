@@ -2,14 +2,13 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import SetupSection from '@/components/backtest/setup/setupSection';
-import MetricSection from '@/components/backtest/metric/metricSection';
 import DrawdownSection from '@/components/backtest/drawdown/drawdownSection';
 import { BacktestFormData } from '@/components/backtest/setup/backtestForm';
 import { BacktestRequest } from '@/lib/types/backtest/backtestRequest';
 import { getBacktestResult } from '@/lib/api/backtest';
-import { mockStockData } from '@/lib/constants/mockData';
-import { TimeValue } from '@/lib/types/backtest/timeValueSeries';
+import CagrSection from '@/components/backtest/cagr/cagrSection';
+import SummarySection from '@/components/backtest/summary/summarySection';
+import BacktestFormSection from '@/components/backtest/setup/backtestFormSection';
 
 const Backtest = () => {
 	// UseState hooks ------------------------------
@@ -84,35 +83,29 @@ const Backtest = () => {
 			!!benchmarkTicker && Object.values(benchmarkTicker).every(Boolean),
 	});
 
-	let metricTimeValue: TimeValue[] = [];
-	useEffect(() => {
-		if (backtestTickerResult) {
-			let size =
-				backtestTickerResult?.investmentOutput.stockTimestamp.length;
-			for (let i = 0; i < size!; i++) {
-				metricTimeValue.push({
-					time: backtestTickerResult.investmentOutput.stockTimestamp[
-						i
-					],
-					value: backtestTickerResult.investmentOutput
-						.stockAdjustedValue[i],
-				});
-			}
-		}
-	}, [backtestTickerResult]);
-
 	// Return ------------------------------
 	return (
 		<div className='flex flex-col justify-center items-center gap-8'>
-			<SetupSection submitHandler={submitHandler} />
+			<BacktestFormSection submitHandler={submitHandler} />
 			{backtestTickerIsFetched && (
 				<>
-					<div>
-						Response is received:{' '}
-						{JSON.stringify(backtestTickerResult)}
-					</div>
-					<MetricSection chartData={metricTimeValue} />
-					<DrawdownSection />
+					<SummarySection
+						chartData={
+							backtestTickerResult!.investmentOutput.chartData
+						}
+					/>
+					<CagrSection
+						chartData={
+							backtestTickerResult!.financialRatioOutput.cagr
+								.chartData
+						}
+					/>
+					<DrawdownSection
+						chartData={
+							backtestTickerResult!.financialRatioOutput
+								.maxDrawdown.chartData
+						}
+					/>
 				</>
 			)}
 		</div>

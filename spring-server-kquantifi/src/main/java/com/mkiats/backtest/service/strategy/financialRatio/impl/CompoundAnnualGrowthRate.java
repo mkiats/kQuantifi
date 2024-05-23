@@ -33,23 +33,22 @@ public class CompoundAnnualGrowthRate implements FinancialRatioStrategy {
 		for (int i = 1; i <= investmentOutput.getChartSize(); i++) {
 			TimeValue curTimeValue = investmentOutput.getChartData().get(i-1);
 			double year = i / numberOfPeriodsWithinYear;
-			double futureValue = curTimeValue.value();
+			double curValue = curTimeValue.value();
 			double cumulativePeriodicValue =
 				i * investmentOutput.getPeriodicAmount();
 			double cagr =
-				((Math.pow(futureValue / cumulativePeriodicValue, (1 / year)) -
+				((Math.pow(curValue / cumulativePeriodicValue, (1 / year)) -
 						1) *
 					100);
 			bestCagr = Math.max(bestCagr, cagr);
 			worstCagr = Math.min(worstCagr, cagr);
-			financialRatioOutput
-				.getCagrOutput()
-				.addCagrValue(cagr)
-				.addTimestamp(curTimeValue.time());
-			financialRatioOutput.getCagrOutput().addTimeValue(curTimeValue.time(), cagr);
+			System.out.println("CURRENT INDEX IS " + i);
+			System.out.printf("%f, %f, %f, %f%n", year, curValue, cumulativePeriodicValue, cagr);
+			System.out.println();
+			financialRatioOutput.getCagr().addTimeValue(curTimeValue.time(), cagr);
 		}
-		financialRatioOutput.getCagrOutput().setBestCagr(bestCagr);
-		financialRatioOutput.getCagrOutput().setWorstCagr(worstCagr);
+		financialRatioOutput.getCagr().setBestCagr(bestCagr);
+		financialRatioOutput.getCagr().setWorstCagr(worstCagr);
 		return financialRatioOutput;
 	}
 

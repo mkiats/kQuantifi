@@ -14,26 +14,14 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CagrOutput {
 
-	private ArrayList<String> timestampArr = new ArrayList<>();
-	private ArrayList<Double> cagrArr = new ArrayList<>();
 	private ArrayList<TimeValue> chartData = new ArrayList<>();
 	private int chartSize = 0;
 	private Double bestCagr;
 	private Double worstCagr;
 
-	public CagrOutput addTimestamp(String theTimestamp) {
-		this.timestampArr.add(theTimestamp);
-		return this;
-	}
-
-	public CagrOutput addCagrValue(Double theCagrValue) {
-		this.cagrArr.add(theCagrValue);
-		return this;
-	}
-
-	public double getCagr() {
-		if (!cagrArr.isEmpty()) {
-			return this.cagrArr.getLast();
+	public double getFinalCagr() {
+		if (!chartData.isEmpty()) {
+			return this.chartData.getLast().value();
 		} else {
 			throw new RatioComputationException("Unable to calculate CAGR...");
 		}
