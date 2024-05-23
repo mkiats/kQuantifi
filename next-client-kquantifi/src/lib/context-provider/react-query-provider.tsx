@@ -15,11 +15,11 @@ const queryClient = new QueryClient({
 });
 
 export function QueryProvider({
+	client,
 	children,
-	...props
 }: QueryClientProviderProps) {
 	return (
-		<QueryClientProvider client={queryClient} {...props}>
+		<QueryClientProvider client={queryClient}>
 			{children}
 		</QueryClientProvider>
 	);

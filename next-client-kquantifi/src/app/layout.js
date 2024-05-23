@@ -1,3 +1,5 @@
+import "server-only"
+
 import { Inter } from 'next/font/google';
 import React from 'react';
 import './globals.css';
@@ -13,6 +15,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+	
 	return (
 		<html lang='en' suppressHydrationWarning={true}>
 			<body
