@@ -6,7 +6,8 @@ import { BacktestFormData } from '@/components/backtest/backtestForm/backtestFor
 import { BacktestRequest } from '@/lib/types/backtest/backtestRequest';
 import { getBacktestResult } from '@/lib/api/backtest';
 import BacktestFormSection from './backtestForm/backtestFormSection';
-import MetricDetail from './metricDetails';
+import MetricDetail from './metricDetail';
+import SummaryDetail from './summaryDetail';
 
 interface BacktestClientProps {
 	children: React.ReactNode[];
@@ -100,13 +101,8 @@ const BacktestClient: React.FC<BacktestClientProps> = ({ children }) => {
 							backtestTickerResult!.investmentOutput.chartData
 						}
 						summaryComponent={children[1]}
-					>
-						<>
-							<div className='grid-cols-8 grid-rows-4 grid'>
-								
-							</div>
-						</>
-					</MetricDetail>
+						children={<SummaryDetail />}
+					/>
 					<MetricDetail
 						chartHeader={'CAGR'}
 						chartData={
@@ -114,6 +110,7 @@ const BacktestClient: React.FC<BacktestClientProps> = ({ children }) => {
 								.chartData
 						}
 						summaryComponent={children[2]}
+						children={<SummaryDetail />}
 					/>
 					<MetricDetail
 						chartHeader={'MAX DRAWDOWN'}
@@ -122,6 +119,7 @@ const BacktestClient: React.FC<BacktestClientProps> = ({ children }) => {
 								.maxDrawdown.chartData
 						}
 						summaryComponent={children[3]}
+						children={<SummaryDetail />}
 					/>
 				</>
 			)}
