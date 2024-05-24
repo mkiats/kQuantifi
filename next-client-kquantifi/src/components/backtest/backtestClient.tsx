@@ -8,10 +8,6 @@ import { getBacktestResult } from '@/lib/api/backtest';
 import MetricSummary from './metricSummary';
 import BacktestFormSection from './setup/backtestFormSection';
 import MetricDetail from './metricDetails';
-// import DrawdownSection from '@/components/backtest/drawdown/drawdownSection';
-// import CagrSection from '@/components/backtest/cagr/cagrSection';
-// import SummarySection from '@/components/backtest/summary/summarySection';
-// import BacktestFormSection from '@/components/backtest/setup/backtestFormSection';
 
 const BacktestClient = ({ children }: { children?: React.ReactNode[] }) => {
 	// UseState hooks ------------------------------
@@ -98,7 +94,7 @@ const BacktestClient = ({ children }: { children?: React.ReactNode[] }) => {
 						}
 						chartHeader={'SUMMARY'}
 					>
-						{children && children?.at(0)}
+						{children && children[0]}
 					</MetricDetail>
 					<MetricDetail
 						chartData={
@@ -106,7 +102,7 @@ const BacktestClient = ({ children }: { children?: React.ReactNode[] }) => {
 						}
 						chartHeader={'CAGR'}
 					>
-						{children && children?.at(1)}
+						{children && children[1]}
 					</MetricDetail>
 					<MetricDetail
 						chartData={
@@ -114,7 +110,7 @@ const BacktestClient = ({ children }: { children?: React.ReactNode[] }) => {
 						}
 						chartHeader={'MAX DRAWDOWN'}
 					>
-						{children && children?.at(2)}
+						{children && children[2]}
 					</MetricDetail>
 				</>
 			)}
