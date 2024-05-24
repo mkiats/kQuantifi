@@ -1,17 +1,17 @@
 import 'server-only';
 
 import BacktestClient from '@/components/backtest/backtestClient';
-import MetricSummary from '@/components/backtest/metricSummary';
+import RatioDescription from '@/components/backtest/ratioDescription';
 
 const Backtest = () => {
 	return (
 		<div>
 			<BacktestClient>
 				{/* Initialise server components and pass to BacktestClient */}
-				<MetricSummary metricHeader={"BACKTEST FORM"}/>
-				<MetricSummary metricHeader={"Summary"}/>
-				<MetricSummary metricHeader={"CAGR"}/>
-				<MetricSummary metricHeader={"MAX DRAWDOWN"}/>
+				<RatioDescription metricHeader={"BACKTEST FORM"}/>
+				<RatioDescription metricHeader={"Summary"}/>
+				<RatioDescription metricHeader={"CAGR"}/>
+				<RatioDescription metricHeader={"MAX DRAWDOWN"}/>
 			</BacktestClient>
 		</div>
 	);

@@ -6,8 +6,8 @@ import { BacktestFormData } from '@/components/backtest/backtestForm/backtestFor
 import { BacktestRequest } from '@/lib/types/backtest/backtestRequest';
 import { getBacktestResult } from '@/lib/api/backtest';
 import BacktestFormSection from './backtestForm/backtestFormSection';
-import MetricDetail from './metricDetail';
-import SummaryDetail from './summaryDetail';
+import RatioSection from './ratioSection';
+import SummaryDetail from './ratioDetail/summaryDetail';
 
 interface BacktestClientProps {
 	children: React.ReactNode[];
@@ -95,31 +95,31 @@ const BacktestClient: React.FC<BacktestClientProps> = ({ children }) => {
 			/>
 			{backtestTickerIsFetched && (
 				<>
-					<MetricDetail
+					<RatioSection
 						chartHeader={'SUMMARY'}
 						chartData={
 							backtestTickerResult!.investmentOutput.chartData
 						}
-						summaryComponent={children[1]}
-						children={<SummaryDetail />}
+						ratioDescription={children[1]}
+						ratioDetail={<SummaryDetail />}
 					/>
-					<MetricDetail
+					<RatioSection
 						chartHeader={'CAGR'}
 						chartData={
 							backtestTickerResult!.financialRatioOutput.cagr
 								.chartData
 						}
-						summaryComponent={children[2]}
-						children={<SummaryDetail />}
+						ratioDescription={children[2]}
+						ratioDetail={<SummaryDetail />}
 					/>
-					<MetricDetail
+					<RatioSection
 						chartHeader={'MAX DRAWDOWN'}
 						chartData={
 							backtestTickerResult!.financialRatioOutput
 								.maxDrawdown.chartData
 						}
-						summaryComponent={children[3]}
-						children={<SummaryDetail />}
+						ratioDescription={children[3]}
+						ratioDetail={<SummaryDetail />}
 					/>
 				</>
 			)}
