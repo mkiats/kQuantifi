@@ -30,6 +30,7 @@ const TradingViewGraph: React.FC<TradingViewGraphProps> = ({
 			chart.applyOptions({
 				width: chartContainerRef.current!.clientWidth,
 			});
+			chart.timeScale().fitContent();
 		};
 
 		const chart = createChart(chartContainerRef.current!, {

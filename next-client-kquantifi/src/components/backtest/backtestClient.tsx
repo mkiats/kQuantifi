@@ -2,14 +2,17 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { BacktestFormData } from '@/components/backtest/setup/backtestForm';
+import { BacktestFormData } from '@/components/backtest/backtestForm/backtestForm';
 import { BacktestRequest } from '@/lib/types/backtest/backtestRequest';
 import { getBacktestResult } from '@/lib/api/backtest';
-import MetricSummary from './metricSummary';
-import BacktestFormSection from './setup/backtestFormSection';
+import BacktestFormSection from './backtestForm/backtestFormSection';
 import MetricDetail from './metricDetails';
 
-const BacktestClient = ({ children }: { children?: React.ReactNode[] }) => {
+interface BacktestClientProps {
+	children: React.ReactNode[];
+}
+
+const BacktestClient: React.FC<BacktestClientProps> = ({ children }) => {
 	// UseState hooks ------------------------------
 	const [backtestTicker, setBacktestTicker] =
 		useState<BacktestRequest | null>(null);
@@ -85,33 +88,41 @@ const BacktestClient = ({ children }: { children?: React.ReactNode[] }) => {
 	// Return ------------------------------
 	return (
 		<div className='flex flex-col justify-center items-center gap-8 border-2 border-green-500'>
-			<BacktestFormSection submitHandler={submitHandler} />
+			<BacktestFormSection
+				submitHandler={submitHandler}
+				children={children[0]}
+			/>
 			{backtestTickerIsFetched && (
 				<>
 					<MetricDetail
+						chartHeader={'SUMMARY'}
 						chartData={
 							backtestTickerResult!.investmentOutput.chartData
 						}
-						chartHeader={'SUMMARY'}
+						summaryComponent={children[1]}
 					>
-						{children && children[0]}
+						<>
+							<div className='grid-cols-8 grid-rows-4 grid'>
+								
+							</div>
+						</>
 					</MetricDetail>
 					<MetricDetail
-						chartData={
-							backtestTickerResult!.financialRatioOutput.cagr.chartData
-						}
 						chartHeader={'CAGR'}
-					>
-						{children && children[1]}
-					</MetricDetail>
-					<MetricDetail
 						chartData={
-							backtestTickerResult!.financialRatioOutput.maxDrawdown.chartData
+							backtestTickerResult!.financialRatioOutput.cagr
+								.chartData
 						}
+						summaryComponent={children[2]}
+					/>
+					<MetricDetail
 						chartHeader={'MAX DRAWDOWN'}
-					>
-						{children && children[2]}
-					</MetricDetail>
+						chartData={
+							backtestTickerResult!.financialRatioOutput
+								.maxDrawdown.chartData
+						}
+						summaryComponent={children[3]}
+					/>
 				</>
 			)}
 		</div>

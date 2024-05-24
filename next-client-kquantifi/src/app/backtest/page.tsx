@@ -8,6 +8,7 @@ const Backtest = () => {
 		<div>
 			<BacktestClient>
 				{/* Initialise server components and pass to BacktestClient */}
+				<MetricSummary metricHeader={"BACKTEST FORM"}/>
 				<MetricSummary metricHeader={"Summary"}/>
 				<MetricSummary metricHeader={"CAGR"}/>
 				<MetricSummary metricHeader={"MAX DRAWDOWN"}/>
