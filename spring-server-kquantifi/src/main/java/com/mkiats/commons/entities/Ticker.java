@@ -9,9 +9,9 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "ticker_info")
+@Table(name = "ticker")
 @Entity
-public class TickerInfo {
+public class Ticker {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

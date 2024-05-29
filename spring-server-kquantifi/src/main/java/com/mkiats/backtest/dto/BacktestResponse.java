@@ -6,10 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+
 @Getter
 @Setter
 @NoArgsConstructor
 public class BacktestResponse {
 
-	private PortfolioOutput[] portfolioOutputs;
+	private ArrayList<PortfolioOutput> portfolioOutputs = new ArrayList<>();
 }

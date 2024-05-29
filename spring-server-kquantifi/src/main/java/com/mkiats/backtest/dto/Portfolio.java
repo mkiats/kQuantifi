@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,5 +19,5 @@ public class Portfolio {
     private String frequency;
     private String startDate;
     private String endDate;
-    private Asset[] assets;
+    private ArrayList<Asset> assets;
 }

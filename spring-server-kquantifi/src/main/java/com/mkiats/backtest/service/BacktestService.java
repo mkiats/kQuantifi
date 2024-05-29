@@ -45,38 +45,39 @@ public class BacktestService {
 				financialDataString
 			);
 
-		InvestmentStrategy desiredStrategy =
-			investmentStrategyManager.getService(
-				theBacktestRequest.getDesiredStrategy()
-			);
-		InvestmentOutput desiredStrategyResults =
-			desiredStrategy.executeStrategy(
-				theBacktestRequest,
-				timeSeriesStockData
-			);
-
-		FinancialRatioOutput desiredStrategyRatios = new FinancialRatioOutput();
-		List<String> financialRatioList =
-			financialRatioStrategyManager.getAllServices();
-		for (String financialRatioString : financialRatioList) {
-			FinancialRatioStrategy financialRatio =
-				financialRatioStrategyManager.getService(financialRatioString);
-			desiredStrategyRatios = financialRatio.computeRatio(
-				desiredStrategyResults,
-				desiredStrategyRatios
-			);
-		}
-
-		BacktestResponse backtestResponse = new BacktestResponse();
-		backtestResponse.setFinancialRatioOutput(desiredStrategyRatios);
-		backtestResponse.setInvestmentOutput(desiredStrategyResults);
-
-		try {
-//			PrettyJson.prettyPrintJson(backtestResponse);
-			System.out.println("TEST");
-		} catch (Exception e) {
-			throw new RuntimeException("Json pretty print failed...");
-		}
-		return backtestResponse;
+//		InvestmentStrategy desiredStrategy =
+//			investmentStrategyManager.getService(
+//				theBacktestRequest.getDesiredStrategy()
+//			);
+//		InvestmentOutput desiredStrategyResults =
+//			desiredStrategy.executeStrategy(
+//				theBacktestRequest,
+//				timeSeriesStockData
+//			);
+//
+//		FinancialRatioOutput desiredStrategyRatios = new FinancialRatioOutput();
+//		List<String> financialRatioList =
+//			financialRatioStrategyManager.getAllServices();
+//		for (String financialRatioString : financialRatioList) {
+//			FinancialRatioStrategy financialRatio =
+//				financialRatioStrategyManager.getService(financialRatioString);
+//			desiredStrategyRatios = financialRatio.computeRatio(
+//				desiredStrategyResults,
+//				desiredStrategyRatios
+//			);
+//		}
+//
+//		BacktestResponse backtestResponse = new BacktestResponse();
+//		backtestResponse.setFinancialRatioOutput(desiredStrategyRatios);
+//		backtestResponse.setInvestmentOutput(desiredStrategyResults);
+//
+//		try {
+////			PrettyJson.prettyPrintJson(backtestResponse);
+//			System.out.println("TEST");
+//		} catch (Exception e) {
+//			throw new RuntimeException("Json pretty print failed...");
+//		}
+//		return backtestResponse;
+		return null;
 	}
 }
