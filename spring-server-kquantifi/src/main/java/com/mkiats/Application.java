@@ -60,6 +60,7 @@ public class Application implements CommandLineRunner {
 		tempPortfolio.setAssets(tempAssetList);
 		tempPortfolio.setFrequency("WEEKLY");
 		tempPortfolio.setDesiredStrategy("DollarCostAverage");
+		tempPortfolio.setRebalanceStrategy("");
 		tempPortfolio.setInitialAmount(10);
 		tempPortfolio.setPeriodicAmount(1000);
 		theBacktestRequest.getPortfolios().addLast(tempPortfolio);
@@ -82,6 +83,7 @@ public class Application implements CommandLineRunner {
 		tempPortfolio.setAssets(tempAssetList);
 		tempPortfolio.setFrequency("WEEKLY");
 		tempPortfolio.setDesiredStrategy("DollarCostAverage");
+		tempPortfolio.setRebalanceStrategy("");
 		tempPortfolio.setInitialAmount(10);
 		tempPortfolio.setPeriodicAmount(1000);
 		theBacktestRequest.getPortfolios().addLast(tempPortfolio);

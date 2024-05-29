@@ -14,6 +14,7 @@ public class Portfolio {
     private String id;
     private String portfolioName;
     private String desiredStrategy;
+    private String rebalanceStrategy;
     private double periodicAmount;
     private double initialAmount;
     private String frequency;
