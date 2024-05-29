@@ -7,7 +7,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class BacktestRequest {
+public class Asset {
 
-	private Portfolio[] portfolios;
+    private String assetName;
+    private double weightage;
+    private double leverageFactor;
+    private double expenseRatio;
 }

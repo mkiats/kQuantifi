@@ -9,7 +9,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class BacktestResponse {
+public class PortfolioOutput {
 
-	private PortfolioOutput[] portfolioOutputs;
+    private InvestmentOutput investmentOutput;
+    private FinancialRatioOutput financialRatioOutput;
 }
