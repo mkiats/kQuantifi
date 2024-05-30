@@ -13,4 +13,6 @@ public class PortfolioOutput {
 
     private InvestmentOutput investmentOutput;
     private FinancialRatioOutput financialRatioOutput;
+    private RebalanceOutput rebalanceOutput;
+    private Portfolio portfolio;
 }

@@ -1,6 +1,7 @@
 package com.mkiats.backtest.service.strategy.investment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.mkiats.commons.dataTransferObjects.TimeValue;
 import lombok.Getter;
@@ -12,23 +13,17 @@ import lombok.Setter;
 @NoArgsConstructor
 public class InvestmentOutput {
 
-	private ArrayList<String> stockTimestamp = new ArrayList<>();
-	private ArrayList<Double> stockAdjustedValue = new ArrayList<>();
-	private ArrayList<Double> stockAdjustedQuantity = new ArrayList<>();
 	private ArrayList<TimeValue> chartData = new ArrayList<>();
 	private int chartSize = 0;
-	private Double investedAmount = 0.0;
-	private Double periodicAmount = 0.0;
-	private String timeframe = "monthly";
-
-	public InvestmentOutput addQuantity(Double curStockQuantity) {
-		this.stockAdjustedQuantity.add(curStockQuantity);
-		return this;
-	}
+	private HashMap<String, ArrayList<TimeValue>> assetData = new HashMap<>();
 
 	public void addTimeValue(String theTime, Double theValue) {
-		chartData.add(new TimeValue(theTime, theValue));
+		this.chartData.add(new TimeValue(theTime, theValue));
 		setChartSize(this.chartData.size());
+	}
+
+	public void addAssetTimeValue(String assetName, String theTime, Double theValue) {
+		this.assetData.get(assetName).addLast(new TimeValue(theTime, theValue));
 	}
 }
 

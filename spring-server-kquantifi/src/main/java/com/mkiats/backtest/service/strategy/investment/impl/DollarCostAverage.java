@@ -1,6 +1,7 @@
 package com.mkiats.backtest.service.strategy.investment.impl;
 
 import com.mkiats.backtest.dto.BacktestRequest;
+import com.mkiats.backtest.dto.Portfolio;
 import com.mkiats.backtest.service.strategy.investment.InvestmentOutput;
 import com.mkiats.backtest.service.strategy.investment.interfaces.InvestmentStrategy;
 import com.mkiats.commons.dataTransferObjects.TimeSeriesStockData;
@@ -27,13 +28,11 @@ public class DollarCostAverage implements InvestmentStrategy {
 
 	@Override
 	public InvestmentOutput executeStrategy(
-		BacktestRequest backtestParameters,
-		TimeSeriesStockData timeSeriesStockData
+		Portfolio thePortfolio,
+		String earliestCommonInceptionDate
 	) {
 		System.out.println("Computing DollarCostAverage...");
 		this.theOutput = new InvestmentOutput();
-		double periodicAmount = backtestParameters.getPeriodicAmount();
-		this.theOutput.setPeriodicAmount(periodicAmount);
 
 		double currentAmountInDca = 0;
 		double currentStockQuantity = 0;

@@ -2,6 +2,8 @@ package com.mkiats.backtest.service;
 
 import com.mkiats.backtest.dto.BacktestRequest;
 import com.mkiats.backtest.dto.BacktestResponse;
+import com.mkiats.backtest.dto.Portfolio;
+import com.mkiats.backtest.dto.PortfolioOutput;
 import com.mkiats.backtest.service.strategy.financialRatio.FinancialRatioStrategyManager;
 import com.mkiats.backtest.service.strategy.financialRatio.interfaces.FinancialRatioStrategy;
 import com.mkiats.backtest.service.strategy.financialRatio.output.FinancialRatioOutput;
@@ -38,13 +40,26 @@ public class BacktestService {
 		 * Save output to BacktestResponse object		*
 		 * */
 
-		//		String financialDataString = retrievalService.fetchTickerData(theBacktestRequest.getTickerName(), theBacktestRequest.getFrequency());
-		String financialDataString = new TempClass().getJsonString()	;
-		TimeSeriesStockData timeSeriesStockData =
-			retrievalService.convertStringToTimeSeriesStockData(
-				financialDataString
+		String earliestCommonInceptionDate = retrievalService.getEarliestCommonInceptionDate(theBacktestRequest.getPortfolios());
+		for (Portfolio portfolio : theBacktestRequest.getPortfolios()) {
+			PortfolioOutput portfolioOutput = new PortfolioOutput();
+			InvestmentStrategy desiredStrategy =
+				investmentStrategyManager.getService(
+					portfolio.getDesiredStrategy()
 			);
+			InvestmentOutput desiredStrategyResults =
+				desiredStrategy.executeStrategy(
+					portfolio,
+						earliestCommonInceptionDate
+			);
+		}
 
+//		String financialDataString = retrievalService.fetchTickerData(theBacktestRequest.getTickerName(), theBacktestRequest.getFrequency());
+//		String financialDataString = new TempClass().getJsonString()	;
+//		TimeSeriesStockData timeSeriesStockData =
+//			retrievalService.convertStringToTimeSeriesStockData(
+//				financialDataString
+//			);
 //		InvestmentStrategy desiredStrategy =
 //			investmentStrategyManager.getService(
 //				theBacktestRequest.getDesiredStrategy()

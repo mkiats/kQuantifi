@@ -22,10 +22,18 @@ public class DateUtils {
 		return localDateObject;
 	}
 
-	public static double convertStringToUnix(String timestamp, String formatterPattern) {
-		LocalDateTime localDateTime = convertStringToLocalDateTime(timestamp, formatterPattern);
-		ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.of("UTC"));
-		Instant instant = zonedDateTime.toInstant();
+	public static long convertStringToUnix(String timestamp, String formatterPattern) {
+		LocalDate localDate = convertStringToLocalDate(timestamp, formatterPattern);
+		Instant instant = localDate.atStartOfDay().toInstant(ZoneOffset.UTC);
+//		ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.of("UTC"));
+//		Instant instant = zonedDateTime.toInstant();
 		return instant.getEpochSecond();
+	}
+
+	public static String convertUnixToString(long unixTimestamp, String formatterPattern) {
+		Instant instant = Instant.ofEpochSecond(unixTimestamp);
+		LocalDate localDate = instant.atOffset(ZoneOffset.UTC).toLocalDate();
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(formatterPattern);
+		return localDate.format(dateTimeFormatter);
 	}
 }
