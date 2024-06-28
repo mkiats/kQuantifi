@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 const navigationLinks = [
-	{ url: '/', title: 'home' },
+	{ url: '/dashboard', title: 'dash' },
 	{ url: '/', title: 'about' },
 	{ url: '/', title: 'projects' },
 	{ url: '/backtest', title: 'Backtest' },
