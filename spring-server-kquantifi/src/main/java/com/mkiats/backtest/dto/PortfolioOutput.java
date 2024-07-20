@@ -11,8 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PortfolioOutput {
 
-    private InvestmentOutput investmentOutput;
-    private FinancialRatioOutput financialRatioOutput;
-    private RebalanceOutput rebalanceOutput;
-    private Portfolio portfolio;
+	private InvestmentOutput investmentOutput;
+	private FinancialRatioOutput financialRatioOutput;
+	private Portfolio portfolio;
 }
