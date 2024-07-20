@@ -1,6 +1,6 @@
 package com.mkiats.backtest.dto;
 
-import java.util.List;
+import java.util.ArrayList;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,8 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PortfolioTickers {
 
-	private List<String> tickerList;
-	private List<Double> allocationWeightList;
-	private List<Double> leverageFactor;
+	private ArrayList<String> tickerList;
+	private ArrayList<Double> allocationWeightList;
+	private ArrayList<Double> leverageFactor;
 	private double tickerCount;
 }
