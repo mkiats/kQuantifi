@@ -3,7 +3,7 @@ package com.mkiats.backtest.service.strategy.investment;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.mkiats.commons.dataTransferObjects.TimeValue;
+import com.mkiats.backtest.dto.TimeValue;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
