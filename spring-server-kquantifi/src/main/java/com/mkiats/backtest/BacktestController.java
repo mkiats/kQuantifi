@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 public class BacktestController {
 
+	// Constructor injection via @RequiredArgsConstructor
 	private final BacktestService backtestService;
 
 	@PostMapping("/backtests")

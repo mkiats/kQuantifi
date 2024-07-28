@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserServiceDaoImpl implements UserServiceDao {
 
+	// Constructor injection via @RequiredArgsConstructor
 	private final UserRepository userRepo;
 
 	public Page<User> getAllUsersByPage(int page, int size) {

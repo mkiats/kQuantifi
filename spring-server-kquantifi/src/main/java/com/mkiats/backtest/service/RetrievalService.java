@@ -1,17 +1,20 @@
 package com.mkiats.backtest.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mkiats.backtest.dto.Asset;
-import com.mkiats.backtest.dto.Portfolio;
+import com.mkiats.backtest.dto.*;
+import com.mkiats.commons.dataAccessObjects.TickerDaoImpl;
 import com.mkiats.commons.dataTransferObjects.TimeSeriesStockData;
+import com.mkiats.commons.dataTransferObjects.TimeSeriesStockPrice;
+import com.mkiats.commons.entities.Ticker;
+import com.mkiats.commons.entities.TickerPrice;
 import com.mkiats.commons.exceptions.CustomDataProcessingException;
-
+import com.mkiats.commons.repository.TickerRepository;
+import com.mkiats.commons.temp.TempClass;
+import com.mkiats.commons.utils.DateUtils;
+import com.mkiats.commons.utils.PrettyJson;
 import java.util.ArrayList;
 import java.util.Objects;
-
-import com.mkiats.commons.utils.DateUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -31,44 +34,83 @@ public class RetrievalService {
 	// Constructor injection via @RequiredArgsConstructor
 	private final RestTemplate restTemplate;
 
-	public String getEarliestCommonInceptionDate(ArrayList<Portfolio> thePortfolios) {
-		long earliestCommonInceptionDateInUnix = -1;
-		for (Portfolio portfolio : thePortfolios) {
-			for (Asset asset: portfolio.getAssets()) {
-				if (getAssetDataFromCache(asset.getAssetName())) {
-					earliestCommonInceptionDateInUnix = 0;
+	private final TickerDaoImpl tickerDaoImpl;
+
+	public void doExecute(BacktestRequest backtestRequest) {
+		ArrayList<String> tickerList = backtestRequest
+			.getPortfolio()
+			.getPortfolioTickers()
+			.getTickerList();
+		String timeframe = backtestRequest
+			.getPortfolio()
+			.getPortfolioSettings()
+			.getFrequency();
+
+		PortfolioQuery portfolioQuery = new PortfolioQuery();
+
+		String earliestInceptionDate = "2024-06-30";
+		for (String tickerName : tickerList) {
+			String queryJson = this.fetchTickerData(timeframe, tickerName);
+			TimeSeriesStockData queryObj =
+				this.convertStringToTimeSeriesStockData(queryJson);
+
+			boolean firstEntry = true;
+			boolean existInDb = false;
+
+			// Get the earliest common date among the tickers
+			for (String timestamp : queryObj
+				.getPriceList()
+				.reversed()
+				.keySet()) {
+				if (firstEntry) {
+					Ticker theTicker = new Ticker(tickerName, timestamp);
+					existInDb = tickerDaoImpl.addTicker(theTicker);
+					earliestInceptionDate = DateUtils.compareEarliestDate(
+						earliestInceptionDate,
+						"yyyy-MM-dd",
+						timestamp,
+						"yyyy-MM-dd"
+					);
+					firstEntry = false;
 				}
-				else {
-					String jsonStockData = this.fetchTickerData("WEEKLY", asset.getAssetName());
-					TimeSeriesStockData timeSeriesStockData = this.convertStringToTimeSeriesStockData(jsonStockData);
-					// Store data into cache
-					String assetInceptionDate = timeSeriesStockData.getPriceList().reversed().firstEntry().getKey();
-					long assetInceptionDateInUnix = DateUtils.convertStringToUnix(assetInceptionDate, "yyyy-MM-dd");
-					earliestCommonInceptionDateInUnix = Math.min(earliestCommonInceptionDateInUnix, assetInceptionDateInUnix);
+				if (existInDb) {
+					break;
 				}
+
+				// Add price data for each timestamp
+				TimeSeriesStockPrice curPrice = queryObj
+					.getPriceList()
+					.get(timestamp);
+				TickerPrice theTickerPrice = new TickerPrice(
+					tickerName,
+					timeframe,
+					timestamp,
+					curPrice.getOpen(),
+					curPrice.getHigh(),
+					curPrice.getLow(),
+					curPrice.getClose(),
+					curPrice.getAdjustedClose(),
+					curPrice.getVolume(),
+					curPrice.getDividendAmount()
+				);
+				tickerDaoImpl.addTickerPrice(theTickerPrice);
+			}
+
+			try {
+				PrettyJson.prettyPrintJson(queryObj);
+				System.out.println("Json pretty print success...");
+			} catch (Exception e) {
+				throw new RuntimeException("Json pretty print failed...");
 			}
 		}
-		return DateUtils.convertUnixToString(earliestCommonInceptionDateInUnix, "yyyy-MM-dd");
 	}
 
-	private boolean getAssetDataFromCache(String theAssetName) {
-		// If AssetData exist in cache, return AssetData;
-		// Else return null;
-		return false;
-	}
-
-	private boolean getAssetDataFromDB(String theAssetName) {
-		// If AssetData exist in cache, return AssetData;
-		// Else return null;
-		return false;
-	}
-
-	private String getApiUrl(String theTimeframe, String theSymbol) {
+	private String getApiUrl(String timeframe, String theSymbol) {
 		String requestTimeframe;
 		String requestTickerSymbol;
 
 		// Handles API requests
-		if (theTimeframe != null) {
+		if (timeframe != null) {
 			requestTimeframe = "TIME_SERIES_MONTHLY_ADJUSTED";
 		} else {
 			requestTimeframe = "TIME_SERIES_WEEKLY_ADJUSTED";
@@ -84,17 +126,19 @@ public class RetrievalService {
 		);
 	}
 
-	private String fetchTickerData(String theTimeframe, String theSymbol) {
-		String finalisedApiUrl = getApiUrl(theTimeframe, theSymbol);
-		ResponseEntity<String> responseEntity = restTemplate.getForEntity(
-			finalisedApiUrl,
-			String.class
-		);
-		if (responseEntity.getStatusCode().is2xxSuccessful()) {
-			return responseEntity.getBody();
-		} else {
-			return "Error: " + responseEntity.getStatusCode();
-		}
+	private String fetchTickerData(String timeframe, String theSymbol) {
+		//		String finalisedApiUrl = getApiUrl(timeframe, theSymbol);
+		//		ResponseEntity<String> responseEntity = restTemplate.getForEntity(
+		//			finalisedApiUrl,
+		//			String.class
+		//		);
+		//		if (responseEntity.getStatusCode().is2xxSuccessful()) {
+		//			return responseEntity.getBody();
+		//		} else {
+		//			return "Error: " + responseEntity.getStatusCode();
+		//		}
+		TempClass temp = new TempClass();
+		return temp.getJsonStringShort();
 	}
 
 	public TimeSeriesStockData convertStringToTimeSeriesStockData(
@@ -112,6 +156,9 @@ public class RetrievalService {
 			);
 		}
 	}
-
-
+	/*
+	 * Create a method for getting ticker data from cache and database
+	 * Check if data exist in the cache, if yes then return the data in cache
+	 * If data is stale in the cache, fetch the data and store inside the cache and database, return the data
+	 * */
 }

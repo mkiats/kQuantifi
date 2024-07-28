@@ -34,11 +34,4 @@ public class User {
 
 	@Column(name = "photo_url")
 	private String photoUrl;
-
-	@OneToMany(
-		mappedBy = "user",
-		cascade = CascadeType.ALL,
-		fetch = FetchType.LAZY
-	)
-	private List<Watchlist> watchlists = new ArrayList<>();
 }

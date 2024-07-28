@@ -10,6 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class RebalanceLog {
 
-	private HashMap<String, RebalanceValue> rebalanceValues;
 	// <AssetName, RebalanceValue>
+	private HashMap<String, RebalanceValue> rebalanceValues;
 }

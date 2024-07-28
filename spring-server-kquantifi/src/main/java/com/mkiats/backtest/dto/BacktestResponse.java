@@ -12,8 +12,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class BacktestResponse {
 
-	//	private ArrayList<PortfolioOutput> portfolioOutputs = new ArrayList<>();
-	private PortfolioQuery portfolioQuery;
 	private InvestmentOutput investmentOutput;
 	private FinancialRatioOutput financialRatioOutput;
 }

@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-	@NoArgsConstructor
+@NoArgsConstructor
 public class TempClass {
 
 	private String jsonStringShort =

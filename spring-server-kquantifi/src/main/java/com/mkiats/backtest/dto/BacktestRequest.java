@@ -1,15 +1,15 @@
 package com.mkiats.backtest.dto;
 
+import java.util.ArrayList;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.ArrayList;
 
 @Getter
 @Setter
 @NoArgsConstructor
 public class BacktestRequest {
 
-	private ArrayList<Portfolio> portfolios = new ArrayList<>();
+	private Portfolio portfolio;
+	private PortfolioQuery portfolioQuery;
 }
