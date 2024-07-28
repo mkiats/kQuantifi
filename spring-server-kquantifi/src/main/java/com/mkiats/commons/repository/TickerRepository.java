@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TickerRepository extends JpaRepository<Ticker, String> {
 	public boolean existsByTickerName(String tickerName);
+
+	public Ticker findByTickerName(String tickerName);
 }

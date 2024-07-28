@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -52,51 +53,57 @@ public class RetrievalService {
 
 		String earliestInceptionDate = "2024-06-30";
 		for (String tickerName : tickerList) {
-			String queryJson =
-				this.fetchTickerDataFromApi(timeframe, tickerName);
-			TimeSeriesStockData queryObj =
-				this.convertStringToTimeSeriesStockData(queryJson);
-
 			boolean firstEntry = true;
-			boolean existInDb = false;
-
-			// Get the earliest common date among the tickers
-			for (String timestamp : queryObj
-				.getPriceList()
-				.reversed()
-				.keySet()) {
-				if (firstEntry) {
-					Ticker theTicker = new Ticker(tickerName, timestamp);
-					existInDb = tickerDaoImpl.addTicker(theTicker);
-					earliestInceptionDate = DateUtils.compareEarliestDate(
-						earliestInceptionDate,
-						"yyyy-MM-dd",
-						timestamp,
-						"yyyy-MM-dd"
-					);
-					firstEntry = false;
-				}
-				if (existInDb) {
-					break;
-				}
-
-				// Add price data for each timestamp
-				TimeSeriesStockPrice curPrice = queryObj
-					.getPriceList()
-					.get(timestamp);
-				TickerPrice theTickerPrice = new TickerPrice(
-					tickerName,
-					timeframe,
-					timestamp,
-					curPrice.getOpen(),
-					curPrice.getHigh(),
-					curPrice.getLow(),
-					curPrice.getClose(),
-					curPrice.getAdjustedClose(),
-					curPrice.getVolume(),
-					curPrice.getDividendAmount()
+			boolean existInDb = tickerDaoImpl.existTicker(tickerName);
+			if (existInDb) { // TODO: CHANGE TO IF EXIST IN CACHE,
+				Ticker theTicker = tickerDaoImpl.getTicker(tickerName);
+				earliestInceptionDate = DateUtils.compareEarliestDate(
+					earliestInceptionDate,
+					"yyyy-MM-dd",
+					theTicker.getInceptionDate(),
+					"yyyy-MM-dd"
 				);
-				tickerDaoImpl.addTickerPrice(theTickerPrice);
+			} else {
+				String queryJson =
+					this.fetchTickerDataFromApi(timeframe, tickerName);
+				TimeSeriesStockData queryObj =
+					this.convertStringToTimeSeriesStockData(queryJson);
+
+				// Get the earliest common date among the tickers
+				for (String timestamp : queryObj
+					.getPriceList()
+					.reversed()
+					.keySet()) {
+					if (firstEntry) {
+						Ticker theTicker = new Ticker(tickerName, timestamp);
+						existInDb = tickerDaoImpl.addTicker(theTicker);
+						earliestInceptionDate = DateUtils.compareEarliestDate(
+							earliestInceptionDate,
+							"yyyy-MM-dd",
+							timestamp,
+							"yyyy-MM-dd"
+						);
+						firstEntry = false;
+					}
+
+					// Add price data for each timestamp
+					TimeSeriesStockPrice curPrice = queryObj
+						.getPriceList()
+						.get(timestamp);
+					TickerPrice theTickerPrice = new TickerPrice(
+						tickerName,
+						timeframe,
+						timestamp,
+						curPrice.getOpen(),
+						curPrice.getHigh(),
+						curPrice.getLow(),
+						curPrice.getClose(),
+						curPrice.getAdjustedClose(),
+						curPrice.getVolume(),
+						curPrice.getDividendAmount()
+					);
+					tickerDaoImpl.addTickerPrice(theTickerPrice);
+				}
 			}
 		}
 		portfolioQuery.setEarliestCommonInceptionDate(earliestInceptionDate);
@@ -125,18 +132,18 @@ public class RetrievalService {
 	}
 
 	private String fetchTickerDataFromApi(String timeframe, String theSymbol) {
-		//		String finalisedApiUrl = getApiUrl(timeframe, theSymbol);
-		//		ResponseEntity<String> responseEntity = restTemplate.getForEntity(
-		//			finalisedApiUrl,
-		//			String.class
-		//		);
-		//		if (responseEntity.getStatusCode().is2xxSuccessful()) {
-		//			return responseEntity.getBody();
-		//		} else {
-		//			return "Error: " + responseEntity.getStatusCode();
-		//		}
-		TempClass temp = new TempClass();
-		return temp.getJsonStringShort();
+		String finalisedApiUrl = getApiUrl(timeframe, theSymbol);
+		ResponseEntity<String> responseEntity = restTemplate.getForEntity(
+			finalisedApiUrl,
+			String.class
+		);
+		if (responseEntity.getStatusCode().is2xxSuccessful()) {
+			return responseEntity.getBody();
+		} else {
+			return "Error: " + responseEntity.getStatusCode();
+		}
+		//		TempClass temp = new TempClass();
+		//		return temp.getJsonStringShort();
 	}
 
 	public TimeSeriesStockData convertStringToTimeSeriesStockData(
@@ -161,10 +168,11 @@ public class RetrievalService {
 	 * If data is stale in the cache, fetch the data and store inside the cache and database, return the data
 	 * */
 
-	public List<TickerPrice> fetchTickerDataFromDb(
+	public TickerPrice fetchTickerDataFromDb(
 		String tickerName,
-		String timeframe
+		String timeframe,
+		String timestamp
 	) {
-		return tickerDaoImpl.getTickerPrice(tickerName, timeframe);
+		return tickerDaoImpl.getTickerPrice(tickerName, timeframe, timestamp);
 	}
 }

@@ -19,6 +19,12 @@ public class TickerDaoImpl implements TickerDao {
 	// Constructor injection via @RequiredArgsConstructor
 	private final TickerPriceRepository tickerPriceRepository;
 
+	@Override
+	public boolean existTicker(String tickerName) {
+		return (tickerRepository.existsByTickerName(tickerName));
+	}
+
+	@Override
 	public boolean addTicker(Ticker ticker) {
 		if (!(tickerRepository.existsByTickerName(ticker.getTickerName()))) {
 			tickerRepository.save(ticker);
@@ -27,17 +33,26 @@ public class TickerDaoImpl implements TickerDao {
 		return true;
 	}
 
+	@Override
 	public void addTickerPrice(TickerPrice tickerPrice) {
 		tickerPriceRepository.save(tickerPrice);
 	}
 
-	public List<TickerPrice> getTickerPrice(
+	@Override
+	public TickerPrice getTickerPrice(
 		String tickerName,
-		String timeframe
+		String timeframe,
+		String timeStamp
 	) {
-		return tickerPriceRepository.findByTickerNameAndTimeframe(
+		return tickerPriceRepository.findByTickerNameAndTimeframeAndTimestamp(
 			tickerName,
-			timeframe
+			timeframe,
+			timeStamp
 		);
+	}
+
+	@Override
+	public Ticker getTicker(String tickerName) {
+		return tickerRepository.findByTickerName(tickerName);
 	}
 }

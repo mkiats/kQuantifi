@@ -52,15 +52,18 @@ public class Application implements CommandLineRunner {
 		portfolioSettings.setFrequency("MONTHLY");
 		portfolio.setPortfolioSettings(portfolioSettings);
 
-		portfolioTickers.setTickerCount(1);
+		portfolioTickers.setTickerCount(2);
 		ArrayList<Double> levArr = new ArrayList<>();
+		levArr.add(1.0);
 		levArr.add(1.0);
 		portfolioTickers.setLeverageFactor(levArr);
 		ArrayList<Double> weightArr = new ArrayList<>();
-		weightArr.add(1.0);
+		weightArr.add(50.0);
+		weightArr.add(50.0);
 		portfolioTickers.setAllocationWeightList(weightArr);
 		ArrayList<String> tickerArr = new ArrayList<>();
 		tickerArr.add("SPY");
+		tickerArr.add("QQQ");
 		portfolioTickers.setTickerList(tickerArr);
 		portfolio.setPortfolioTickers(portfolioTickers);
 
