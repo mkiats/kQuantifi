@@ -1,6 +1,6 @@
 package com.mkiats.backtest.service.strategy.investment;
 
-import com.mkiats.backtest.dto.RebalanceLog;
+import com.mkiats.backtest.dto.RebalanceValue;
 import com.mkiats.backtest.dto.TimeValue;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,19 +16,47 @@ public class InvestmentOutput {
 	private ArrayList<TimeValue> chartData = new ArrayList<>();
 	private int chartSize = 0;
 	private HashMap<String, ArrayList<TimeValue>> assetData = new HashMap<>();
-	private HashMap<String, ArrayList<RebalanceLog>> rebalanceData =
-		new HashMap<>();
+	private HashMap<String, ArrayList<RebalanceValue>> rebalanceData =
+		new HashMap<>(); // <timestamp, RebalanceValue>
 
-	public void addTimeValue(String theTime, Double theValue) {
-		this.chartData.add(new TimeValue(theTime, theValue));
+	public void addOverallTimeValue(
+		String theTime,
+		Double theValue,
+		Double theQuantity
+	) {
+		this.chartData.add(new TimeValue(theTime, theValue, theQuantity));
 		this.setChartSize(this.chartData.size());
 	}
 
-	public void addAssetTimeValue(
+	public void addTickerTimeValue(
 		String assetName,
 		String theTime,
-		Double theValue
+		Double theValue,
+		Double theQuantity
 	) {
-		this.assetData.get(assetName).addLast(new TimeValue(theTime, theValue));
+		if (!(assetData.containsKey(assetName))) {
+			assetData.put(assetName, new ArrayList<>());
+		}
+		this.assetData.get(assetName).addLast(
+				new TimeValue(theTime, theValue, theQuantity)
+			);
+	}
+
+	public void addRebalanceTimeValue(
+		String timestamp,
+		String tickerName,
+		double beforeValue,
+		double afterValue
+	) {
+		RebalanceValue rebalanceValue = new RebalanceValue(
+			tickerName,
+			beforeValue,
+			afterValue
+		);
+		if (!(rebalanceData.containsKey(timestamp))) {
+			rebalanceData.put(timestamp, new ArrayList<>());
+		}
+		System.out.println("ADDING REBALNACE");
+		this.rebalanceData.get(timestamp).addLast(rebalanceValue);
 	}
 }

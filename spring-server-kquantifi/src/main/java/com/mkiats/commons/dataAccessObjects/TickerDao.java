@@ -18,4 +18,6 @@ public interface TickerDao {
 	);
 
 	public Ticker getTicker(String tickerName);
+
+	public List<String> getTimestamps(String tickerName, String timeframe);
 }

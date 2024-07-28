@@ -1,9 +1,8 @@
 package com.mkiats.backtest.service.strategy.financialRatio.output;
 
+import com.mkiats.backtest.dto.TimeValue;
 import com.mkiats.backtest.exceptions.RatioComputationException;
 import java.util.ArrayList;
-
-import com.mkiats.backtest.dto.TimeValue;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,8 +25,12 @@ public class CagrOutput {
 		}
 	}
 
-	public void addTimeValue(String theTime, Double theValue) {
-		chartData.add(new TimeValue(theTime, theValue));
+	public void addTimeValue(
+		String theTime,
+		Double theValue,
+		Double theQuantity
+	) {
+		chartData.add(new TimeValue(theTime, theValue, theQuantity));
 		setChartSize(this.chartData.size());
 	}
 }

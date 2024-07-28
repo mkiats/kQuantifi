@@ -2,6 +2,7 @@ package com.mkiats.commons.utils;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class DateUtils {
 
@@ -16,14 +17,14 @@ public class DateUtils {
 			timestamp,
 			formatter
 		);
-		System.out.println(
-			"Converting timestamp: " +
-			timestamp +
-			"\nFormatter pattern used: " +
-			formatterPattern +
-			"\nlocalDateTime created: " +
-			localDateTimeObject
-		);
+		//		System.out.println(
+		//			"Converting timestamp: " +
+		//			timestamp +
+		//			"\nFormatter pattern used: " +
+		//			formatterPattern +
+		//			"\nlocalDateTime created: " +
+		//			localDateTimeObject
+		//		);
 		return localDateTimeObject;
 	}
 
@@ -35,14 +36,14 @@ public class DateUtils {
 			formatterPattern
 		);
 		LocalDate localDateObject = LocalDate.parse(timestamp, formatter);
-		System.out.println(
-			"\nConverting timestamp: " +
-			timestamp +
-			"\nFormatter pattern used: " +
-			formatterPattern +
-			"\nLocalDate created: " +
-			localDateObject
-		);
+		//		System.out.println(
+		//			"\nConverting timestamp: " +
+		//			timestamp +
+		//			"\nFormatter pattern used: " +
+		//			formatterPattern +
+		//			"\nLocalDate created: " +
+		//			localDateObject
+		//		);
 		return localDateObject;
 	}
 
@@ -86,6 +87,33 @@ public class DateUtils {
 		} else {
 			return date1;
 		}
+	}
+
+	public static int binarySearchDate(
+		List<String> dateList,
+		String targetDate
+	) {
+		int left = 0;
+		int right = dateList.size() - 1;
+		long targetDateInUnix = convertStringToUnix(targetDate, "yyyy-MM-dd");
+
+		while (left <= right) {
+			int mid = left + (right - left) / 2;
+			long midDateInUnix = convertStringToUnix(
+				dateList.get(mid),
+				"yyyy-MM-dd"
+			);
+
+			if (midDateInUnix == targetDateInUnix) {
+				return mid; // Target found
+			}
+			if (midDateInUnix < targetDateInUnix) {
+				left = mid + 1; // Search right half
+			} else {
+				right = mid - 1; // Search left half
+			}
+		}
+		return left; // Target not found
 	}
 }
 // "yyyy-MM-dd"

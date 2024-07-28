@@ -50,6 +50,11 @@ public class Application implements CommandLineRunner {
 		portfolioSettings.setId("0");
 		portfolioSettings.setPortfolioName("Test portfolio");
 		portfolioSettings.setFrequency("MONTHLY");
+		portfolioSettings.setInvestmentStrategy("DollarCostAverage");
+		portfolioSettings.setStartDate("2022-01-01");
+		portfolioSettings.setEndDate("2023-12-31");
+		portfolioSettings.setPeriodicCashflow(1000);
+		portfolioSettings.setInitialBalance(1000);
 		portfolio.setPortfolioSettings(portfolioSettings);
 
 		portfolioTickers.setTickerCount(2);

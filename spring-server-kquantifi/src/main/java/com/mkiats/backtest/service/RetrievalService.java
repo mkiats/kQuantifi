@@ -175,4 +175,8 @@ public class RetrievalService {
 	) {
 		return tickerDaoImpl.getTickerPrice(tickerName, timeframe, timestamp);
 	}
+
+	public List<String> fetchTimestamps(String tickerName, String timeframe) {
+		return tickerDaoImpl.getTimestamps(tickerName, timeframe);
+	}
 }

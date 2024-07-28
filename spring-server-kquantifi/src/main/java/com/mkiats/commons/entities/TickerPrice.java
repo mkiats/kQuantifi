@@ -38,7 +38,7 @@ public class TickerPrice {
 	private Float close;
 
 	@Column(name = "adjusted_close")
-	private String adjustedClose;
+	private Float adjustedClose;
 
 	@Column(name = "volume")
 	private String volume;
@@ -65,7 +65,7 @@ public class TickerPrice {
 		this.high = Float.parseFloat(high);
 		this.low = Float.parseFloat(low);
 		this.close = Float.parseFloat(close);
-		this.adjustedClose = adjustedClose;
+		this.adjustedClose = Float.parseFloat(adjustedClose);
 		this.volume = volume;
 		this.dividendAmount = dividendAmount;
 	}

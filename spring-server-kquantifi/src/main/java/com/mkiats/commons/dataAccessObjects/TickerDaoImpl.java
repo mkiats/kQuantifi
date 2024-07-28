@@ -55,4 +55,12 @@ public class TickerDaoImpl implements TickerDao {
 	public Ticker getTicker(String tickerName) {
 		return tickerRepository.findByTickerName(tickerName);
 	}
+
+	@Override
+	public List<String> getTimestamps(String tickerName, String timeframe) {
+		return tickerPriceRepository.findTimestampsByTickerNameAndTimeframe(
+			tickerName,
+			timeframe
+		);
+	}
 }

@@ -40,16 +40,15 @@ public class BacktestService {
 					.getInvestmentStrategy()
 			);
 
+		InvestmentOutput desiredStrategyResults =
+			desiredStrategy.executeStrategy(theBacktestRequest);
+
 		//		try {
-		//			PrettyJson.prettyPrintJson(theBacktestRequest);
+		//			PrettyJson.prettyPrintJson(desiredStrategyResults);
 		//			System.out.println("Json pretty print success...");
 		//		} catch (Exception e) {
 		//			throw new RuntimeException("Json pretty print failed...");
 		//		}
-
-		//		InvestmentOutput desiredStrategyResults =
-		//			desiredStrategy.executeStrategy(theBacktestRequest);
-		//
 		//		FinancialRatioOutput desiredStrategyRatios = new FinancialRatioOutput();
 		//		List<String> financialRatioList =
 		//			financialRatioStrategyManager.getAllServices();
