@@ -5,6 +5,7 @@ import com.mkiats.commons.entities.TickerPrice;
 import com.mkiats.commons.repository.TickerPriceRepository;
 import com.mkiats.commons.repository.TickerRepository;
 import jakarta.transaction.Transactional;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,5 +29,15 @@ public class TickerDaoImpl implements TickerDao {
 
 	public void addTickerPrice(TickerPrice tickerPrice) {
 		tickerPriceRepository.save(tickerPrice);
+	}
+
+	public List<TickerPrice> getTickerPrice(
+		String tickerName,
+		String timeframe
+	) {
+		return tickerPriceRepository.findByTickerNameAndTimeframe(
+			tickerName,
+			timeframe
+		);
 	}
 }

@@ -32,16 +32,21 @@ public class BacktestService {
 
 		retrievalService.doExecute(theBacktestRequest);
 
-		//		String financialDataString = retrievalService.fetchTickerData(theBacktestRequest.getTickerName(), theBacktestRequest.getFrequency());
-		//		String financialDataString = new TempClass().getJsonString()	;
-		//		TimeSeriesStockData timeSeriesStockData =
-		//			retrievalService.convertStringToTimeSeriesStockData(
-		//				financialDataString
-		//			);
-		//		InvestmentStrategy desiredStrategy =
-		//			investmentStrategyManager.getService(
-		//				theBacktestRequest.getDesiredStrategy()
-		//			);
+		InvestmentStrategy desiredStrategy =
+			investmentStrategyManager.getService(
+				theBacktestRequest
+					.getPortfolio()
+					.getPortfolioSettings()
+					.getInvestmentStrategy()
+			);
+
+		try {
+			PrettyJson.prettyPrintJson(theBacktestRequest);
+			System.out.println("Json pretty print success...");
+		} catch (Exception e) {
+			throw new RuntimeException("Json pretty print failed...");
+		}
+
 		//		InvestmentOutput desiredStrategyResults =
 		//			desiredStrategy.executeStrategy(
 		//				theBacktestRequest,

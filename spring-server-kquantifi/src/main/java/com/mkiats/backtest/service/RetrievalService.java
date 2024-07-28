@@ -9,21 +9,23 @@ import com.mkiats.commons.dataTransferObjects.TimeSeriesStockPrice;
 import com.mkiats.commons.entities.Ticker;
 import com.mkiats.commons.entities.TickerPrice;
 import com.mkiats.commons.exceptions.CustomDataProcessingException;
-import com.mkiats.commons.repository.TickerRepository;
+import com.mkiats.commons.repository.TickerPriceRepository;
 import com.mkiats.commons.temp.TempClass;
 import com.mkiats.commons.utils.DateUtils;
 import com.mkiats.commons.utils.PrettyJson;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @RequiredArgsConstructor
 @Service
 public class RetrievalService {
+
+	private final TickerPriceRepository tickerPriceRepository;
 
 	@Value("${api.url.alphavantage}")
 	private String baseApiUrl;
@@ -50,7 +52,8 @@ public class RetrievalService {
 
 		String earliestInceptionDate = "2024-06-30";
 		for (String tickerName : tickerList) {
-			String queryJson = this.fetchTickerData(timeframe, tickerName);
+			String queryJson =
+				this.fetchTickerDataFromApi(timeframe, tickerName);
 			TimeSeriesStockData queryObj =
 				this.convertStringToTimeSeriesStockData(queryJson);
 
@@ -95,14 +98,9 @@ public class RetrievalService {
 				);
 				tickerDaoImpl.addTickerPrice(theTickerPrice);
 			}
-
-			try {
-				PrettyJson.prettyPrintJson(queryObj);
-				System.out.println("Json pretty print success...");
-			} catch (Exception e) {
-				throw new RuntimeException("Json pretty print failed...");
-			}
 		}
+		portfolioQuery.setEarliestCommonInceptionDate(earliestInceptionDate);
+		backtestRequest.setPortfolioQuery(portfolioQuery);
 	}
 
 	private String getApiUrl(String timeframe, String theSymbol) {
@@ -126,7 +124,7 @@ public class RetrievalService {
 		);
 	}
 
-	private String fetchTickerData(String timeframe, String theSymbol) {
+	private String fetchTickerDataFromApi(String timeframe, String theSymbol) {
 		//		String finalisedApiUrl = getApiUrl(timeframe, theSymbol);
 		//		ResponseEntity<String> responseEntity = restTemplate.getForEntity(
 		//			finalisedApiUrl,
@@ -156,9 +154,17 @@ public class RetrievalService {
 			);
 		}
 	}
+
 	/*
 	 * Create a method for getting ticker data from cache and database
 	 * Check if data exist in the cache, if yes then return the data in cache
 	 * If data is stale in the cache, fetch the data and store inside the cache and database, return the data
 	 * */
+
+	public List<TickerPrice> fetchTickerDataFromDb(
+		String tickerName,
+		String timeframe
+	) {
+		return tickerDaoImpl.getTickerPrice(tickerName, timeframe);
+	}
 }
