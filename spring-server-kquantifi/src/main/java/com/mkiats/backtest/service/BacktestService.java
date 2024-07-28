@@ -43,35 +43,30 @@ public class BacktestService {
 		InvestmentOutput desiredStrategyResults =
 			desiredStrategy.executeStrategy(theBacktestRequest);
 
+		FinancialRatioOutput desiredStrategyRatios = new FinancialRatioOutput();
+		List<String> financialRatioList =
+			financialRatioStrategyManager.getAllServices();
+		for (String financialRatioString : financialRatioList) {
+			FinancialRatioStrategy financialRatio =
+				financialRatioStrategyManager.getService(financialRatioString);
+			desiredStrategyRatios = financialRatio.computeRatio(
+				theBacktestRequest,
+				desiredStrategyResults,
+				desiredStrategyRatios
+			);
+		}
+
+		BacktestResponse theBacktestResponse = new BacktestResponse();
+		theBacktestResponse.setFinancialRatioOutput(desiredStrategyRatios);
+		theBacktestResponse.setInvestmentOutput(desiredStrategyResults);
+
 		//		try {
-		//			PrettyJson.prettyPrintJson(desiredStrategyResults);
+		//			PrettyJson.prettyPrintJson(theBacktestResponse);
 		//			System.out.println("Json pretty print success...");
 		//		} catch (Exception e) {
 		//			throw new RuntimeException("Json pretty print failed...");
 		//		}
-		//		FinancialRatioOutput desiredStrategyRatios = new FinancialRatioOutput();
-		//		List<String> financialRatioList =
-		//			financialRatioStrategyManager.getAllServices();
-		//		for (String financialRatioString : financialRatioList) {
-		//			FinancialRatioStrategy financialRatio =
-		//				financialRatioStrategyManager.getService(financialRatioString);
-		//			desiredStrategyRatios = financialRatio.computeRatio(
-		//				desiredStrategyResults,
-		//				desiredStrategyRatios
-		//			);
-		//		}
-		//
-		//		BacktestResponse backtestResponse = new BacktestResponse();
-		//		backtestResponse.setFinancialRatioOutput(desiredStrategyRatios);
-		//		backtestResponse.setInvestmentOutput(desiredStrategyResults);
-		//
-		//		try {
-		//			PrettyJson.prettyPrintJson(theBacktestRequest);
-		//			System.out.println("Json pretty print success...");
-		//		} catch (Exception e) {
-		//			throw new RuntimeException("Json pretty print failed...");
-		//		}
-		//		return backtestResponse;
-		return null;
+
+		return theBacktestResponse;
 	}
 }

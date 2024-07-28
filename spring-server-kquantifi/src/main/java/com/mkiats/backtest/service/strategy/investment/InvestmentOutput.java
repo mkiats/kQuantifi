@@ -56,7 +56,7 @@ public class InvestmentOutput {
 		if (!(rebalanceData.containsKey(timestamp))) {
 			rebalanceData.put(timestamp, new ArrayList<>());
 		}
-		System.out.println("ADDING REBALNACE");
+
 		this.rebalanceData.get(timestamp).addLast(rebalanceValue);
 	}
 }

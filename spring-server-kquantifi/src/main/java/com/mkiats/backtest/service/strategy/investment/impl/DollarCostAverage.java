@@ -95,13 +95,6 @@ public class DollarCostAverage implements InvestmentStrategy {
 			}
 		}
 
-		try {
-			PrettyJson.prettyPrintJson(this.theOutput.getAssetData());
-			System.out.println("Json pretty print success...");
-		} catch (Exception e) {
-			throw new RuntimeException("Json pretty print failed...");
-		}
-
 		return this.theOutput;
 	}
 
