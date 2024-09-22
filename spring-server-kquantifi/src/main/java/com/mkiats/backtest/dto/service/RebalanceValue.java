@@ -1,7 +1,4 @@
-package com.mkiats.backtest.dto;
-
-import lombok.Getter;
-import lombok.Setter;
+package com.mkiats.backtest.dto.service;
 
 public record RebalanceValue(
 	String tickerName,

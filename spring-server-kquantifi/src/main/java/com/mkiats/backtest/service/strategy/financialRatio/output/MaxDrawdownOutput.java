@@ -1,6 +1,6 @@
 package com.mkiats.backtest.service.strategy.financialRatio.output;
 
-import com.mkiats.backtest.dto.TimeValue;
+import com.mkiats.backtest.dto.service.TimeValue;
 import java.util.ArrayList;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

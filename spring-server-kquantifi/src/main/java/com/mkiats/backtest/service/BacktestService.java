@@ -1,17 +1,13 @@
 package com.mkiats.backtest.service;
 
-import com.mkiats.backtest.dto.BacktestRequest;
-import com.mkiats.backtest.dto.BacktestResponse;
-import com.mkiats.backtest.dto.Portfolio;
+import com.mkiats.backtest.dto.service.BacktestRequest;
+import com.mkiats.backtest.dto.service.BacktestResponse;
 import com.mkiats.backtest.service.strategy.financialRatio.FinancialRatioStrategyManager;
 import com.mkiats.backtest.service.strategy.financialRatio.interfaces.FinancialRatioStrategy;
 import com.mkiats.backtest.service.strategy.financialRatio.output.FinancialRatioOutput;
 import com.mkiats.backtest.service.strategy.investment.InvestmentOutput;
 import com.mkiats.backtest.service.strategy.investment.InvestmentStrategyManager;
 import com.mkiats.backtest.service.strategy.investment.interfaces.InvestmentStrategy;
-import com.mkiats.commons.dataTransferObjects.TimeSeriesStockData;
-import com.mkiats.commons.temp.TempClass;
-import com.mkiats.commons.utils.PrettyJson;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

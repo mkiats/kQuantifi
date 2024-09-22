@@ -1,4 +1,4 @@
-package com.mkiats.commons.dataTransferObjects;
+package com.mkiats.backtest.dto.api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

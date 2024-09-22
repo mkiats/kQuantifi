@@ -1,11 +1,10 @@
 package com.mkiats.backtest.service.strategy.financialRatio.impl;
 
-import com.mkiats.backtest.dto.BacktestRequest;
-import com.mkiats.backtest.dto.TimeValue;
+import com.mkiats.backtest.dto.service.BacktestRequest;
+import com.mkiats.backtest.dto.service.TimeValue;
 import com.mkiats.backtest.service.strategy.financialRatio.interfaces.FinancialRatioStrategy;
 import com.mkiats.backtest.service.strategy.financialRatio.output.FinancialRatioOutput;
 import com.mkiats.backtest.service.strategy.investment.InvestmentOutput;
-import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.springframework.stereotype.Service;

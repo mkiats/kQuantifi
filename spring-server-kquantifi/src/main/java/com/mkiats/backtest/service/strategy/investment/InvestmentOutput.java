@@ -1,7 +1,7 @@
 package com.mkiats.backtest.service.strategy.investment;
 
-import com.mkiats.backtest.dto.RebalanceValue;
-import com.mkiats.backtest.dto.TimeValue;
+import com.mkiats.backtest.dto.service.RebalanceValue;
+import com.mkiats.backtest.dto.service.TimeValue;
 import java.util.ArrayList;
 import java.util.HashMap;
 import lombok.Getter;

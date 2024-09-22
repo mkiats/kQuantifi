@@ -1,8 +1,7 @@
-package com.mkiats.backtest.dto;
+package com.mkiats.backtest.dto.service;
 
 import com.mkiats.backtest.service.strategy.financialRatio.output.FinancialRatioOutput;
 import com.mkiats.backtest.service.strategy.investment.InvestmentOutput;
-import java.util.ArrayList;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -1,13 +1,13 @@
 package com.mkiats.backtest.service.strategy.investment.impl;
 
-import com.mkiats.backtest.dto.*;
+import com.mkiats.backtest.dto.service.BacktestRequest;
+import com.mkiats.backtest.dto.service.PortfolioSettings;
+import com.mkiats.backtest.dto.service.PortfolioTickers;
 import com.mkiats.backtest.service.RetrievalService;
 import com.mkiats.backtest.service.strategy.investment.InvestmentOutput;
 import com.mkiats.backtest.service.strategy.investment.interfaces.InvestmentStrategy;
 import com.mkiats.commons.entities.TickerPrice;
 import com.mkiats.commons.utils.DateUtils;
-import com.mkiats.commons.utils.PrettyJson;
-import java.util.Arrays;
 import java.util.List;
 import lombok.*;
 import org.springframework.stereotype.Service;

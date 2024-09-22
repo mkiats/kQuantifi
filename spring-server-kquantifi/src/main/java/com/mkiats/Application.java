@@ -1,14 +1,9 @@
 package com.mkiats;
 
-import com.mkiats.backtest.dto.*;
+import com.mkiats.backtest.dto.service.*;
 import com.mkiats.backtest.service.BacktestService;
-import com.mkiats.commons.utils.PrettyJson;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
