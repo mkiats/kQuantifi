@@ -26,12 +26,12 @@ public class Application implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println("STARTED");
-
-		BacktestRequest tempRequest = new BacktestRequest();
-		this.generateDummyBacktestRequest(tempRequest);
-		BacktestResponse tempResponse = backtestService.doExecute(tempRequest);
+		//		BacktestRequest tempRequest = new BacktestRequest();
+		//		this.generateDummyBacktestRequest(tempRequest);
+		//		BacktestResponse tempResponse = backtestService.doExecute(tempRequest);
+		//
 		//		try {
-		//			PrettyJson.prettyPrintJson(tempRequest);
+		//			PrettyJson.prettyPrintJson(tempResponse);
 		//			System.out.println("Pretty print done...");
 		//		} catch (Exception e) {
 		//			throw new RuntimeException("Json pretty print failed...");

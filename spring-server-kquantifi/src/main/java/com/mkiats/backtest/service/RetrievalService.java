@@ -51,19 +51,15 @@ public class RetrievalService {
 
 		PortfolioQuery portfolioQuery = new PortfolioQuery();
 
-		String earliestInceptionDate = "2024-06-30";
+		String earliestInceptionDate = backtestRequest
+			.getPortfolio()
+			.getPortfolioSettings()
+			.getStartDate();
 		for (String tickerName : tickerList) {
 			boolean firstEntry = true;
-			boolean existInDb = tickerDaoImpl.existTicker(tickerName);
-			if (existInDb) { // TODO: CHANGE TO IF EXIST IN CACHE,
-				Ticker theTicker = tickerDaoImpl.getTicker(tickerName);
-				earliestInceptionDate = DateUtils.compareEarliestDate(
-					earliestInceptionDate,
-					"yyyy-MM-dd",
-					theTicker.getInceptionDate(),
-					"yyyy-MM-dd"
-				);
-			} else {
+			boolean existInDb = false; // tickerDaoImpl.existTicker(tickerName);
+
+			if (!existInDb) { // Query financial data from 3rd party API
 				String queryJson =
 					this.fetchTickerDataFromApi(timeframe, tickerName);
 				TimeSeriesStockData queryObj =
@@ -105,6 +101,14 @@ public class RetrievalService {
 					tickerDaoImpl.addTickerPrice(theTickerPrice);
 				}
 			}
+			// Query financial data from cache/db TODO: CHANGE TO IF EXIST IN CACHE,
+			Ticker theTicker = tickerDaoImpl.getTicker(tickerName);
+			earliestInceptionDate = DateUtils.compareEarliestDate(
+				earliestInceptionDate,
+				"yyyy-MM-dd",
+				theTicker.getInceptionDate(),
+				"yyyy-MM-dd"
+			);
 		}
 		portfolioQuery.setEarliestCommonInceptionDate(earliestInceptionDate);
 		backtestRequest.setPortfolioQuery(portfolioQuery);
