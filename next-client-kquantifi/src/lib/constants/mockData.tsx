@@ -1,4 +1,4 @@
-import { TimeValue } from "../types/backtest/timeValueSeries";
+import { TimeValue } from '../types/backtest/timeValue';
 
 export const mockStockData: TimeValue[] = [
 	{ time: '2018-10-19', value: 26.19 },

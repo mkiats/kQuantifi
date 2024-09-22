@@ -1,4 +1,4 @@
-import { TimeValue } from "./timeValueSeries";
+import { TimeValue, RebalanceValue } from '../common';
 
 export interface BacktestResponse {
 	investmentOutput: InvestmentOutput;
@@ -6,33 +6,30 @@ export interface BacktestResponse {
 }
 
 interface InvestmentOutput {
-	stockAdjustedQuantity: number[];
 	chartData: TimeValue[];
 	chartSize: number;
-	investedAmount: number;
-	periodicAmount: number;
-	timeframe: string;
+	assetData: Record<string, TimeValue[]>;
+	rebalanceData: Record<string, RebalanceValue[]>;
 }
 
-interface CAGR {
+interface CagrOutput {
 	chartData: TimeValue[];
 	chartSize: number;
-	bestCagr: number;
-	worstCagr: number;
-	cagr: number;
+	bestCagr?: number;
+	worstCagr?: number;
 }
 
-interface MaxDrawdown {
+interface MaxDrawdownOutput {
 	chartData: TimeValue[];
 	chartSize: number;
 	startDateOfWorstDrawdownIndex: string;
 	endDateOfWorstDrawdownIndex: string;
-	worstDrawdownValue: number;
+	worstDrawdownValue?: number; // Optional since Double can be null in Java
 }
 
 interface FinancialRatioOutput {
-	cagr: CAGR;
-	maxDrawdown: MaxDrawdown;
+	cagr: CagrOutput;
+	maxDrawdown: MaxDrawdownOutput;
 	sharpeRatio: number;
 	sortinoRatio: number;
 	standardDeviation: number;

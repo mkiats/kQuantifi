@@ -1,9 +1,27 @@
 export interface BacktestRequest {
-    tickerName: string,
-    periodicAmount: number,
-    leverageFactor: number,
-    frequency: string,
-    startDate: string,
-    endDate: string,
-    desiredStrategy: string,
+	portfolio: Portfolio;
+}
+
+interface Portfolio {
+	portfolioSettings: PortfolioSettings;
+	portfolioTickers: PortfolioTickers;
+}
+
+interface PortfolioSettings {
+	id: string;
+	portfolioName: string;
+	investmentStrategy: string;
+	rebalanceStrategy: string;
+	initialBalance: number;
+	periodicCashflow: number;
+	frequency: string;
+	startDate: string;
+	endDate: string;
+}
+
+interface PortfolioTickers {
+	tickerList: string[];
+	allocationWeightList: string[];
+	leverageFactor: string[];
+	tickerCount: number;
 }
