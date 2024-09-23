@@ -2,12 +2,12 @@ export interface BacktestRequest {
 	portfolio: Portfolio;
 }
 
-interface Portfolio {
+export interface Portfolio {
 	portfolioSettings: PortfolioSettings;
 	portfolioTickers: PortfolioTickers;
 }
 
-interface PortfolioSettings {
+export interface PortfolioSettings {
 	id: string;
 	portfolioName: string;
 	investmentStrategy: string;
@@ -19,7 +19,7 @@ interface PortfolioSettings {
 	endDate: string;
 }
 
-interface PortfolioTickers {
+export interface PortfolioTickers {
 	tickerList: string[];
 	allocationWeightList: string[];
 	leverageFactor: string[];

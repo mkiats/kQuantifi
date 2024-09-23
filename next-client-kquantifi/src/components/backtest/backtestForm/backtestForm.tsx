@@ -32,19 +32,19 @@ import {
 } from '@/components/ui/select';
 
 const frequencyEnum = ['weekly', 'monthly'] as const;
-const benchmarkEnum = ['SPY', 'Compound'] as const;
-const desiredStrategyEnum = ['DollarCostAverage', 'ValueAverage'] as const;
+const investmentStrategyEnum = ['DollarCostAverage'] as const;
+const rebalanceStrategyEnum = ['RelativeBands'] as const;
 
-const formSchema = z.object({
-	tickerName: z.string().min(2),
-	periodicAmount: z.number().int().positive().multipleOf(100).finite().safe(),
-	leverageFactor: z.coerce
-		.number({ invalid_type_error: 'invalid leverageFactor specified' })
-		.int()
-		.positive()
-		.safe()
-		.gte(1)
-		.lte(10),
+const settingsSchema = z.object({
+	portfolioName: z.string().min(2),
+	investmentStrategy: z.enum(investmentStrategyEnum, {
+		required_error: 'frequency not specified',
+	}),
+	rebalanceStrategy: z.enum(rebalanceStrategyEnum, {
+		required_error: 'frequency not specified',
+	}),
+	initialBalance: z.number().int().positive().multipleOf(100).finite().safe(),
+	periodicCashflow: z.number().int().positive().multipleOf(100).finite().safe(),
 	frequency: z.enum(frequencyEnum, {
 		required_error: 'frequency not specified',
 	}),
@@ -56,35 +56,44 @@ const formSchema = z.object({
 		required_error: 'endDate not specified',
 		invalid_type_error: 'invalid date specified',
 	}),
-	desiredStrategy: z.enum(desiredStrategyEnum, {
-		invalid_type_error: 'invalid benchmark specified',
-	}),
-	benchmark: z
-		.enum(benchmarkEnum, {
-			invalid_type_error: 'invalid benchmark specified',
-		})
-		.optional(),
 });
 
-export type BacktestFormData = z.infer<typeof formSchema>;
+const tickersSchema = z.object({
+	tickerList: z
+		.array(z.string())
+		.nonempty({ message: 'tickerList must not be empty' }),
+	allocationWeightList: z
+		.array(z.string())
+		.nonempty({ message: 'allocationWeightList must not be empty' }),
+	leverageFactor: z
+		.array(z.string())
+		.nonempty({ message: 'leverageFactor must not be empty' }),
+	tickerCount: z
+		.number()
+		.int()
+		.nonnegative({ message: 'tickerCount must be a non-negative integer' }),
+});
+
+export type SettingsFormData = z.infer<typeof settingsSchema>;
+export type TickersFormData = z.infer<typeof tickersSchema>;
 
 interface BacktestFormProps {
-	submitHandler: (backtestFormData: BacktestFormData) => void;
+	submitHandler: ({settingsFormData: SettingsFormData, tickersFormData: TickersFormData}) => void;
 }
 
 const BacktestForm: React.FC<BacktestFormProps> = ({ submitHandler }) => {
-	const form = useForm<z.infer<typeof formSchema>>({
+	const settingsForm = useForm<z.infer<typeof settingsSchema>>({
 		mode: 'onSubmit',
-		resolver: zodResolver(formSchema),
+		resolver: zodResolver(settingsSchema),
 		defaultValues: {
-			tickerName: 'SPY',
-			periodicAmount: 100,
-			leverageFactor: 1,
+			portfolioName: 'RagsToRiches',
+			investmentStrategy: 'DollarCostAverage',
+			rebalanceStrategy: 'RelativeBands',
+			initialBalance: 1000,
+			periodicCashflow: 1000,
 			frequency: 'weekly',
 			startDate: new Date('2000-01-01'),
 			endDate: new Date(Date.now()),
-			desiredStrategy: 'DollarCostAverage',
-			benchmark: 'SPY',
 		},
 	});
 
