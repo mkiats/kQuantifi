@@ -39,6 +39,7 @@ public class RetrievalService {
 	private final TickerDaoImpl tickerDaoImpl;
 
 	public void doExecute(BacktestRequest backtestRequest) {
+		System.out.println("Retrieval Service starting...");
 		ArrayList<String> tickerList = backtestRequest
 			.getPortfolio()
 			.getPortfolioTickers()
@@ -56,7 +57,7 @@ public class RetrievalService {
 			.getStartDate();
 		for (String tickerName : tickerList) {
 			boolean firstEntry = true;
-			boolean existInDb = false; // tickerDaoImpl.existTicker(tickerName);
+			boolean existInDb = tickerDaoImpl.existTicker(tickerName);
 
 			if (!existInDb) { // Query financial data from 3rd party API
 				String queryJson =

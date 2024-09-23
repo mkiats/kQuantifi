@@ -3,6 +3,7 @@ package com.mkiats.backtest;
 import com.mkiats.backtest.dto.service.BacktestRequest;
 import com.mkiats.backtest.dto.service.BacktestResponse;
 import com.mkiats.backtest.service.BacktestService;
+import com.mkiats.commons.utils.PrettyJson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,9 +24,23 @@ public class BacktestController {
 		@RequestBody BacktestRequest backtestRequest
 	) {
 		System.out.println("\n\nRequest received...");
+
+		//		try {
+		//			PrettyJson.prettyPrintJson(backtestRequest);
+		//			System.out.println("Pretty print done...");
+		//		} catch (Exception e) {
+		//			throw new RuntimeException("Json pretty print failed...");
+		//		}
+
 		BacktestResponse theResponse = backtestService.doExecute(
 			backtestRequest
 		);
+		try {
+			PrettyJson.prettyPrintJson(theResponse);
+			System.out.println("Pretty print done...");
+		} catch (Exception e) {
+			throw new RuntimeException("Json pretty print failed...");
+		}
 		System.out.println("Response created...\n\n");
 		return ResponseEntity.ok(theResponse);
 	}

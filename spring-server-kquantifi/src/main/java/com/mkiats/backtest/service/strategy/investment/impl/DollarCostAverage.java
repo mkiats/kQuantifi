@@ -8,6 +8,7 @@ import com.mkiats.backtest.service.strategy.investment.InvestmentOutput;
 import com.mkiats.backtest.service.strategy.investment.interfaces.InvestmentStrategy;
 import com.mkiats.commons.entities.TickerPrice;
 import com.mkiats.commons.utils.DateUtils;
+import java.util.Arrays;
 import java.util.List;
 import lombok.*;
 import org.springframework.stereotype.Service;
