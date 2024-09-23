@@ -67,15 +67,19 @@ const settingsSchema = z.object({
 });
 
 const tickersSchema = z.object({
-	tickerList: z
-		.array(z.string())
-		.nonempty({ message: 'tickerList must not be empty' }),
-	allocationWeightList: z
-		.array(z.string())
-		.nonempty({ message: 'allocationWeightList must not be empty' }),
-	leverageFactor: z
-		.array(z.string())
-		.nonempty({ message: 'leverageFactor must not be empty' }),
+	tickers: z
+		.array(
+			z.object({
+				ticker: z.string().min(1, 'Ticker is required.'),
+				allocationWeight: z
+					.string()
+					.min(1, 'Allocation weight is required.'),
+				leverageFactor: z
+					.string()
+					.min(1, 'Leverage factor is required.'),
+			}),
+		)
+		.max(5, 'You can only add up to 5 tickers.'),
 });
 
 export type SettingsFormData = z.infer<typeof settingsSchema>;
@@ -92,6 +96,7 @@ const BacktestForm: React.FC<BacktestFormProps> = ({ submitHandler }) => {
 	const [settings, setSettings] = useState<SettingsFormData | null>(null);
 	const [tickers, setTickers] = useState<TickersFormData | null>(null);
 
+	// Settings Form & Submit handlers ------------------------------
 	const settingsForm = useForm<z.infer<typeof settingsSchema>>({
 		mode: 'onSubmit',
 		resolver: zodResolver(settingsSchema),
@@ -106,10 +111,24 @@ const BacktestForm: React.FC<BacktestFormProps> = ({ submitHandler }) => {
 			endDate: new Date(Date.now()),
 		},
 	});
-
 	function settingsFormSubmitHandler(values: SettingsFormData) {
 		setSettings(values);
+		console.log(settings);
 	}
+
+	// Tickers Form & Submit handlers ------------------------------
+	const tickersForm = useForm<z.infer<typeof tickersSchema>>({
+		resolver: zodResolver(tickersSchema),
+		defaultValues: {
+			tickers: [{ ticker: '', allocationWeight: '', leverageFactor: '' }],
+		},
+	});
+
+	const { fields, append, remove } = useFieldArray({
+		control: tickersForm.control,
+		name: 'tickers',
+	});
+
 	function tickersFormSubmitHandler(values: TickersFormData) {
 		setTickers(values);
 		if (settings && tickers) {
@@ -124,7 +143,7 @@ const BacktestForm: React.FC<BacktestFormProps> = ({ submitHandler }) => {
 					onSubmit={settingsForm.handleSubmit(
 						settingsFormSubmitHandler,
 					)}
-					className='grid gap-4 justify-items-center content-start grid-rows-5 grid-cols-2 lg:grid-rows-3 lg:grid-cols-3 '
+					className='w-full py-8 grid gap-4 justify-items-center content-start grid-rows-5 grid-cols-2 lg:grid-rows-3 lg:grid-cols-3 '
 				>
 					<FormField
 						control={settingsForm.control}
@@ -353,6 +372,92 @@ const BacktestForm: React.FC<BacktestFormProps> = ({ submitHandler }) => {
 					<Button className='self-center' type='submit'>
 						Submit
 					</Button>
+				</form>
+			</Form>
+
+			<Form {...tickersForm}>
+				<form
+					onSubmit={tickersForm.handleSubmit(
+						tickersFormSubmitHandler,
+					)}
+					className='w-full flex-col space-y-4 py-8'
+				>
+					{fields.map((field, index) => (
+						<div key={field.id} className='flex space-x-4'>
+							<FormField
+								control={tickersForm.control}
+								name={`tickers.${index}.ticker`}
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Ticker</FormLabel>
+										<FormControl>
+											<Input
+												placeholder='Ticker'
+												{...field}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={tickersForm.control}
+								name={`tickers.${index}.allocationWeight`}
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Allocation Weight</FormLabel>
+										<FormControl>
+											<Input
+												placeholder='Weight (%)'
+												{...field}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={tickersForm.control}
+								name={`tickers.${index}.leverageFactor`}
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Leverage Factor</FormLabel>
+										<FormControl>
+											<Input
+												placeholder='Leverage'
+												{...field}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<Button
+								type='button'
+								onClick={() => remove(index)}
+								variant='destructive'
+							>
+								Remove
+							</Button>
+						</div>
+					))}
+					<div className='flex justify-evenly items-center'>
+						<Button
+							type='button'
+							onClick={() => {
+								if (fields.length < 5) {
+									append({
+										ticker: '',
+										allocationWeight: '',
+										leverageFactor: '',
+									});
+								}
+							}}
+						>
+							Add Ticker
+						</Button>
+						<Button type='submit'>Submit</Button>
+					</div>
 				</form>
 			</Form>
 		</>

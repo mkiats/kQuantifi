@@ -56,8 +56,8 @@ const BacktestFormSection: React.FC<BacktestFormSectionProps> = ({
 			<div className='w-1/3 flex justify-center items-center p-8'>
 				{children}
 			</div>
-			<div className='w-2/3 p-8'>
-				<BacktestForm submitHandler={submitHandler} />
+			<div className='w-2/3 flex-col p-8 '>
+				<BacktestForm submitHandler={submitHandler}/>
 			</div>
 		</section>
 	);
