@@ -73,10 +73,12 @@ const tickersSchema = z.object({
 				ticker: z.string().min(1, 'Ticker is required.'),
 				allocationWeight: z
 					.string()
-					.min(1, 'Allocation weight is required.'),
+					.min(1, 'Allocation weight is required.')
+					.max(100, 'Allocation weight cannot exceed 100%.'),
 				leverageFactor: z
 					.string()
-					.min(1, 'Leverage factor is required.'),
+					.min(1, 'Leverage factor is required.')
+					.max(4, 'Leverage factor too high.'),
 			}),
 		)
 		.max(5, 'You can only add up to 5 tickers.'),
@@ -113,14 +115,15 @@ const BacktestForm: React.FC<BacktestFormProps> = ({ submitHandler }) => {
 	});
 	function settingsFormSubmitHandler(values: SettingsFormData) {
 		setSettings(values);
-		console.log(settings);
 	}
 
 	// Tickers Form & Submit handlers ------------------------------
 	const tickersForm = useForm<z.infer<typeof tickersSchema>>({
 		resolver: zodResolver(tickersSchema),
 		defaultValues: {
-			tickers: [{ ticker: '', allocationWeight: '', leverageFactor: '' }],
+			tickers: [
+				{ ticker: 'SPY', allocationWeight: '100', leverageFactor: '2' },
+			],
 		},
 	});
 

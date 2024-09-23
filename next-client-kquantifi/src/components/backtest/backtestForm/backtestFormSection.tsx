@@ -10,7 +10,19 @@ import {
 } from '@/lib/types/backtest/backtestRequest';
 
 import BacktestForm from './backtestForm';
-import { getCurrentUnixTimestamp } from '@/lib/utils/dateUtils';
+import {
+	getCurrentUnixTimestamp,
+	formatDateString,
+} from '@/lib/utils/dateUtils';
+
+function mapToPortfolioTickers(data: TickersFormData): PortfolioTickers {
+	return {
+		tickerList: data.tickers.map((item) => item.ticker),
+		allocationWeightList: data.tickers.map((item) => item.allocationWeight),
+		leverageFactor: data.tickers.map((item) => item.leverageFactor),
+		tickerCount: data.tickers.length,
+	};
+}
 
 interface BacktestFormSectionProps {
 	children: React.ReactNode;
@@ -22,25 +34,25 @@ const BacktestFormSection: React.FC<BacktestFormSectionProps> = ({
 	setBacktestReq,
 }) => {
 	// Submit handlers ------------------------------
-	const submitHandler = (settingFormData: SettingsFormData, tickersFormData: TickersFormData): void => {
+	const submitHandler = (
+		settingFormData: SettingsFormData,
+		tickersFormData: TickersFormData,
+	): void => {
 		// Maps FormDataSchema to BacktestRequest
 		const tempSettings: PortfolioSettings = {
 			id: getCurrentUnixTimestamp(),
-			portfolioName: settingFormData.frequency,
-			investmentStrategy: settingFormData.frequency,
-			rebalanceStrategy: settingFormData.frequency,
-			initialBalance: settingFormData.periodicCashflow,
+			portfolioName: settingFormData.portfolioName,
+			investmentStrategy: settingFormData.investmentStrategy,
+			rebalanceStrategy: settingFormData.rebalanceStrategy,
+			initialBalance: settingFormData.initialBalance,
 			periodicCashflow: settingFormData.periodicCashflow,
 			frequency: settingFormData.frequency,
-			startDate: settingFormData.startDate.toString(),
-			endDate: settingFormData.endDate.toString(),
+			startDate: formatDateString(settingFormData.startDate.toString()),
+			endDate: formatDateString(settingFormData.endDate.toString()),
 		};
-		const tempTickers: PortfolioTickers = {
-			tickerList: [],
-			allocationWeightList: [],
-			leverageFactor: [],
-			tickerCount: 0,
-		};
+		const tempTickers: PortfolioTickers =
+			mapToPortfolioTickers(tickersFormData);
+
 		const tempPortfolio: Portfolio = {
 			portfolioSettings: tempSettings,
 			portfolioTickers: tempTickers,
@@ -48,8 +60,8 @@ const BacktestFormSection: React.FC<BacktestFormSectionProps> = ({
 		const tempBacktestRequest: BacktestRequest = {
 			portfolio: tempPortfolio,
 		};
+		console.log(tempBacktestRequest);
 		setBacktestReq(tempBacktestRequest);
-
 	};
 	return (
 		<section className='flex w-full h-[calc(70vh)] border-red-200 border-2'>
@@ -57,7 +69,7 @@ const BacktestFormSection: React.FC<BacktestFormSectionProps> = ({
 				{children}
 			</div>
 			<div className='w-2/3 flex-col p-8 '>
-				<BacktestForm submitHandler={submitHandler}/>
+				<BacktestForm submitHandler={submitHandler} />
 			</div>
 		</section>
 	);

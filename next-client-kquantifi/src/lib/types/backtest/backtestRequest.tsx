@@ -24,4 +24,7 @@ export interface PortfolioTickers {
 	allocationWeightList: string[];
 	leverageFactor: string[];
 	tickerCount: number;
+
 }
+
+
