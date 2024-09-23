@@ -22,17 +22,18 @@ const BacktestFormSection: React.FC<BacktestFormSectionProps> = ({
 	setBacktestReq,
 }) => {
 	// Submit handlers ------------------------------
-	const submitHandler = ({settings: SettingsFormData, tickers: TickersFormData}): void => {
+	const submitHandler = (settingFormData: SettingsFormData, tickersFormData: TickersFormData): void => {
+		// Maps FormDataSchema to BacktestRequest
 		const tempSettings: PortfolioSettings = {
 			id: getCurrentUnixTimestamp(),
-			portfolioName: settings.frequency,
-			investmentStrategy: settings.frequency,
-			rebalanceStrategy: settings.frequency,
-			initialBalance: settings.periodicAmount,
-			periodicCashflow: settings.periodicAmount,
-			frequency: settings.frequency,
-			startDate: settings.startDate.toString(),
-			endDate: settings.endDate.toString(),
+			portfolioName: settingFormData.frequency,
+			investmentStrategy: settingFormData.frequency,
+			rebalanceStrategy: settingFormData.frequency,
+			initialBalance: settingFormData.periodicCashflow,
+			periodicCashflow: settingFormData.periodicCashflow,
+			frequency: settingFormData.frequency,
+			startDate: settingFormData.startDate.toString(),
+			endDate: settingFormData.endDate.toString(),
 		};
 		const tempTickers: PortfolioTickers = {
 			tickerList: [],
@@ -49,19 +50,6 @@ const BacktestFormSection: React.FC<BacktestFormSectionProps> = ({
 		};
 		setBacktestReq(tempBacktestRequest);
 
-		// setBacktestTicker(newTicker);
-		// if (backtestFormData.benchmark) {
-		// 	const newBenchmarkTicker: BacktestRequest = {
-		// 		tickerName: backtestFormData.benchmark,
-		// 		periodicAmount: backtestFormData.periodicAmount,
-		// 		leverageFactor: backtestFormData.leverageFactor,
-		// 		frequency: backtestFormData.frequency,
-		// 		startDate: backtestFormData.startDate.toString(),
-		// 		endDate: backtestFormData.endDate.toString(),
-		// 		desiredStrategy: backtestFormData.desiredStrategy,
-		// 	};
-		// 	setBenchmarkTicker(newBenchmarkTicker);
-		// }
 	};
 	return (
 		<section className='flex w-full h-[calc(70vh)] border-red-200 border-2'>

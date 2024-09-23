@@ -2,7 +2,6 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { BacktestFormData } from '@/components/backtest/backtestForm/backtestForm';
 import { BacktestRequest } from '@/lib/types/backtest/backtestRequest';
 import { getBacktestResult } from '@/lib/api/backtest';
 import BacktestFormSection from './backtestForm/backtestFormSection';
