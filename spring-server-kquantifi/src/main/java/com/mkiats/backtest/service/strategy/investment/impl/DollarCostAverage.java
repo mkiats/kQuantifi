@@ -56,10 +56,12 @@ public class DollarCostAverage implements InvestmentStrategy {
 		}
 
 		// Simulate over time
-		String startDate = settings.getStartDate();
+		String startDate = theBacktestRequest
+			.getPortfolioQuery()
+			.getEarliestCommonInceptionDate();
 		String endDate = settings.getEndDate();
 		List<String> temp = retrievalService.fetchTimestamps(
-			tickerSymbols[1],
+			tickerSymbols[0],
 			settings.getFrequency()
 		);
 		List<String> timeframes = generateTimeframes(temp, startDate, endDate);

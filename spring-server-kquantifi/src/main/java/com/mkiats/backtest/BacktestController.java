@@ -25,18 +25,12 @@ public class BacktestController {
 	) {
 		System.out.println("\n\nRequest received...");
 
-		//		try {
-		//			PrettyJson.prettyPrintJson(backtestRequest);
-		//			System.out.println("Pretty print done...");
-		//		} catch (Exception e) {
-		//			throw new RuntimeException("Json pretty print failed...");
-		//		}
-
 		BacktestResponse theResponse = backtestService.doExecute(
 			backtestRequest
 		);
+
 		try {
-			PrettyJson.prettyPrintJson(theResponse);
+			PrettyJson.prettyPrintJson(theResponse.getInvestmentOutput());
 			System.out.println("Pretty print done...");
 		} catch (Exception e) {
 			throw new RuntimeException("Json pretty print failed...");
