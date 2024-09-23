@@ -33,7 +33,7 @@ import {
 import { useState } from 'react';
 import { Settings } from 'http2';
 
-const frequencyEnum = ['weekly', 'monthly'] as const;
+const frequencyEnum = ['WEEKLY', 'MONTHLY'] as const;
 const investmentStrategyEnum = ['DollarCostAverage'] as const;
 const rebalanceStrategyEnum = ['RelativeBands'] as const;
 
@@ -108,7 +108,7 @@ const BacktestForm: React.FC<BacktestFormProps> = ({ submitHandler }) => {
 			rebalanceStrategy: 'RelativeBands',
 			initialBalance: 1000,
 			periodicCashflow: 1000,
-			frequency: 'weekly',
+			frequency: 'MONTHLY',
 			startDate: new Date('2000-01-01'),
 			endDate: new Date(Date.now()),
 		},
