@@ -64,7 +64,7 @@ const BacktestFormSection: React.FC<BacktestFormSectionProps> = ({
 		setBacktestReq(tempBacktestRequest);
 	};
 	return (
-		<section className='flex w-full h-[calc(70vh)] border-red-200 border-2'>
+		<section className='flex w-full h-[calc(70vh)]'>
 			<div className='w-1/3 flex justify-center items-center p-8'>
 				{children}
 			</div>

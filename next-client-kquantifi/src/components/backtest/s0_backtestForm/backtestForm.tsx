@@ -31,7 +31,6 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 import { useState } from 'react';
-import { Settings } from 'http2';
 
 const frequencyEnum = ['WEEKLY', 'MONTHLY'] as const;
 const investmentStrategyEnum = ['DollarCostAverage'] as const;
@@ -109,7 +108,7 @@ const BacktestForm: React.FC<BacktestFormProps> = ({ submitHandler }) => {
 			initialBalance: 1000,
 			periodicCashflow: 1000,
 			frequency: 'MONTHLY',
-			startDate: new Date('2000-01-01'),
+			startDate: new Date('2024-06-01'),
 			endDate: new Date(Date.now()),
 		},
 	});
@@ -134,8 +133,8 @@ const BacktestForm: React.FC<BacktestFormProps> = ({ submitHandler }) => {
 
 	function tickersFormSubmitHandler(values: TickersFormData) {
 		setTickers(values);
-		if (settings && tickers) {
-			submitHandler(settings, tickers);
+		if (settings && values) {
+			submitHandler(settings, values);
 		}
 	}
 

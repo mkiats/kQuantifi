@@ -1,21 +1,21 @@
 import TradingViewGraph from '@/components/ui/tradingview-graph';
-import { TimeValue } from '@/lib/types/backtest/timeValueSeries';
+import { TimeValue } from '@/lib/types/common';
 
-interface RatioSectionProps {
+interface CagrSectionProps {
 	chartHeader: String;
 	chartData: TimeValue[];
 	ratioDescription: React.ReactNode;
 	ratioDetail: React.ReactNode;
 }
 
-const RatioSection: React.FC<RatioSectionProps> = ({
+const CagrSection: React.FC<CagrSectionProps> = ({
 	chartHeader,
 	chartData,
 	ratioDescription,
 	ratioDetail,
 }) => {
 	return (
-		<div className='flex w-full h-screen border-green-200 border-2'>
+		<section className='flex w-full h-screen border-green-200 border-2'>
 			<div className='w-1/3 flex justify-center items-center p-8'>
 				{ratioDescription}
 			</div>
@@ -23,8 +23,8 @@ const RatioSection: React.FC<RatioSectionProps> = ({
 				{ratioDetail}
 				<TradingViewGraph displayData={chartData} rightOffset={5} />
 			</div>
-		</div>
+		</section>
 	);
 };
 
-export default RatioSection;
+export default CagrSection;

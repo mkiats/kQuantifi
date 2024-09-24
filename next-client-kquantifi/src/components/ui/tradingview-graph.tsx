@@ -2,7 +2,7 @@
 import { useEffect, useRef } from 'react';
 import { AreaData, ColorType, createChart, LineData } from 'lightweight-charts';
 import { hslToRgbString } from '@/lib/utils/utils';
-import { TimeValue } from '@/lib/types/backtest/timeValueSeries';
+import { TimeValue } from '@/lib/types/common';
 
 interface TradingViewGraphProps {
 	rightOffset: number;
@@ -15,12 +15,10 @@ const TradingViewGraph: React.FC<TradingViewGraphProps> = ({
 }) => {
 	const colors: {
 		backgroundColor: string;
-		lineColor: string;
-		textColor: string;
+		foregroundColor: string;
 	} = {
-		backgroundColor: hslToRgbString(224, 71.4, 4.1),
-		lineColor: hslToRgbString(210, 20, 100),
-		textColor: hslToRgbString(210, 20, 100),
+		backgroundColor: hslToRgbString(0, 0, 100),
+		foregroundColor: hslToRgbString(0, 0, 0),
 	};
 
 	const chartContainerRef = useRef<HTMLDivElement>(null);
@@ -39,7 +37,8 @@ const TradingViewGraph: React.FC<TradingViewGraphProps> = ({
 					type: ColorType.Solid,
 					color: colors.backgroundColor,
 				},
-				textColor: colors.textColor,
+				textColor: colors.foregroundColor,
+
 			},
 			width: chartContainerRef.current!.clientWidth,
 			height: 500,
@@ -79,9 +78,9 @@ const TradingViewGraph: React.FC<TradingViewGraphProps> = ({
 		chart.timeScale().fitContent();
 
 		const newSeries = chart.addAreaSeries({
-			topColor: '#2962FF',
-			bottomColor: 'rgba(41, 98, 255, 0.28)',
-			lineColor: '#2962FF',
+			// topColor: `${colors.foregroundColor}`,
+			// bottomColor: `${colors.foregroundColor}`,
+			lineColor: `${colors.foregroundColor}`,
 			lineWidth: 2,
 			crosshairMarkerVisible: true,
 		});
@@ -106,21 +105,22 @@ const TradingViewGraph: React.FC<TradingViewGraphProps> = ({
 		const toolTip = document.createElement('div');
 
 		toolTip.className = `
-		w-24             /* width: 96px */
+		w-32             /* width: 96px */
 		h-20             /* height: 80px */
 		absolute         /* position: absolute */
 		hidden           /* display: none */
 		p-2              /* padding: 8px */
 		box-border       /* box-sizing: border-box */
+		border-2
 		text-sm          /* font-size: 10px */
 		text-center      /* text-align: center */
 		z-10             /* z-index: 1 */
 		pointer-events-none /* pointer-events: none */
 		border           /* border: 1px solid */
 		rounded-sm       /* border-radius: 2px */
-		bg-[${hslToRgbString(224, 71.4, 4.1)}]  /* background color */
-		text-[${hslToRgbString(210, 20, 100)}]  /* text color */
-		border-[${hslToRgbString(210, 20, 100)}]  /* border color */
+		bg-[${colors.foregroundColor}]  /* background color */
+		text-[${colors.foregroundColor}]  /* text color */
+		border-[${colors.foregroundColor}]  /* border color */
 		font-sans        /* font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif */
 		antialiased      /* -webkit-font-smoothing: antialiased */
 		subpixel-antialiased /* -moz-osx-font-smoothing: grayscale */`;
@@ -157,8 +157,8 @@ const TradingViewGraph: React.FC<TradingViewGraphProps> = ({
 					}
 				}
 				toolTip.innerHTML = `
-				<div style="color: ${hslToRgbString(210, 20, 100)}">${dateStr}</div>
-				<div style="margin: 4px 0px; color: ${hslToRgbString(210, 20, 100)}">${
+				<div style="color: ${colors.foregroundColor}">${dateStr}</div>
+				<div style="margin: 4px 0px; color: ${colors.foregroundColor}">${
 					Math.round(100 * price!) / 100
 				}</div>
 				`;
@@ -195,7 +195,7 @@ const TradingViewGraph: React.FC<TradingViewGraphProps> = ({
 			window.removeEventListener('resize', handleResize);
 			chart.remove();
 		};
-	}, [colors, displayData]);
+	}, [displayData]);
 
 	return <div ref={chartContainerRef} className='relative' />;
 };
