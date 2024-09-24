@@ -24,6 +24,8 @@ public class InvestmentOutput {
 		Double theValue,
 		Double theQuantity
 	) {
+		// Overall portfolio statistics, quantity of portfolio shares cannot be quantified
+		// Only specific ticker shares can be quantified
 		this.chartData.add(new TimeValue(theTime, theValue, theQuantity));
 		this.setChartSize(this.chartData.size());
 	}

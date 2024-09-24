@@ -21,15 +21,16 @@ public class BacktestController {
 
 	@PostMapping("/backtests")
 	public ResponseEntity<BacktestResponse> getBacktestResult(
-		@RequestBody BacktestRequest backtestRequest
+		@RequestBody BacktestRequest theBacktestRequest
 	) {
 		System.out.println("\n\nRequest received...");
 
 		BacktestResponse theResponse = backtestService.doExecute(
-			backtestRequest
+			theBacktestRequest
 		);
 
 		try {
+			PrettyJson.prettyPrintJson(theBacktestRequest);
 			PrettyJson.prettyPrintJson(theResponse.getInvestmentOutput());
 			System.out.println("Pretty print done...");
 		} catch (Exception e) {

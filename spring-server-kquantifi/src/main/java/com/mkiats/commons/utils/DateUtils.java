@@ -73,7 +73,7 @@ public class DateUtils {
 		return localDate.format(dateTimeFormatter);
 	}
 
-	public static String compareEarliestDate(
+	public static String getLatestDate(
 		String date1,
 		String date1Formatter,
 		String date2,
@@ -82,7 +82,7 @@ public class DateUtils {
 		long date1Unix = convertStringToUnix(date1, date1Formatter);
 		long date2Unix = convertStringToUnix(date2, date2Formatter);
 
-		if (date1Unix > date2Unix) {
+		if (date1Unix < date2Unix) {
 			return date2;
 		} else {
 			return date1;

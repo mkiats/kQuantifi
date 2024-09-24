@@ -55,6 +55,7 @@ public class RetrievalService {
 			.getPortfolio()
 			.getPortfolioSettings()
 			.getStartDate();
+
 		for (String tickerName : tickerList) {
 			boolean firstEntry = true;
 			boolean existInDb = tickerDaoImpl.existTicker(tickerName);
@@ -73,7 +74,7 @@ public class RetrievalService {
 					if (firstEntry) {
 						Ticker theTicker = new Ticker(tickerName, timestamp);
 						existInDb = tickerDaoImpl.addTicker(theTicker);
-						earliestInceptionDate = DateUtils.compareEarliestDate(
+						earliestInceptionDate = DateUtils.getLatestDate(
 							earliestInceptionDate,
 							"yyyy-MM-dd",
 							timestamp,
@@ -103,7 +104,7 @@ public class RetrievalService {
 			}
 			// Query financial data from cache/db TODO: CHANGE TO IF EXIST IN CACHE,
 			Ticker theTicker = tickerDaoImpl.getTicker(tickerName);
-			earliestInceptionDate = DateUtils.compareEarliestDate(
+			earliestInceptionDate = DateUtils.getLatestDate(
 				earliestInceptionDate,
 				"yyyy-MM-dd",
 				theTicker.getInceptionDate(),

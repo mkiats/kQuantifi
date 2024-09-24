@@ -87,7 +87,8 @@ public class DollarCostAverage implements InvestmentStrategy {
 				settings.getFrequency(),
 				timestamp
 			);
-
+			System.out.println(Arrays.toString(currentValues));
+			System.out.println(Arrays.toString(quantities));
 			for (int i = 0; i < tickerSymbols.length; i++) {
 				this.theOutput.addTickerTimeValue(
 						tickerSymbols[i],
@@ -106,15 +107,15 @@ public class DollarCostAverage implements InvestmentStrategy {
 		double[] currentValues,
 		double[] quantities,
 		double[] allocationWeights,
-		String[] tickerNames,
+		String[] tickerSymbols,
 		String timeframe,
 		String timestamp
 	) {
 		double overallValue = 0;
-		for (int i = 0; i < tickerNames.length; i++) {
+		for (int i = 0; i < tickerSymbols.length; i++) {
 			double tickerCashflow = cashflow * allocationWeights[i];
 			TickerPrice tickerPrice = retrievalService.fetchTickerDataFromDb(
-				tickerNames[i],
+				tickerSymbols[i],
 				timeframe,
 				timestamp
 			);
