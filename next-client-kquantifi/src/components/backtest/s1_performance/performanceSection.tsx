@@ -13,7 +13,7 @@ const PerformanceSection: React.FC<PerformanceSectionProps> = ({
 	ratioDescription,
 }) => {
 	return (
-		<section className='flex w-full h-screen border-green-200 border-2'>
+		<section className='flex w-full h-screen'>
 			<div className='w-1/3 flex justify-center items-center p-8'>
 				{ratioDescription}
 			</div>

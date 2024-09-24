@@ -38,7 +38,6 @@ const TradingViewGraph: React.FC<TradingViewGraphProps> = ({
 					color: colors.backgroundColor,
 				},
 				textColor: colors.foregroundColor,
-
 			},
 			width: chartContainerRef.current!.clientWidth,
 			height: 500,
@@ -195,7 +194,7 @@ const TradingViewGraph: React.FC<TradingViewGraphProps> = ({
 			window.removeEventListener('resize', handleResize);
 			chart.remove();
 		};
-	}, [displayData]);
+	}, [colors, displayData]);
 
 	return <div ref={chartContainerRef} className='relative' />;
 };
