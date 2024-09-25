@@ -44,14 +44,14 @@ const settingsSchema = z.object({
 	rebalanceStrategy: z.enum(rebalanceStrategyEnum, {
 		required_error: 'frequency not specified',
 	}),
-	initialBalance: z.number().int().positive().multipleOf(100).finite().safe(),
+	initialBalance: z
+		.string()
+		.min(3, 'Minimum value is 100. ')
+		.max(7, 'Maximum value is 9999999. '),
 	periodicCashflow: z
-		.number()
-		.int()
-		.positive()
-		.multipleOf(100)
-		.finite()
-		.safe(),
+		.string()
+		.min(3, 'Minimum value is 100. ')
+		.max(7, 'Maximum value is 9999999. '),
 	frequency: z.enum(frequencyEnum, {
 		required_error: 'frequency not specified',
 	}),
@@ -105,8 +105,8 @@ const BacktestForm: React.FC<BacktestFormProps> = ({ submitHandler }) => {
 			portfolioName: 'RagsToRiches',
 			investmentStrategy: 'DollarCostAverage',
 			rebalanceStrategy: 'RelativeBands',
-			initialBalance: 1000,
-			periodicCashflow: 1000,
+			initialBalance: '1000',
+			periodicCashflow: '100',
 			frequency: 'MONTHLY',
 			startDate: new Date('2024-06-01'),
 			endDate: new Date(Date.now()),

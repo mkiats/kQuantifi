@@ -54,6 +54,8 @@ public class DollarCostAverage implements InvestmentStrategy {
 			currentValues[i] = initialBalance * targetAllocations[i];
 			quantities[i] = 0;
 		}
+		System.out.println(Arrays.toString(currentValues));
+		System.out.println(Arrays.toString(quantities));
 
 		// Simulate over time
 		String startDate = theBacktestRequest
@@ -87,8 +89,7 @@ public class DollarCostAverage implements InvestmentStrategy {
 				settings.getFrequency(),
 				timestamp
 			);
-			System.out.println(Arrays.toString(currentValues));
-			System.out.println(Arrays.toString(quantities));
+
 			for (int i = 0; i < tickerSymbols.length; i++) {
 				this.theOutput.addTickerTimeValue(
 						tickerSymbols[i],
@@ -120,7 +121,8 @@ public class DollarCostAverage implements InvestmentStrategy {
 				timestamp
 			);
 			quantities[i] += tickerCashflow / tickerPrice.getAdjustedClose();
-			currentValues[i] = quantities[i] * tickerPrice.getAdjustedClose();
+			currentValues[i] +=
+			(quantities[i] * tickerPrice.getAdjustedClose());
 			overallValue += currentValues[i];
 		}
 		this.theOutput.addOverallTimeValue(timestamp, overallValue, 0.0);

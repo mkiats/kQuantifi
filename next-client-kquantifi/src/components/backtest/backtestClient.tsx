@@ -6,7 +6,7 @@ import { BacktestRequest } from '@/lib/types/backtest/backtestRequest';
 import { getBacktestResult } from '@/lib/api/backtest';
 import BacktestFormSection from './s0_backtestForm/backtestFormSection';
 import { BacktestResponse } from '@/lib/types/backtest/backtestResponse';
-import PerformanceSection from './s1_performance/PerformanceSection';
+import PerformanceSection from './s1_performance/performanceSection';
 
 interface BacktestClientProps {
 	children: React.ReactNode[];
